@@ -1,0 +1,50 @@
+{
+    "name": "laravel-omen",
+    "version": "0.0.1",
+    "author": {
+        "name": "Jérémy Munsch",
+        "email": "contact@jeremydev.ovh"
+    },
+    "description": "Laravel Omen Filemanager",
+    "license": "MIT",
+    "devDependencies": {
+        "coffee-loader": "^0.9.0",
+        "coffeescript": "^2.5.1",
+        "cross-env": "^7.0.2",
+        "laravel-mix": "^5.0.4",
+        "less": "^3.11.1",
+        "less-loader": "^5.0.0",
+        "node-sass": "^4.13.1",
+        "resolve-url-loader": "^3.1.1",
+        "sass-loader": "^8.0.2",
+        "vue-template-compiler": "^2.6.11",
+        "webpack": "^4.42.1",
+        "yarn": "^1.22.4"
+    },
+    "scripts": {
+        "dev": "yarn clean && NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm -rf ./resources/css/__*",
+        "watch": "yarn clean && NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "production": "yarn clean && NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm -rf ./resources/css/__*",
+        "clean": "rm -rf ./resources/css/* && rm -rf ./resources/js/* && rm -rf ./resources/fonts/* && rm -rf ./resources/images/*",
+        "dist": "yarn production"
+    },
+    "dependencies": {
+        "@mdi/font": "^5.1.45",
+        "bootstrap": "^4.4.1",
+        "bootstrap-fileinput": "^5.0.8",
+        "fuzzysearch": "^1.0.3",
+        "fuzzyset.js": "^0.0.91",
+        "highlight.js": "^10.0.1",
+        "jquery": "^3.5.1",
+        "jquery.fancytree": "^2.35.0",
+        "js-base64": "^2.5.2",
+        "lazyload": "^2.0.0-rc.2",
+        "lodash": "^4.17.15",
+        "mediaelement": "^4.2.16",
+        "pdfjs-dist": "^2.3.200",
+        "popper.js": "^1.16.1",
+        "script-loader": "^0.7.2",
+        "simplebar": "^5.1.0",
+        "split.js": "^1.5.11"
+    }
+}

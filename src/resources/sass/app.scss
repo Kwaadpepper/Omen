@@ -1,0 +1,23 @@
+// Vendor Import
+@import "./vendorVariables";
+@import "~bootstrap/scss/bootstrap";
+@import "~@mdi/font/scss/materialdesignicons";
+@import "~bootstrap-fileinput/scss/fileinput";
+@import "~bootstrap-fileinput/scss/themes/explorer/theme";
+
+// Bootstrap variables Use this as indication
+// @import "./bootstrap/_variables";
+@import "./tools/index";
+
+@import "./omen/omenView";
+@import "./omen/navbar";
+@import "./omen/breadcrumb";
+@import "./omen/leftPanel";
+@import "./omen/about";
+@import "./omen/viewInodes";
+@import "./omen/imageViewer";
+@import "./omen/textViewer";
+@import "./omen/pdfViewer";
+@import "./omen/documentViewer";
+@import "./omen/omenToast";
+@import "./omen/uploadFileModal";

@@ -1,0 +1,100 @@
+/**
+ * ANCHOR Breadcrumb CSS
+ */
+#pathBreadcrumb {
+    $leftUpperWidth: 2em;
+    $rightTooltipWidth: 7.5em;
+    min-width: $viewPortMinWidth;
+
+    & > a {
+        // box size
+        position: absolute;
+        margin-top: 0.2em;
+        padding-left: 0.35em;
+        padding-right: 0.175em;
+
+        font-weight: bold;
+        font-size: larger;
+        background-color: $body-bg; // mask overflow breadcrumb
+
+        //button heritage
+        display: inline-block;
+        color: $body-color;
+        text-align: center;
+        white-space: $btn-white-space;
+        vertical-align: middle;
+        cursor: if($enable-pointer-cursor-for-buttons, pointer, null);
+        user-select: none;
+        // background-color: transparent;
+        border: $btn-border-width solid transparent;
+        @include transition($btn-transition);
+        @include hover() {
+            color: $body-color;
+            text-decoration: none;
+        }
+        border-right: 1px solid $breadcrumb-divider-color;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    & > ol {
+        padding-left: $leftUpperWidth;
+        overflow-x: auto;
+        white-space: nowrap;
+        display: block !important;
+        background-color: $body-bg;
+        margin-bottom: inherit;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-radius: inherit;
+
+        // padding right hack
+        &:after {
+            content: "\00A0";
+            display: inline-block;
+            width: $rightTooltipWidth;
+        }
+
+        & > li {
+            display: inline;
+
+            & > a.mdi.mdi-home {
+                padding-left: 0.4em;
+            }
+
+            // Show dots ...
+            &.breadcrumbEllipsed {
+                color: inherit;
+                &::before {
+                    content: "/\00A0\00A0\00A0\00A0...";
+                }
+                & > a {
+                    display: none;
+                }
+            }
+        }
+    }
+    & > div {
+        position: absolute;
+        white-space: normal;
+        right: 0;
+        margin-top: 0.4em;
+        width: $rightTooltipWidth;
+        text-align: center;
+
+        // hide ol overflow
+        background-color: $body-bg;
+
+        border-left: 1px solid $breadcrumb-divider-color;
+
+        & > #fileCounter,
+        > #folderCounter {
+            font-weight: bold;
+            &::before {
+                padding-right: 0.4em;
+            }
+        }
+    }
+}

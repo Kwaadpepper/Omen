@@ -1,0 +1,189 @@
+@import "./../../../node_modules/jquery.fancytree/dist/skin-bootstrap/ui.fancytree.less";
+
+// local vars
+// @fancy-my-icon-size: 16px;
+
+@white: #fff;
+@gray-100: #f8f9fa;
+@gray-200: #e9ecef;
+@gray-300: #dee2e6;
+@gray-400: #ced4da;
+@gray-500: #adb5bd;
+@gray-600: #6c757d;
+@gray-700: #495057;
+@gray-800: #343a40;
+@gray-900: #212529;
+@black: #000;
+
+@gray-base: #000;
+@gray-darker: lighten(@gray-base, 13.5%); // #222
+@gray-dark: lighten(@gray-base, 20%); // #333
+@gray: lighten(@gray-base, 33.5%); // #555
+@gray-light: lighten(@gray-base, 46.7%); // #777
+@gray-lighter: lighten(@gray-base, 93.5%); // #eee
+
+@blue: #007bff;
+@indigo: #6610f2;
+@purple: #6f42c1;
+@pink: #e83e8c;
+@red: #dc3545;
+@orange: #fd7e14;
+@yellow: #ffc107;
+@green: #28a745;
+@teal: #20c997;
+@cyan: #17a2b8;
+
+@primary: @blue;
+@secondary: @gray-600;
+@success: @green;
+@info: @cyan;
+@warning: @yellow;
+@danger: @red;
+@light: @gray-100;
+@dark: @gray-800;
+
+@brand-primary: darken(@primary, 6.5%); // blue,  #337ab7
+@brand-success: @success; // green
+@brand-info: @info; // light blue
+@brand-warning: @warning; // orange
+@brand-danger: @danger; // red
+
+@font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+@font-family-serif: Georgia, "Times New Roman", Times, serif;
+//** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+@font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+@font-family-base: @font-family-sans-serif;
+
+@font-size-base: 1rem;
+@font-size-large: ceil((@font-size-base * 1.25)); // ~18px
+@font-size-small: ceil((@font-size-base * 0.875)); // ~12px
+
+@border-color: @gray-300;
+@border-radius-base: 0.25rem;
+@border-radius-large: 0.3rem;
+@border-radius-small: 0.2rem;
+
+@text-color: @gray-900;
+//** Default background color used for all tables.
+@table-bg: null;
+//** Background color used for `.table-striped`.
+@table-bg-accent: rgba(@black, 0.05);
+//** Background color used for `.table-hover`.
+@table-bg-hover: rgba(@black, 0.075);
+@table-bg-active: @table-bg-hover;
+
+//** Border color for table and cell borders.
+@table-border-color: @border-color;
+
+//------------------------------------------------------------------------------
+
+// Override the variable after the import.
+// NOTE: Variables are always resolved as the last definition, even if it is
+// after where it is used.
+@fancy-use-sprites: false; // false: suppress all background images (i.e. icons)
+@fancy-inline-sprites: true;
+@fancy-loading-url: none;
+
+@fancy-line-height: 2em; // height of a nodes selection bar including borders
+@fancy-node-v-spacing: 0px; // gap between two node borders
+@fancy-icon-width: 1.5em;
+@fancy-icon-height: 1.9em;
+@fancy-icon-spacing: 0.5em; // margin between icon/icon or icon/title
+@fancy-icon-ofs-top: 0.1em; // extra vertical offset for expander, checkbox and icon
+@fancy-title-ofs-top: 0.4em; // extra vertical offset for title
+@fancy-node-border-width: 1px;
+@fancy-node-border-radius: @border-radius-small;
+@fancy-node-outline-width: 1px;
+
+@fancy-font-family: @font-family-base;
+@fancy-font-size: @font-size-base + 0.2em;
+@fancy-font-color: @text-color;
+@fancy-font-color-dimm: @gray-dark;
+@fancy-font-error-color: @brand-danger;
+
+@fancy-active-text: #fff;
+@fancy-active-color: @brand-primary;
+@fancy-select-color: lighten(@brand-success, 120%);
+@fancy-hover-color: @table-bg-hover;
+
+.mdi.mdi-leftPannelIcon {
+    &:before {
+        font-size: 1.5em;
+    }
+}
+
+#leftPanelTreeView {
+    & ul.fancytree-container {
+        border: 0;
+    }
+    & .fancytree-node {
+        cursor: pointer;
+        margin-left: 0.1em;
+        margin-right: 0.1em;
+        width: 100%;
+
+        & .fancytree-expander {
+            color: @fancy-font-color;
+            &:hover {
+                color: @gray-light;
+            }
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+        }
+
+        &:hover {
+            background-color: @fancy-hover-color;
+        }
+
+        & .fancytree-title {
+            &:hover {
+                background-color: initial;
+            }
+        }
+    }
+    .fancytree-node.fancytree-focused {
+        border-color: @fancy-active-color;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+
+        & .fancytree-title {
+            border: 0;
+            border-radius: initial;
+            border-color: initial;
+        }
+    }
+    & .fancytree-node.fancytree-active {
+        color: @fancy-active-text;
+        border: 1px solid black;
+        border-color: @fancy-active-color;
+        border-radius: @fancy-node-border-radius;
+        background-color: @brand-primary;
+
+        &:focus {
+            box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+        }
+
+        & .fancytree-expander {
+            color: @fancy-active-text;
+            &:hover {
+                color: @gray-light;
+            }
+        }
+
+        & .fancytree-title {
+            color: @fancy-active-text;
+            background-color: initial;
+            border: 0;
+            border-radius: initial;
+            border-color: initial;
+            &:hover {
+                background-color: initial;
+            }
+        }
+    }
+}

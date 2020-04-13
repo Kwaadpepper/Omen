@@ -1,0 +1,35 @@
+.notransitions * {
+    pointer-events: none !important;
+}
+
+.min-width-inherit {
+    min-width: inherit;
+}
+
+button.mdi.mdi-24px {
+    padding: 0 0.55rem;
+}
+
+.top-0 {
+    top: 0;
+}
+
+.left-0 {
+    left: 0;
+}
+
+// media elements assets overload path
+.mejs__overlay-button {
+    background: url("/vendor/omen/images/vendor/mediaelement/mejs-controls.svg")
+        no-repeat;
+}
+
+.mejs__overlay-loading-bg-img {
+    background: transparent
+        url("/vendor/omen/images/vendor/mediaelement/mejs-controls.svg") -160px -40px
+        no-repeat;
+}
+
+.mejs__button > button {
+    background-image: url("/vendor/omen/images/vendor/mediaelement/mejs-controls.svg");
+}

@@ -1,0 +1,39 @@
+#pdfViewerModal {
+    // On fullscreen only
+    & .modal-content {
+        & .modal-body {
+            display: flex;
+        }
+        // need to do this because multiple selector won't work
+        &:-moz-full-screen {
+            width: 100%;
+            height: 100%;
+            & .modal-body {
+                overflow-y: auto;
+            }
+        }
+        &:-webkit-full-screen {
+            width: 100%;
+            height: 100%;
+            & .modal-body {
+                overflow-y: auto;
+            }
+        }
+        &:fullscreen {
+            width: 100%;
+            height: 100%;
+            & .modal-body {
+                overflow-y: auto;
+            }
+        }
+    }
+
+    & .modal-lg {
+        max-width: 80%;
+    }
+
+    & iframe {
+        width: 100%;
+        min-height: 75vh;
+    }
+}

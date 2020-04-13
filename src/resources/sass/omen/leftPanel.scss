@@ -1,0 +1,41 @@
+#leftPanel {
+    flex-direction: column;
+
+    & > div {
+        will-change: display, width;
+    }
+
+    // left panel scroll
+    & > div:nth-child(2) {
+        overflow-y: auto;
+        min-height: 0;
+        height: 0em;
+    }
+}
+
+#leftPanelMenuBar {
+    height: 4em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: $grid-gutter-width / 2; // herit from bootstrap
+    padding-right: $grid-gutter-width / 2; // herit from bootstrap
+    border-bottom: 1px solid $gray-800;
+
+    & div.btn-group {
+        & > button {
+            font-size: 1.4em;
+        }
+    }
+}
+
+@include media-breakpoint-up(sm) {
+    #leftPanelMenuBar {
+        height: inherit;
+
+        & div.btn-group {
+            & > button {
+                font-size: 1em;
+            }
+        }
+    }
+}

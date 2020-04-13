@@ -1,0 +1,101 @@
+#omenView {
+    border-top: 1px solid $gray-800;
+
+    & #viewInodes,
+    #leftPanel {
+        & div,
+        figure {
+            will-change: display, width;
+        }
+    }
+
+    & #viewInodes,
+    #leftPanel {
+        -webkit-transition: background-color 100ms ease;
+        -moz-transition: background-color 100ms ease;
+        -o-transition: background-color 100ms ease;
+        -ms-transition: background-color 100ms ease;
+        transition: background-color 100ms ease;
+        will-change: background-color;
+        background-color: $white;
+
+        &.resizeCoverHideChilds {
+            & div,
+            figure {
+                display: none !important;
+            }
+        }
+
+        &.resizeCover {
+            background-color: $gray-600;
+
+            &:before {
+                content: var(--content, "\00A0"); // white Space
+                margin-left: calc(48% - 2em);
+                margin-top: 45vh;
+                white-space: nowrap;
+                border: 1px black solid;
+                margin-right: auto;
+                padding: 0.25rem 0.5rem;
+                @include border-radius($border-radius);
+                background-color: $black;
+                color: $white;
+            }
+        }
+    }
+
+    @include media-breakpoint-up(xs) {
+        #viewInodes {
+            margin-left: -4px; // compensate scroll.js gutter
+            & > div:nth-child(1) {
+                border-bottom: 1px solid $gray-800;
+            }
+        }
+    }
+
+    // Under SM don't use split.js anymore but toggle buttons
+    @include media-breakpoint-down(xs) {
+        #leftPanel {
+            display: none;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.1s linear;
+            will-change: visibility, opacity;
+        }
+        #viewInodes {
+            margin-left: 0;
+            display: flex;
+            left: 0;
+            right: 0;
+            width: auto;
+            min-width: 100%;
+        }
+        .gutter {
+            display: none;
+        }
+        &.leftPanelOpened {
+            #leftPanel {
+                display: flex;
+                left: 0;
+                right: 0;
+                width: auto;
+                min-width: 100%;
+                transition: visibility 0s, opacity 0.1s linear;
+                will-change: visibility, opacity;
+                &.leftPanelTransition {
+                    visibility: visible;
+                    opacity: 100;
+                }
+            }
+            #viewInodes {
+                display: none !important;
+            }
+        }
+    }
+}
+
+.gutter {
+    cursor: col-resize;
+    z-index: 1;
+    border-left: 1px solid $gray-800;
+}

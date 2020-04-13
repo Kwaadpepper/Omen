@@ -1,0 +1,11 @@
+/**
+ * Set a luminosity to a color
+ */
+@function setLuminosity($color, $luminosity) {
+    @if (lightness($color) < $luminosity) {
+        $color: lighten($color, $luminosity - lightness($color));
+    } @else {
+        $color: darken($color, lightness($color) - $luminosity);
+    }
+    @return $color;
+}

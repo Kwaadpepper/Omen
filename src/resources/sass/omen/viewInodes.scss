@@ -1,0 +1,468 @@
+#viewInodes {
+    $inodeWidth: 7em;
+    $inodeHeight: 6em;
+    $inodeGutter: 1em;
+    $inodePadding: 0.5em;
+
+    $hoverColor: adjust-hue($primary, -10%);
+
+    $extensionTextColor: $white;
+
+    $extensionHiddenBGColor: $danger;
+    $extDarken: 16%;
+    $extBGLight: 75%;
+    $extBGSaturation: 25%;
+    $extensionBGColors: (
+        "archive": $indigo,
+        "video": $purple,
+        "audio": $pink,
+        "image": $teal,
+        "pdf": $red,
+        "text": $black,
+        "file": $yellow,
+        "writer": $cyan,
+        "calc": $green,
+        "impress": $orange,
+        "diskimage": $gray-100,
+        "executable": $blue,
+    );
+
+    // Inodes Container
+    & > div:nth-last-child(1) {
+        overflow-y: auto;
+        /* for Firefox */
+        min-height: 0;
+        height: 0em;
+
+        // Icon view
+        & #inodesContainer.viewIcon {
+            & > #viewListTopBar {
+                display: none;
+            }
+
+            & > figure {
+                overflow: hidden;
+                position: relative;
+                display: inline-block;
+                height: $inodeHeight + $inodePadding * 3;
+                width: $inodeWidth + $inodePadding * 2;
+                margin-top: $inodeGutter;
+                margin-left: $inodeGutter;
+                margin-bottom: $inodeGutter;
+                padding: $inodePadding;
+
+                cursor: pointer;
+
+                &.figureFile {
+                    @include box-shadow(0 0 2px $black);
+                }
+
+                @each $extension, $extensionBGColor in $extensionBGColors {
+                    &.ext-#{$extension} {
+                        background-color: setSaturation(
+                            setLuminosity($extensionBGColor, $extBGLight),
+                            $extBGSaturation
+                        );
+                    }
+                }
+
+                // Selection
+
+                & > .figCheck {
+                    display: inline;
+                    z-index: 4;
+                    position: absolute;
+                    top: 3em;
+                }
+
+                // END selection
+
+                // ACTION BUTTON BAR transitions
+
+                // hover state
+                &.figureDirectory:hover > .figAction {
+                    top: 0;
+                }
+                & > .figHoverZone {
+                    &.figureFile:hover ~ .figAction {
+                        height: 1.8em;
+                    }
+                    &:hover ~ .figExt {
+                        top: 1.8em;
+                    }
+                    &:hover {
+                        height: 1.5em;
+                        top: 1.8em;
+                    }
+                }
+
+                & > .figAction {
+                    &.figureFile:hover {
+                        height: 1.8em;
+                        & ~ .figExt {
+                            top: 1.8em;
+                        }
+                        & ~ .figBackground {
+                            height: 1.8em;
+                        }
+                    }
+                }
+
+                & > .figExt {
+                    &:hover {
+                        top: 1.8em;
+
+                        & ~ .figBackground {
+                            height: 1.8em;
+                        }
+                    }
+                }
+
+                & > .figBackground:hover {
+                    height: 1.8em;
+                }
+
+                // init state
+                & > .figExt {
+                    top: 0;
+                    will-change: top;
+
+                    -webkit-user-select: none;
+                    -khtml-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    -o-user-select: none;
+                    user-select: none;
+
+                    @include transition(
+                        top 0.3s cubic-bezier(0.42, 0, 0.58, 1)
+                    );
+                }
+
+                &.figureDirectory > .figAction {
+                    top: -2em;
+                    will-change: top;
+                    @include transition(
+                        top 0.3s cubic-bezier(0.42, 0, 0.58, 1)
+                    );
+                }
+                &.figureFile > .figAction {
+                    top: 0;
+                    height: 1.5em;
+                    overflow: hidden;
+                    will-change: height;
+                    @include transition(
+                        height 0.3s cubic-bezier(0.42, 0, 0.58, 1)
+                    );
+                }
+
+                & > .figBackground {
+                    &.figureFile {
+                        height: 1.5em;
+                        will-change: height;
+                        @include transition(
+                            height 0.3s cubic-bezier(0.42, 0, 0.58, 1)
+                        );
+                    }
+                }
+
+                & > .figHoverZone {
+                    // create hover zone
+                    display: block;
+                    width: 100%;
+                    position: absolute;
+                    height: 0.8em;
+                    top: 1.52em;
+                    left: 0;
+                    z-index: 3;
+                    will-change: top, height;
+
+                    @include transition(
+                        height 0.3s cubic-bezier(0.42, 0, 0.58, 1)
+                    );
+                    @include transition(
+                        top 0.3s cubic-bezier(0.42, 0, 0.58, 1)
+                    );
+                }
+
+                & > .figBackground {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    z-index: 0;
+                    width: 100%;
+                    will-change: height;
+
+                    @include transition(
+                        height 0.1s cubic-bezier(0.42, 0, 0.58, 1)
+                    );
+                }
+
+                // END ACTION BUTTON BAR transitions
+
+                & > .figAction {
+                    position: absolute;
+                    left: 0;
+                    z-index: 1;
+                    width: 100%;
+                    text-align: center;
+                    font-size: 1em;
+
+                    & > button {
+                        font-size: 1.2em;
+                        padding: 0 0.2em;
+                    }
+                }
+
+                & > .figIcon,
+                & > .figThumb {
+                    z-index: 0;
+                    position: absolute;
+                    top: $inodePadding / 2;
+                    left: 0;
+                    font-size: 4em;
+                    width: 100%;
+                    text-align: center;
+                }
+
+                &.figureDirectory > .figExt {
+                    display: none;
+                }
+
+                & > .figExt {
+                    position: absolute;
+                    z-index: 2;
+                    left: 0;
+                    width: 100%;
+                    height: 1.5em;
+                    background-color: $dark;
+                    color: $extensionTextColor;
+                    text-align: center;
+                    @include text-truncate();
+
+                    &.dotStartFile {
+                        background-color: $extensionHiddenBGColor !important;
+                    }
+
+                    @each $extension, $extensionBGColor in $extensionBGColors {
+                        &.ext-#{$extension} {
+                            background-color: darken(
+                                $extensionBGColor,
+                                $extDarken
+                            );
+                        }
+                    }
+                }
+
+                & > figcaption {
+                    z-index: 1;
+                    bottom: 0;
+                    position: absolute;
+                    max-width: $inodeWidth;
+                    text-align: center;
+                    width: 100%;
+
+                    cursor: text;
+
+                    @include text-truncate();
+                }
+
+                & > .figDate,
+                > .figSize,
+                > .figVisibility {
+                    display: none;
+                }
+            }
+        }
+
+        & #inodesContainer.viewList {
+            & > figure {
+                overflow: hidden;
+                position: relative;
+                display: inline-block;
+                height: $inodeHeight / 3;
+                width: 100%;
+                margin-top: 0;
+                margin-left: 0;
+                margin-bottom: 0;
+                padding: $inodePadding;
+                border-bottom: 1px $gray-500 solid;
+
+                cursor: pointer;
+
+                &.figureFile {
+                    @include box-shadow(0 0 2px $black);
+                }
+
+                @each $extension, $extensionBGColor in $extensionBGColors {
+                    &.ext-#{$extension} {
+                        background-color: setSaturation(
+                            setLuminosity($extensionBGColor, $extBGLight),
+                            $extBGSaturation
+                        );
+                    }
+                }
+
+                // Selection
+
+                & > .figCheck {
+                    display: inline;
+                    z-index: 4;
+                    position: absolute;
+                    top: 0.2em;
+                }
+
+                // END selection
+
+                & > .figAction {
+                    position: absolute;
+                    right: 0.8em;
+                    z-index: 1;
+                    width: 8em;
+                    top: 0;
+                    text-align: center;
+                    font-size: 1em;
+
+                    & > button {
+                        font-size: 1.2em;
+                        padding: 0 0.2em;
+                    }
+                }
+
+                & > .figIcon,
+                & > .figThumb {
+                    z-index: 0;
+                    position: absolute;
+                    top: 0;
+                    left: 5em;
+                    font-size: 1.5em;
+                    width: 1em;
+                    text-align: center;
+                }
+
+                &.figureDirectory > .figExt {
+                    display: none;
+                }
+
+                & > .figExt {
+                    position: absolute;
+                    z-index: 2;
+                    left: 3em;
+                    top: 0;
+                    width: 4em;
+                    height: 2em;
+                    padding-top: 0.3em;
+                    background-color: $dark;
+                    color: $extensionTextColor;
+                    text-align: center;
+                    @include text-truncate();
+
+                    &.dotStartFile {
+                        background-color: $extensionHiddenBGColor !important;
+                    }
+
+                    @each $extension, $extensionBGColor in $extensionBGColors {
+                        &.ext-#{$extension} {
+                            background-color: darken(
+                                $extensionBGColor,
+                                $extDarken
+                            );
+                        }
+                    }
+                }
+
+                & > figcaption {
+                    width: auto;
+                    left: 10em;
+                    cursor: text;
+                    margin-left: 9em;
+                    margin-right: 25em;
+
+                    @include text-truncate();
+                }
+
+                & > .figDate {
+                    font-family: monospace;
+                    position: absolute;
+                    right: 9em;
+                    width: 9em;
+                    height: 2em;
+                    top: 0.3em;
+                }
+
+                & > .figSize {
+                    font-family: monospace;
+                    position: absolute;
+                    right: 19.4em;
+                    width: 3em;
+                    height: 2em;
+                    top: 0.3em;
+                }
+
+                & > .figVisibility {
+                    font-family: monospace;
+                    position: absolute;
+                    right: 23em;
+                    height: 2em;
+                    top: 0.3em;
+                }
+
+                &.figHoverZone {
+                    display: none;
+                }
+            }
+
+            // Top bar view list
+            position: relative;
+
+            & > #viewListTopBar {
+                background-color: $white;
+                width: 100%;
+                height: 2em;
+                z-index: 5;
+                border-bottom: 1px $gray-500 solid;
+                position: sticky;
+                top: 0;
+
+                & > div > div {
+                    position: absolute;
+                    top: 0.2em;
+
+                    // Checkbox
+                    &:nth-child(1) {
+                        left: 0.5em;
+                    }
+
+                    // Type
+                    &:nth-child(2) {
+                        left: 4em;
+                    }
+
+                    // Filename
+                    &:nth-child(3) {
+                        left: 10em;
+                    }
+
+                    // Visibility
+                    &:nth-child(4) {
+                        right: 23em;
+                    }
+
+                    // Size
+                    &:nth-child(5) {
+                        right: 20em;
+                    }
+
+                    // Last Modified
+                    &:nth-child(6) {
+                        right: 12em;
+                    }
+                    // Actions
+                    &:nth-child(7) {
+                        right: 2em;
+                    }
+                }
+            }
+        }
+    }
+}

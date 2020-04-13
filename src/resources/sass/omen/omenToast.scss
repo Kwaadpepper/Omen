@@ -1,0 +1,15 @@
+.omenToast {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    min-width: 250px;
+    left: 50%;
+    z-index: 1050;
+    left: 50%;
+    margin-left: -10em;
+    width: 10em;
+
+    &.hide {
+        display: none;
+    }
+}

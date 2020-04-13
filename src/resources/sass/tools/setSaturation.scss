@@ -1,0 +1,16 @@
+/**
+ * Set a saturation to a color
+ */
+@function setSaturation($color, $saturation) {
+    $colorSaturation: round(saturation($color));
+    // Do not saturate black or grey
+    @if ($colorSaturation == 0 or $colorSaturation == 100) {
+        @return $color;
+    }
+    @if ($colorSaturation < $saturation) {
+        $color: saturate($color, $saturation - saturation($color));
+    } @else {
+        $color: desaturate($color, saturation($color) - $saturation);
+    }
+    @return $color;
+}

@@ -1,0 +1,39 @@
+{
+    "name": "kwaadpepper/laravel-omen",
+    "description": "Yet another laravel filemanager",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jérémy Munsch",
+            "email": "contact@jeremydev.ovh",
+            "role": "Developper",
+            "homepage": "http://TODO"
+        }
+    ],
+    "version": "0.0.1",
+    "keywords": [
+        "laravel",
+        "responsive",
+        "filemanager",
+        "ftp",
+        "s3"
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.1",
+        "jenssegers/date": "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kwaadpepper\\Omen\\": "src/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kwaadpepper\\Omen\\Providers\\OmenServiceProvider"
+            ],
+            "aliases": {}
+        }
+    }
+}

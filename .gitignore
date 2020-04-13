@@ -1,0 +1,6 @@
+node_modules
+resources/js
+resources/css
+resources/images
+resources/fonts
+mix-manifest.json

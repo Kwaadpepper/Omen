@@ -1,0 +1,15 @@
+// Override font-path => serve it anyway through omen
+$mdi-font-path: "~/vendor/omen/fonts";
+
+// Override bootstrap
+$enable-shadows: true;
+$tooltip-opacity: 0.9;
+
+$tooltip-font-size: 1.1rem;
+
+$tooltip-padding-y: 0.5rem;
+$tooltip-padding-x: 0.75rem;
+
+// bootstrap-input
+$url-0: url("~/vendor/omen/images/vendor/bootstrap-fileinput/loading.gif") !default;
+$url-1: url("~/vendor/omen/images/vendor/bootstrap-fileinput/loading-sm.gif") !default;

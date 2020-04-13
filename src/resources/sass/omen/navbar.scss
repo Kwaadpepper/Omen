@@ -1,0 +1,247 @@
+$buttonPadding: 0.15rem 0.7rem;
+$elementSpacing: 1.2em;
+
+// ANCHOR Mobile view
+// -----------
+
+// PATCH The nav bar collapsing
+@include media-breakpoint-down(md) {
+    #filterButtonGroup {
+        & .input-group-append {
+            margin-left: 0;
+        }
+    }
+}
+
+#navBarToggler {
+    right: 0;
+    top: -1.845em;
+    position: absolute;
+    margin: 0;
+}
+
+/** font symbols arrangement */
+#leftPanelToggler,
+#navBarToggler {
+    padding: 0.2rem 0.65rem;
+    font-size: 1.6em;
+}
+
+.btn-toolbar button {
+    font-size: 1.6em;
+}
+
+/** Groups */
+
+#viewButtonGroup,
+#actionButtonGroup {
+    & button {
+        padding: $buttonPadding;
+    }
+}
+#actionButtonGroup {
+    position: absolute;
+    top: -2.97em;
+    left: 3.1em;
+    margin-left: $elementSpacing;
+}
+
+#viewButtonGroup {
+    display: none;
+    position: absolute;
+    top: -2.97em;
+    left: 3.1em;
+    margin-left: 11.7em;
+}
+
+#filterButtonGroup {
+    // Filter label
+    & > div.input-group-prepend {
+        display: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+    // File type buttons
+    & > div:nth-last-child(2) {
+        margin-top: 1em;
+        flex-grow: inherit;
+        & button {
+            padding: $buttonPadding;
+        }
+        & button:nth-child(1) {
+            @include border-left-radius($btn-border-radius);
+        }
+        & button:nth-last-child(1) {
+            @include border-right-radius($btn-border-radius);
+        }
+    }
+    // Search input group
+    & > div:nth-last-child(1) {
+        width: 100%;
+        margin-top: 1em;
+        & > input {
+            margin-bottom: 0.8em;
+            width: 80%;
+            min-width: 80%;
+            @include border-radius(0);
+            @include border-left-radius($btn-border-radius);
+        }
+        & > button {
+            height: 2.4rem;
+            &:before {
+                top: -0.28em;
+                position: relative;
+                font-size: 1.1em;
+            }
+        }
+    }
+}
+
+// ANCHOR Small screen view
+// -----------------
+
+@include media-breakpoint-up(sm) {
+    #viewButtonGroup {
+        display: inherit;
+    }
+
+    #filterButtonGroup {
+        // Filter label
+        & > div.input-group-prepend {
+            top: 0.5em;
+            margin-right: -1px;
+            position: relative;
+            display: block;
+            & > span {
+                line-height: 2em;
+            }
+        }
+        // File type buttons
+        & > div:nth-last-child(2) {
+            & button:nth-child(1) {
+                @include border-radius(0);
+            }
+            & button:nth-last-child(1) {
+                @include border-right-radius($btn-border-radius);
+            }
+        }
+    }
+}
+
+// ANCHOR Medium screen view
+// -------------------
+
+@include media-breakpoint-up(md) {
+    #navBarToggler {
+        display: none;
+    }
+
+    #actionButtonGroup {
+        position: initial;
+        top: initial;
+        left: initial;
+        margin-bottom: initial;
+    }
+
+    #viewButtonGroup {
+        position: initial;
+        display: flex;
+        top: initial;
+        left: initial;
+        margin-left: $elementSpacing;
+    }
+
+    #filterButtonGroup {
+        // Filter Label
+        & > div.input-group-prepend {
+            top: 0;
+            margin-left: $elementSpacing;
+            & > span {
+                height: 2.9em;
+            }
+        }
+        // File type buttons
+        & > div:nth-last-child(2) {
+            flex-grow: initial;
+            margin: 0;
+        }
+        // text search
+        & > div:nth-child(3) {
+            position: fixed;
+            top: 4em;
+            margin: 0;
+            left: 0.96em;
+            right: 0.96em;
+            width: auto;
+        }
+    }
+
+    // hack to get text search 100% width of #topNavBarContent
+    #topNavBarContent > div {
+        position: relative !important;
+    }
+
+    // dirty hack, leave some space for text search input
+    #omenView {
+        margin-top: 3em !important;
+    }
+}
+
+// text filter
+@media (min-width: 900px) {
+    #omenView {
+        margin-top: inherit !important;
+    }
+
+    #filterButtonGroup {
+        & > div:nth-child(2) {
+            & > button:nth-last-child(1) {
+                @include border-radius(0);
+            }
+        }
+        & > div:nth-child(3) {
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+
+            & > input {
+                margin-left: -1px;
+                margin-bottom: 0;
+                height: 2.9em;
+                min-width: auto;
+                max-width: 9em;
+                @include border-radius(0);
+            }
+            & > button {
+                height: auto;
+                padding: $buttonPadding;
+                @include border-right-radius($btn-border-radius);
+
+                &:before {
+                    top: 0;
+                    position: relative;
+                    font-size: 1em;
+                }
+            }
+        }
+    }
+}
+
+// ANCHOR Large screen view
+// -----------------
+@include media-breakpoint-up(lg) {
+    #filterButtonGroup {
+        justify-content: end;
+        & > div:nth-child(3) {
+            width: 45%;
+            & > input {
+                max-width: inherit;
+            }
+        }
+    }
+}
