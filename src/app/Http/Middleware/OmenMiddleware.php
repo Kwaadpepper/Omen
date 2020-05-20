@@ -167,7 +167,7 @@ class OmenMiddleware
     {
         // PATH
         if ($request->filled('path') and $request->get('path') != Session('omen.path')) {
-            Session::put('omen.path', OmenHelper::sanitizePath($request->get('path', '/')));
+            Session::put('omen.path', $request->get('path', '/'));
         } else {
             Session::put('omen.path', '/');
         }

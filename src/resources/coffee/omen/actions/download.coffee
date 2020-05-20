@@ -1,4 +1,4 @@
-inodes = require('./../../omenApi.coffee').inodes
+omenApi = require('./../../omenApi.coffee')
 ajaxCalls = require('./../../tools/ajaxCalls.coffee')
 logException = require('./../../tools/logException.coffee')
 ln = require('./../../tools/getLine.coffee')
@@ -11,6 +11,7 @@ alert = require('./../../tools/alert.coffee')
 module.exports = (action)->
     (event)->
         fileFullPath = $(this).parents('figure').data('path')
+        inodes = omenApi.getProp('inodes')
         inode = inodes[fileFullPath]
 
         url = if inode.visibility == 'public' then inode.url else action.url + inode.path

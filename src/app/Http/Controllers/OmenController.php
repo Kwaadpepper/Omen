@@ -65,7 +65,7 @@ class OmenController extends Controller
         }
 
         $file = $request->file('fileBlob');
-        $filePath = OmenHelper::sanitizePath(sprintf('%s/%s', $request->post('filePath'), $request->post('fileName')));
+        $filePath = sprintf('%s/%s', $request->post('filePath'), OmenHelper::sanitizePath($request->post('filePath')));
         $directoryPath = OmenHelper::mb_pathinfo($filePath, \PATHINFO_DIRNAME);
         $fileName = OmenHelper::mb_pathinfo($filePath, \PATHINFO_BASENAME);
         $fileSize = $request->post('fileSize');
@@ -242,25 +242,6 @@ class OmenController extends Controller
         ]);
     }
 
-    // generate and fetch thumbnail for the file
-    private function getThumbnailUrl($path, $fileName)
-    {
-        // assuming this is an image file or video file
-        // generate a compressed smaller version of the file
-        // here and return the status
-        $sourceFile = $path . '/' . $fileName;
-        $targetFile = $path . '/thumbs/' . $fileName;
-        //
-        // generateThumbnail: method to generate thumbnail (not included)
-        // using $sourceFile and $targetFile
-        //
-        if ($this->generateThumbnail($sourceFile, $targetFile) === true) {
-            return 'http://localhost/uploads/thumbs/' . $fileName;
-        } else {
-            return 'http://localhost/uploads/' . $fileName; // return the original file
-        }
-    }
-
     public function rename(Request $request)
     {
         if (!$request->filled('filename') or !$request->filled('filepath')) {
@@ -341,6 +322,7 @@ class OmenController extends Controller
         }
     }
 
+    // TODO fix filepath sanitize just filename !!
     public function createTextFile(Request $request)
     {
         // only filepath and filename must be filled
@@ -364,6 +346,7 @@ class OmenController extends Controller
         return response()->json($inode, 200);
     }
 
+    // TODO fix filepath sanitize just filename !!
     public function createDirectory(Request $request)
     {
         // directorypath must be filled
@@ -414,6 +397,66 @@ class OmenController extends Controller
         );
 
         return response()->json(['inodeHtml' => $view->render()], 200);
+    }
+
+    public function getInodesAtPath(Request $request)
+    {
+        if (!$request->filled('path')) {
+            abort(400);
+        }
+
+        $inodepath = OmenHelper::uploadPath($request->get('path'));
+        $fm = new FileManager();
+
+        if (!$fm->exists($inodepath)) {
+            abort(404);
+        }
+
+        $inodes = $fm->inodes($inodepath);
+        $view = view(
+            'omen::elements.inodesView.view',
+            [
+                'inodes' => $inodes,
+                'path' => $request->get('path')
+            ]
+        );
+
+        return response()->json([
+            'inodes' => $inodes,
+            'inodesHtml' => $view->render()
+        ], 200);
+    }
+
+    public function getBreadcrumbAtPath(Request $request)
+    {
+        if (!$request->filled('path')) {
+            abort(400);
+        }
+
+        $inodepath = OmenHelper::uploadPath($request->get('path'));
+        $fm = new FileManager();
+
+        if (!$fm->exists($inodepath)) {
+            abort(404);
+        }
+
+        // session should be filled with path request
+        $query = [
+            'path' => Session::get('omen.path'),
+            'locale' => Session::get('omen.locale')
+        ];
+
+        $view = view(
+            'omen::elements.breadcrumb',
+            [
+                'path' => $request->get('path'),
+                'query' => $query
+            ]
+        );
+
+        return response()->json([
+            'breadcrumbHtml' => $view->render()
+        ], 200);
     }
 
     /**

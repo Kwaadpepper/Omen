@@ -17,6 +17,12 @@ try
 
 	fancyTree = require 'jquery.fancytree'
 	Base64 = require('js-base64').Base64
+
+
+	readyEvent = require('./tools/loadingSplash.coffee').registerWaiting()
+	document.addEventListener 'readystatechange', (e)->
+		# When window loaded ( external resources are loaded too- `css`,`src`, etc...) 
+		if e.target.readyState is "complete" then readyEvent.resolve()
 catch e
 	console.error e
 
@@ -51,4 +57,3 @@ $(document).ready ()->
 	require './omen/leftPanel.coffee'
 	require './omen/actionEvents.coffee'
 	require './omen/uploadSystem.coffee'
-

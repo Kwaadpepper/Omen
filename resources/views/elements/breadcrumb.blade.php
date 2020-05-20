@@ -49,9 +49,9 @@ $pathSub = '';
         @php $pathSub .= "/$folder" @endphp
 
         @if ($loop->last)
-        <li class="breadcrumb-item active" aria-current="page">{{ Str::ucfirst($folder) }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ $folder }}</li>
         @else
-        <li class="breadcrumb-item"><a href="{{ route('omenInterface', array_merge($query, ['path' => $pathSub])) }}">{{ Str::ucfirst($folder) }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('omenInterface', array_merge($query, ['path' => $pathSub])) }}">{{ $folder }}</a></li>
         @endif
 
         @endforeach

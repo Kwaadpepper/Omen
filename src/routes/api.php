@@ -27,6 +27,12 @@ Route::group([
     // File get Inode Html
     Route::match(['get'], sprintf('%s/getinodehtml', $routePrefix), 'OmenController@getInodeHtml')->name('omenGetInodeHtml');
 
+    // get All Inodes at path
+    Route::match(['get'], sprintf('%s/getinodesatpath', $routePrefix), 'OmenController@getInodesAtPath')->name('omenGetInodesAtPath');
+
+    // get breacrumb at path
+    Route::match(['get'], sprintf('%s/getbreadcrumbatpath', $routePrefix), 'OmenController@getBreadcrumbAtPath')->name('omenGetBreadcrumbAtPath');
+
     // JS LOG
     Route::match(['post'], sprintf('%s/log', $routePrefix), 'OmenController@log')->name('omenLog');
 });

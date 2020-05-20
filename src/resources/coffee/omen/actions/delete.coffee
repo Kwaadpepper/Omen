@@ -1,4 +1,4 @@
-inodes = require('./../../omenApi.coffee').inodes
+omenApi = require('./../../omenApi.coffee')
 ajaxCalls = require('./../../tools/ajaxCalls.coffee')
 logException = require('./../../tools/logException.coffee')
 ln = require('./../../tools/getLine.coffee')
@@ -10,6 +10,7 @@ module.exports = (action)->
     (event)->
         inodeFigure = $(this).parents('figure')
         inodeFullPath = inodeFigure.data('path')
+        inodes = omenApi.getProp('inodes')
         inode = inodes[inodeFullPath]
 
         # test file exists
@@ -27,6 +28,7 @@ module.exports = (action)->
                     else
                         # remove inode
                         delete inodes[inodeFullPath]
+                        omenApi.setProp('inodes', inodes)
                         inodeFigure.remove()
 
                         alert('success', trans('File deletion'), trans("File is removed"))

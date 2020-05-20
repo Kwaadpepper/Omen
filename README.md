@@ -48,7 +48,11 @@ If you are using local storage you must link the public storage to your public f
 -   [x] upload files
 -   [x] loading screen
 -   [x] remember view disposition and redo on page reload
--   [ ] make directory change ajax
+-   [x] make directory change ajax
+-   [ ] check sanitize path in omencontroller
+-   [ ] deactivate filters on ajax directory change
+-   [ ] make upload to put files in correct path
+-   [ ] create a Loading Toast, and display on ajax queries
 -   [ ] drag and drop
 -   [ ] handle 419 error session timeout => CSRF token mismatch
 -   [ ] global search file
@@ -67,3 +71,4 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] extensive test on mobile
 -   [ ] unit tests ?
 -   [ ] rework sort logic
+-   [ ] fix sort error when only 1 inode to display

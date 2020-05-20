@@ -8,7 +8,7 @@ Base64 = require('js-base64').Base64
 addInodeFigure = require('./addInodeFigure.coffee')
 reloadPage = require('./reload.coffee')
 actions = require('./../actionEvents.coffee')
-inodes = require('./../../omenApi.coffee').inodes
+omenApi = require('./../../omenApi.coffee')
 hightlightJS = require('highlight.js')
 
 
@@ -84,7 +84,9 @@ newFileForm.on('submit', (e)->
 
             # add inode
             fullBase64 = Base64.encode(inode.fullPath)
+            inodes = omenApi.getProp('inodes')
             inodes[fullBase64] = inode
+            omenApi.setProp('inodes', inodes)
 
             # add figure
             addInodeFigure(inode).then(

@@ -1,6 +1,6 @@
 lazyload = require('lazyload')
 hightlightJS = require('highlight.js')
-inodes = require('./../../omenApi.coffee').inodes
+omenApi = require('./../../omenApi.coffee')
 browserSupportedImage = require('../../tools/browserSupportedImages.coffee')
 ajaxCalls = require('./../../tools/ajaxCalls.coffee')
 logException = require('./../../tools/logException.coffee')
@@ -35,7 +35,7 @@ imageModal.on 'hidden.bs.modal', (e)-> # ON Modal Hidden
     imageModal.find('h5').text('')
     imageModal.find('img').attr('src', '')
     # destroy lazyload
-    lazyLoadImage.destroy()
+    if(lazyLoadImage) then lazyLoadImage.destroy()
 
 lazyLoadImage = null;
 imageErrorMessage = imageModal.find('h4')
@@ -144,6 +144,7 @@ module.exports = (action)->
     (event)->
         viewButton = $(this)
         fileBase64FullPath = $(this).parents('figure').data('path')
+        inodes = omenApi.getProp('inodes')
         inode = inodes[fileBase64FullPath]
 
         # get the inode showable url

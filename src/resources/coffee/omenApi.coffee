@@ -9,6 +9,8 @@ class OmenApi
         
     setProp: (property, value)->
         @[property] = value
+    getProp: (property)->
+        @[property]
     setMethod: (methodName, value)->
         Object.getPrototypeOf(@)[methodName] = value
 

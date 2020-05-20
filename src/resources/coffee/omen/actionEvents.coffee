@@ -16,7 +16,9 @@ module.exports = actions = {
     delete: { method: 'POST', url: '/' + urlPrefix + '/delete' },
     createFile: { method: 'POST', url: '/' + urlPrefix + '/createtextfile' },
     createDirectory: { method: 'POST', url: '/' + urlPrefix + '/createdirectory' },
-    getInodeHtml: { method: 'GET', url: '/' + urlPrefix + '/getinodehtml' }
+    getInodeHtml: { method: 'GET', url: '/' + urlPrefix + '/getinodehtml' },
+    getInodesAtPath: { method: 'GET', url: '/' + urlPrefix + '/getinodesatpath' }
+    getBreadcrumbAtPath: { method: 'GET', url: '/' + urlPrefix + '/getbreadcrumbatpath' }
 }
 
 inodesView = $('#viewInodes')

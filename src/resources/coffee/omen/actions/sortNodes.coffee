@@ -61,7 +61,6 @@ sortTypeDescending = (a, b)->
     if aT == bT then 0 else if aT < bT then 1 else -1
 
 updateFilter = (way, elementSorter)->
-    console.log 'way', way, 'previousElementSorter',previousElementSorter,'elementSorter', elementSorter
     document.getElementById(previousElementSorter).children[0].classList.add('d-none')
     document.getElementById(previousElementSorter).children[1].classList.remove('d-none')
     if way

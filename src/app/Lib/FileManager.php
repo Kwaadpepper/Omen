@@ -61,6 +61,7 @@ class FileManager
      */
     public function inodes($pathOrInode)
     {
+        $inodes = [];
         $disk = $this->getDisk();
 
         if (self::isInodeType($pathOrInode)) {

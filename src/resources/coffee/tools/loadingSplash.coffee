@@ -1,23 +1,24 @@
-$splashScreen = $('#loadingSplash')
-
 timeout = null
 waiting = []
 
+# fadeIn on change page
 window.onbeforeunload =  (e)->
-    $splashScreen.fadeIn()
+    $('#loadingSplash').fadeIn()
     undefined
 
+# fadeOut when ready to show
 readyToShow = ->
-    $splashScreen.fadeOut()
+    $('#loadingSplash').fadeOut()
 
 module.exports = {
     registerWaiting: ->
-        index = waiting.push false
+        index = (waiting.push false) - 1
         return $.Deferred().done(->
             waiting[index] = true
-            if waitStatus is false then return null for waitStatus of waiting
             clearTimeout timeout
-            setTimeout readyToShow, 600
+            for k of waiting
+                if waiting[k] == false then return null
+            setTimeout readyToShow, 2000
         )
 
 }

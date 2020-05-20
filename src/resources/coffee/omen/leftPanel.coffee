@@ -87,5 +87,3 @@ $(leftPanelTree).fancytree {
 }
 
 omen.setProp 'LeftPanelFancyTree', fancyTree.getTree(leftPanelTree)
-
-readyEvent
