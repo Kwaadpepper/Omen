@@ -7,6 +7,13 @@ config = require('./../omenApi.coffee').config
 urlPrefix = config('omen.urlPrefix')
 urlPrefix = if urlPrefix.indexOf('/') == 0 then urlPrefix.substring(1) else urlPrefix
 
+$filterFiles = $('#filterFiles')
+$filterArchives = $('#filterArchives')
+$filterImages = $('#filterImages')
+$filterAudio = $('#filterAudio')
+$filterVideo = $('#filterVideo')
+$filterInputText = $('#filterInputText')
+
 module.exports = actions = {
     # URL is 
     upload: { method: 'POST', url: '/' + urlPrefix + '/upload' }
@@ -19,6 +26,31 @@ module.exports = actions = {
     getInodeHtml: { method: 'GET', url: '/' + urlPrefix + '/getinodehtml' },
     getInodesAtPath: { method: 'GET', url: '/' + urlPrefix + '/getinodesatpath' }
     getBreadcrumbAtPath: { method: 'GET', url: '/' + urlPrefix + '/getbreadcrumbatpath' }
+    resetFilters: ->
+        if $filterFiles.hasClass('active')
+            setFilterStorage('filterFiles', 'file', $filterFiles[0])
+            $filterFiles.removeClass('active')
+        if $filterArchives.hasClass('active')
+            setFilterStorage('filterArchives', 'archive', $filterArchives[0])
+            $filterArchives.removeClass('active')
+        if $filterImages.hasClass('active')
+            setFilterStorage('filterImages', 'image', $filterImages[0])
+            $filterImages.removeClass('active')
+        if $filterAudio.hasClass('active')
+            setFilterStorage('filterAudio', 'audio', $filterAudio[0])
+            $filterAudio.removeClass('active')
+        if $filterVideo.hasClass('active')
+            setFilterStorage('filterVideo', 'video', $filterVideo[0])
+            $filterVideo.removeClass('active')
+        if $filterInputText .val().length
+            localStorage.setItem('filterText', "")
+            $filterInputText .val('')
+            require('./actions/filterInodes.coffee')().apply $filterInputText 
+
+    applySort: ->
+        sortType = localStorage.getItem('sortFiles')
+        sortWay = localStorage.getItem("sortFilesWay#{sortType}")
+        require('./actions/sortNodes.coffee')(localStorage.getItem('sortFiles'), sortWay)()
 }
 
 inodesView = $('#viewInodes')
@@ -67,23 +99,23 @@ setFilterStorage = (filterType, filterAction, element)->
     if $(element).hasClass 'active' then localStorage.setItem filterType, false
     else localStorage.setItem filterType, true
     require('./actions/filterInodes.coffee')(filterAction).apply element
-$('#filterFiles').on('click', -> setFilterStorage('filterFiles', 'file', this))
-$('#filterArchives').on('click', -> setFilterStorage('filterArchives', 'archive', this))
-$('#filterImages').on('click', -> setFilterStorage('filterImages', 'image', this))
-$('#filterAudio').on('click', -> setFilterStorage('filterAudio', 'audio', this))
-$('#filterVideo').on('click', -> setFilterStorage('filterVideo', 'video', this))
-$('#filterInputText').on('input', ->
+$filterFiles.on('click', -> setFilterStorage('filterFiles', 'file', this))
+$filterArchives.on('click', -> setFilterStorage('filterArchives', 'archive', this))
+$filterImages.on('click', -> setFilterStorage('filterImages', 'image', this))
+$filterAudio.on('click', -> setFilterStorage('filterAudio', 'audio', this))
+$filterVideo.on('click', -> setFilterStorage('filterVideo', 'video', this))
+$filterInputText .on('input', ->
     localStorage.setItem('filterText', $(this).val())
     require('./actions/filterInodes.coffee')().apply this
 )
-if localStorage.getItem('filterFiles') is "true" then require('./actions/filterInodes.coffee')('file').apply $('#filterFiles')[0]
-if localStorage.getItem('filterArchives') is "true" then require('./actions/filterInodes.coffee')('archive').apply $('#filterArchives')[0]
-if localStorage.getItem('filterImages') is "true" then require('./actions/filterInodes.coffee')('image').apply $('#filterImages')[0]
-if localStorage.getItem('filterAudio') is "true" then require('./actions/filterInodes.coffee')('audio').apply $('#filterAudio')[0]
-if localStorage.getItem('filterVideo') is "true" then require('./actions/filterInodes.coffee')('video').apply $('#filterVideo')[0]
+if localStorage.getItem('filterFiles') is "true" then require('./actions/filterInodes.coffee')('file').apply $filterFiles[0]
+if localStorage.getItem('filterArchives') is "true" then require('./actions/filterInodes.coffee')('archive').apply $filterArchives[0]
+if localStorage.getItem('filterImages') is "true" then require('./actions/filterInodes.coffee')('image').apply $filterImages[0]
+if localStorage.getItem('filterAudio') is "true" then require('./actions/filterInodes.coffee')('audio').apply $filterAudio[0]
+if localStorage.getItem('filterVideo') is "true" then require('./actions/filterInodes.coffee')('video').apply $filterVideo[0]
 if localStorage.getItem('filterText') != null and localStorage.getItem('filterText').length
-    $('#filterInputText').val(localStorage.getItem('filterText'))
-    require('./actions/filterInodes.coffee')().apply $('#filterInputText')[0]
+    $filterInputText .val(localStorage.getItem('filterText'))
+    require('./actions/filterInodes.coffee')().apply $filterInputText [0]
 
 #breadcrumb toolbar
 setSortStorage = (sortType, element, event)->

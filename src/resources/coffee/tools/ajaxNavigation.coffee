@@ -5,6 +5,8 @@ getBreadcrumbAtPathActionInfo = require('./../omen/actionEvents.coffee').getBrea
 setLocationParameters = require('./../tools/setLocationParameters.coffee')
 logException = require('./../tools/logException.coffee')
 ln = require('./../tools/getLine.coffee')
+resetFilters = require('./../omen/actionEvents.coffee').resetFilters
+applySort = require('./../omen/actionEvents.coffee').applySort
 
 $inodeContainer = $('#inodesContainer')
 $breadcrumbContainer = $('#viewInodes').children().first()
@@ -51,9 +53,11 @@ module.exports = (path)->
     ))
 
     $.when(inodesPromise, breadcrumbPromise).then(->
+        resetFilters()
         omenApi.setProp('inodes', inodes)
         $inodeContainer.html(inodesHtml)
         $breadcrumbContainer.html(breadcrumbHtml)
-        window.history.pushState("","", setLocationParameters({ 'path': encodeURIComponent(path) }));
+        window.history.pushState("","", setLocationParameters({ 'path': encodeURIComponent(path) }))
+        applySort()
     )
     
