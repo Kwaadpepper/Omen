@@ -52,6 +52,8 @@ If you are using local storage you must link the public storage to your public f
 -   [x] fix directory create in coffee
 -   [x] check sanitize path in omencontroller
 -   [ ] deactivate filters on ajax directory change
+-   [x] handle breadcrumb click directory change
+-   [ ] unifiy click or double click on breadcrumb navigation
 -   [x] make upload to put files in correct path
 -   [ ] inject uploaded inode
 -   [ ] create a Loading Toast, and display on ajax queries
@@ -73,4 +75,5 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] extensive test on mobile
 -   [ ] unit tests ?
 -   [ ] rework sort logic
+-   [ ] implement configurable shortcuts
 -   [ ] fix sort error when only 1 inode to display

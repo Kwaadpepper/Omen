@@ -38,7 +38,9 @@ leftPanel.on('click', 'button#leftPanelActionReload', require('./actions/reload.
 $('#leftPanelLocalesList').on('click', 'a', require('./actions/languageChange.coffee')())
 
 # breadcrumb action
-$('#actionUpperDirectory').on('click', require('./actions/upperDirectory.coffee')())
+$breacrumbContainer = $('#viewInodes').children().first()
+$breacrumbContainer.on('click', '#actionUpperDirectory', require('./actions/upperDirectory.coffee')())
+$breacrumbContainer.on('click', '#pathBreadcrumbList a', require('./actions/breadcrumbNavigateTo.coffee')())
 
 # navBar actions
 
@@ -59,7 +61,6 @@ $('#viewList').on('click', (e)->
 switch localStorage.getItem 'viewType'
     when 'icon' then require('./actions/changeViewType.coffee')('icon')()
     when 'list' then require('./actions/changeViewType.coffee')('list')() 
-        
 
 # filter toolbar
 setFilterStorage = (filterType, filterAction, element)->
