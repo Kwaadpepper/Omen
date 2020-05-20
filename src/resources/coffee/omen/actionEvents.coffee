@@ -71,8 +71,11 @@ $('#leftPanelLocalesList').on('click', 'a', require('./actions/languageChange.co
 
 # breadcrumb action
 $breacrumbContainer = $('#viewInodes').children().first()
-$breacrumbContainer.on('click', '#actionUpperDirectory', require('./actions/upperDirectory.coffee')())
-$breacrumbContainer.on('click', '#pathBreadcrumbList a', require('./actions/breadcrumbNavigateTo.coffee')())
+if actionEvent is 'dblclick'
+    $breacrumbContainer.on('click', '#actionUpperDirectory', (e)-> e.preventDefault(); return false; )
+    $breacrumbContainer.on('click', '#pathBreadcrumbList ', (e)-> e.preventDefault(); return false; )
+$breacrumbContainer.on(actionEvent, '#actionUpperDirectory', require('./actions/upperDirectory.coffee')())
+$breacrumbContainer.on(actionEvent, '#pathBreadcrumbList a', require('./actions/breadcrumbNavigateTo.coffee')())
 
 # navBar actions
 

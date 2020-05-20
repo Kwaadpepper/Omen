@@ -53,7 +53,7 @@ If you are using local storage you must link the public storage to your public f
 -   [x] check sanitize path in omencontroller
 -   [x] deactivate filters on ajax directory change
 -   [x] handle breadcrumb click directory change
--   [ ] unifiy click or double click on breadcrumb navigation
+-   [x] unifiy click or double click on breadcrumb navigation
 -   [ ] make button reset filters
 -   [x] make upload to put files in correct path
 -   [ ] inject uploaded inode
