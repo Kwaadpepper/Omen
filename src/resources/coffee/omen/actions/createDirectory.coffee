@@ -30,7 +30,7 @@ newDirectoryForm.on('submit', (e)->
     
     directoryname = newDirectoryTitleInput.val()
     directorypath = decodeURIComponent(getUrlLocationParameter('path'))
-    urlCheck = actions.download.url + directorypath
+    urlCheck = actions.download.url + "#{directorypath}/#{directoryname}"
 
     #check directory don't exists on server HEAD method
     
