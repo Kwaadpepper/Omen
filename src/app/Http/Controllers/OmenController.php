@@ -65,7 +65,7 @@ class OmenController extends Controller
         }
 
         $file = $request->file('fileBlob');
-        $filePath = sprintf('%s/%s', $request->post('filePath'), OmenHelper::sanitizePath($request->post('filePath')));
+        $filePath = sprintf('%s/%s', $request->post('filePath'), OmenHelper::sanitizePath($request->post('fileName')));
         $directoryPath = OmenHelper::mb_pathinfo($filePath, \PATHINFO_DIRNAME);
         $fileName = OmenHelper::mb_pathinfo($filePath, \PATHINFO_BASENAME);
         $fileSize = $request->post('fileSize');

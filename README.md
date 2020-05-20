@@ -51,7 +51,8 @@ If you are using local storage you must link the public storage to your public f
 -   [x] make directory change ajax
 -   [ ] check sanitize path in omencontroller
 -   [ ] deactivate filters on ajax directory change
--   [ ] make upload to put files in correct path
+-   [x] make upload to put files in correct path
+-   [ ] inject uploaded inode
 -   [ ] create a Loading Toast, and display on ajax queries
 -   [ ] drag and drop
 -   [ ] handle 419 error session timeout => CSRF token mismatch
