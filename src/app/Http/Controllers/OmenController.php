@@ -251,7 +251,7 @@ class OmenController extends Controller
         $fm = new FileManager();
 
         $filepath = OmenHelper::uploadPath($request->post('filepath'));
-        $filename = OmenHelper::sanitizePath($request->post('filename'));
+        $filename = OmenHelper::filterFilename($request->post('filename'));
 
         if (!$fm->exists($filepath)) {
             abort(404);
@@ -345,7 +345,6 @@ class OmenController extends Controller
         return response()->json($inode, 200);
     }
 
-    // TODO fix filepath sanitize just filename !!
     public function createDirectory(Request $request)
     {
         if (!$request->filled('directoryPath') or !$request->filled('directoryName')) {
