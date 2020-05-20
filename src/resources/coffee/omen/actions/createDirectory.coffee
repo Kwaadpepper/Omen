@@ -29,7 +29,7 @@ newDirectoryForm.on('submit', (e)->
         return false
     
     directoryname = newDirectoryTitleInput.val()
-    directorypath = "#{decodeURIComponent(getUrlLocationParameter('path'))}/#{directoryname}"
+    directorypath = decodeURIComponent(getUrlLocationParameter('path'))
     urlCheck = actions.download.url + directorypath
 
     #check directory don't exists on server HEAD method
@@ -60,7 +60,8 @@ newDirectoryForm.on('submit', (e)->
     createDirectory = (->
         # try create the directory
         ajax(actionInfo.method, actionInfo.url, {
-            directorypath: directorypath
+            directoryPath: directorypath
+            directoryName: directoryname
         },
         ((inode)->
             # clean Modal input

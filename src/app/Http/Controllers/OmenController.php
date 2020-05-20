@@ -65,7 +65,7 @@ class OmenController extends Controller
         }
 
         $file = $request->file('fileBlob');
-        $filePath = sprintf('%s/%s', $request->post('filePath'), OmenHelper::sanitizePath($request->post('fileName')));
+        $filePath = sprintf('%s/%s', $request->post('filePath'), OmenHelper::filterFilename($request->post('fileName')));
         $directoryPath = OmenHelper::mb_pathinfo($filePath, \PATHINFO_DIRNAME);
         $fileName = OmenHelper::mb_pathinfo($filePath, \PATHINFO_BASENAME);
         $fileSize = $request->post('fileSize');
@@ -322,21 +322,20 @@ class OmenController extends Controller
         }
     }
 
-    // TODO fix filepath sanitize just filename !!
     public function createTextFile(Request $request)
     {
         // only filepath and filename must be filled
-        if (!$request->filled('filepath') or !$request->has('filetext')) {
+        if (!$request->filled('filePath') or !$request->filled('fileName') or !$request->has('fileText')) {
             abort(400);
         }
 
-        $filepath = OmenHelper::sanitizePath(OmenHelper::uploadPath($request->post('filepath')));
-        $filetext = $request->post('filetext');
+        $filePath = OmenHelper::uploadPath(sprintf('%s/%s', $request->post('filePath'), OmenHelper::filterFilename($request->post('fileName'))));
+        $fileText = $request->post('fileText');
 
         $fm = new FileManager();
-        $inode = $fm->inode($filepath);
+        $inode = $fm->inode($filePath);
         try {
-            if (!$inode->put($filetext)) {
+            if (!$inode->put($fileText)) {
                 abort(500);
             }
         } catch (OmenException $e) {
@@ -349,23 +348,22 @@ class OmenController extends Controller
     // TODO fix filepath sanitize just filename !!
     public function createDirectory(Request $request)
     {
-        // directorypath must be filled
-        if (!$request->filled('directorypath')) {
+        if (!$request->filled('directoryPath') or !$request->filled('directoryName')) {
             abort(400);
         }
 
-        $directorypath = OmenHelper::sanitizePath(OmenHelper::uploadPath($request->post('directorypath')));
+        $directoryPath = OmenHelper::uploadPath(sprintf('%s/%s', $request->post('directoryPath'), OmenHelper::filterFilename($request->post('directoryName'))));
 
         $fm = new FileManager();
 
         try {
-            $fm->createDirectory($directorypath);
+            $fm->createDirectory($directoryPath);
         } catch (OmenException $e) {
             report($e);
             abort(400);
         }
 
-        $inode = $fm->inode($directorypath);
+        $inode = $fm->inode($directoryPath);
 
         return response()->json($inode, 200);
     }

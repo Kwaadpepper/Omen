@@ -49,6 +49,7 @@ If you are using local storage you must link the public storage to your public f
 -   [x] loading screen
 -   [x] remember view disposition and redo on page reload
 -   [x] make directory change ajax
+-   [ ] fix directory create in coffee
 -   [ ] check sanitize path in omencontroller
 -   [ ] deactivate filters on ajax directory change
 -   [x] make upload to put files in correct path

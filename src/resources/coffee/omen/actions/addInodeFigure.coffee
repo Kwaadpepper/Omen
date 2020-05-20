@@ -11,7 +11,7 @@ module.exports = (inode, isDirectory = false)->
     return new Promise((successCallback, failureCallback)->
         ajax(actions.getInodeHtml.method, actions.getInodeHtml.url, options,
         ((answer)->
-            $('#inodesContainer').children().first().after(answer.inodeHtml)
+            $('#inodesContainer').children().eq(2).after(answer.inodeHtml)
             successCallback()
         ),
         ((jxhr)->

@@ -40,8 +40,8 @@ newFileForm.on('submit', (e)->
     
     filename = "#{newFileTitleInput.val()}.txt"
     filetext = newFileTextInput.innerText()
-    filepath = "#{decodeURIComponent(getUrlLocationParameter('path'))}/#{filename}"
-    urlCheck = actions.download.url + filepath
+    filepath = decodeURIComponent(getUrlLocationParameter('path'))
+    urlCheck = actions.download.url + "#{filepath}/#{filename}"
 
     #check file don't exists on server HEAD method
     
@@ -71,8 +71,9 @@ newFileForm.on('submit', (e)->
     createFile = (->
         # try create the file
         ajax(actionInfo.method, actionInfo.url, {
-            filepath: filepath
-            filetext: filetext
+            filePath: filepath
+            fileName: filename
+            fileText: filetext
         },
         ((inode)->
             # clean Modal inputs

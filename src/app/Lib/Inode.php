@@ -62,6 +62,8 @@ class Inode implements JsonSerializable
         // remove path Prefix
         if (\substr($fullPath, 0, \strlen($pathPrefix)) == $pathPrefix) {
             $this->path = \substr($fullPath, \strlen($pathPrefix));
+        } else {
+            $this->path = $fullPath;
         }
 
         $this->fullPath = $fullPath;

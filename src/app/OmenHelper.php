@@ -87,7 +87,7 @@ class OmenHelper
      * @param Boolean $beautify 
      * @return String 
      */
-    private static function filterFilename(string $filename, bool $beautify = true)
+    public static function filterFilename(string $filename, bool $beautify = true)
     {
         // sanitize filename
         $filename = \preg_replace(
