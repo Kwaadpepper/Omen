@@ -224,6 +224,11 @@ class OmenController extends Controller
                 $uploadedInode = $fm->inode(OmenHelper::uploadPath($filePath));
                 $uploadedInode->put($outFile->get());
                 $outFile->delete();
+                return response()->json([
+                    'chunkIndex' => $chunkIndex, // the chunk index processed
+                    'filename' => $fileName,
+                    'inode' => $uploadedInode
+                ]);
             } catch (OmenException $e) {
                 report($e);
                 return response()->json(['error' => 'Server Error, check logs'], 500);

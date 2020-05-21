@@ -2,8 +2,9 @@ config = require('./../omenApi.coffee').config
 trans = require('./../tools/translate.coffee')
 getUrlLocationParameter = require('./../tools/getUrlLocationParameter.coffee')
 alert = require('./../tools/alert.coffee')
-
-
+addInodeFigure = require('./actions/addInodeFigure.coffee')
+omenApi = require('./../omenApi.coffee')
+Base64 = require('js-base64').Base64
 actions = require('./actionEvents.coffee')
 
 updateButtonsStatusTimeout = null
@@ -84,11 +85,7 @@ $('#uploadInput').fileinput {
     frameClass: 'krajee-default',
     mainClass: 'file-caption-main',
 
-
     theme: "krajee-explorer",
-
-
-
 
     # allowedFileExtensions: ['jpg', 'png', 'gif'],
 
@@ -193,7 +190,24 @@ $uploadForm.on('fileloaded', (event, file, previewId, index, reader)->
     $uploadButton.prop('disabled', false)
     $clearButton.prop('disabled', false).show()
 )
-$uploadForm.on('fileuploaded', (event)->
+uploadedFileName = null
+uploadedInode = null
+$uploadForm.on('filechunksuccess', (e, id, index, retry, fm, rm, outData) ->
+    uploadedFileName = outData.response.filename
+    uploadedInode = outData.response.inode
+)
+$uploadForm.on('fileuploaded', (event, t, h, f)->
+    fileName = uploadedFileName
+    filePath = "#{decodeURIComponent(getUrlLocationParameter('path'))}/#{fileName}"
+    setTimeout (->
+        # TODO get inode to put in array
+        addInodeFigure({ path: filePath })
+        inodes = omenApi.getProp('inodes')
+        console.log uploadedInode.fullPath, Base64.encode(uploadedInode.fullPath), uploadedInode
+        inodes[Base64.encode(uploadedInode.fullPath)] = uploadedInode
+        omenApi.setProp('inodes', inodes)
+        return
+    ), 10
     updateButtonsStatus()
     if pendingFiles()
         $resumeButton.prop('disabled', true).hide()

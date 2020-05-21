@@ -1,5 +1,6 @@
-inodes = require('./../../omenApi.coffee').inodes
+omenApi = require('./../../omenApi.coffee')
 
+inodes = null
 previousElementSorter = "sortAlpha"
 sortAlphaAscending = (a, b)->
     aI = inodes[a.getAttribute('data-path')]
@@ -83,14 +84,14 @@ typeWay = false
 module.exports = (sortType, forceWay)->
     (event)->
 
+        inodes = omenApi.getProp('inodes')
         list = document.getElementById('inodesContainer')
         items = list.children
         
         itemsArr = []
         for item in items
+            if item.classList.contains('Root') or item.id is 'viewListTopBar' then continue
             itemsArr.push item
-        
-        itemsArr.shift() # remove viewListTopBar
 
         switch sortType
 

@@ -44,7 +44,7 @@ class OmenHelper
 
     private static function filterPath(string $root, string $path)
     {
-        return sprintf('%s/%s', static::mb_rtrim($root, '/'), static::mb_ltrim(static::mb_rtrim($path, '/'), '/'));
+        return static::sanitizePath(sprintf('%s/%s', static::mb_rtrim($root, '/'), static::mb_ltrim(static::mb_rtrim($path, '/'), '/')));
     }
 
     /**
@@ -59,17 +59,17 @@ class OmenHelper
             '/',
             $path
         );
-        $pathBaseName = static::filterFilename(static::mb_pathinfo($path, \PATHINFO_BASENAME));
+        $pathBaseName = static::mb_pathinfo($path, \PATHINFO_BASENAME);
         $path = static::mb_ltrim($path, '.');
         $pathDirname = static::mb_pathinfo($path, \PATHINFO_DIRNAME);
 
-        $subs = \explode('/', $pathDirname);
+        // $subs = \explode('/', $pathDirname);
 
-        foreach ($subs as &$folder) {
-            if (!empty($folder))
-                $folder = static::filterFilename($folder, true);
-        }
-        $pathDirname = \implode('/', $subs);
+        // foreach ($subs as &$folder) {
+        //     if (!empty($folder))
+        //         $folder = static::filterFilename($folder, true);
+        // }
+        // $pathDirname = \implode('/', $subs);
 
         return "{$pathDirname}/{$pathBaseName}";
     }
