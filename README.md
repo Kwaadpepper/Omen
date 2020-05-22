@@ -57,7 +57,7 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] make button reset filters
 -   [x] make upload to put files in correct path
 -   [x] inject uploaded inode
--   [ ] fix uploaded filerename increment
+-   [x] fix uploaded filerename increment
 -   [ ] create a Loading Toast, and display on ajax queries
 -   [ ] drag and drop
 -   [ ] handle 419 error session timeout => CSRF token mismatch
@@ -78,4 +78,5 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] unit tests ?
 -   [ ] rework sort logic
 -   [ ] implement configurable shortcuts
+-   [ ] file uploaded size return to ajax is null => size sort error
 -   [ ] fix sort error when only 1 inode to display

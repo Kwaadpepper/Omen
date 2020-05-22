@@ -7,8 +7,6 @@ omenApi = require('./../omenApi.coffee')
 Base64 = require('js-base64').Base64
 actions = require('./actionEvents.coffee')
 
-updateButtonsStatusTimeout = null
-
 # handle locale
 locales = require('./../omenApi.coffee').bootstrapInputLocales
 uploadLocale = if locales.indexOf(config('omen.locale')) != -1 then config('omen.locale') else 'en'
@@ -187,6 +185,7 @@ $uploadForm.on('filedeleted', (event, key, jqXHR, data)->
     console.log 'filedeleted'
 )
 $uploadForm.on('fileloaded', (event, file, previewId, index, reader)->
+    console.log 'fileloaded'
     $uploadButton.prop('disabled', false)
     $clearButton.prop('disabled', false).show()
 )
@@ -200,26 +199,30 @@ $uploadForm.on('fileuploaded', (event, t, h, f)->
     fileName = uploadedFileName
     filePath = "#{decodeURIComponent(getUrlLocationParameter('path'))}/#{fileName}"
     setTimeout (->
-        # TODO get inode to put in array
         addInodeFigure({ path: filePath })
         inodes = omenApi.getProp('inodes')
-        console.log uploadedInode.fullPath, Base64.encode(uploadedInode.fullPath), uploadedInode
         inodes[Base64.encode(uploadedInode.fullPath)] = uploadedInode
         omenApi.setProp('inodes', inodes)
+        $uploadButton.prop('disabled', true)
         return
     ), 10
-    updateButtonsStatus()
     if pendingFiles()
         $resumeButton.prop('disabled', true).hide()
         $pauseButton.prop('disabled', true).hide()
     else
-        $uploadButton.prop('disabled', false)
+        $uploadButton.prop('disabled', true)
         $browseButton.prop('disabled', false)
         $resumeButton.prop('disabled', true).hide()
         $pauseButton.prop('disabled', true).hide()
         $clearButton.prop('disabled', true).hide()
         $cancelButton.prop('disabled', true).hide()
         alert('success', trans('Upload succeeded'), trans("All files were uploaded successfully"))
+)
+$uploadForm.on('fileuploaderror', (event)->
+    $cancelButton.click()
+)
+$uploadForm.on('fileuploadsuccess', (event)->
+    $uploadButton.prop('disabled', true)
 )
 $uploadForm.on('filecleared', (event)->
     $resumeButton.prop('disabled', true).hide()
@@ -232,14 +235,6 @@ $uploadForm.on('fileuploadcancelled', (event)->
 
 pendingFiles = ->
     !!$uploadInput.fileinput('getFileList').length
-
-updateButtonsStatus = ->
-    clearTimeout(updateButtonsStatusTimeout)
-    updateButtonsStatusTimeout = setTimeout (->
-        if pendingFiles() then $clearButton.prop('disabled', true) else $clearButton.prop('disabled', false)
-        if pendingFiles() then $uploadButton.prop('disabled', true) else $uploadButton.prop('disabled', false)
-        return
-    ), 100
 
 # Browse Action
 $browseButton .on('click', (e)->
@@ -326,7 +321,7 @@ $resumeButton.on('click', (e)->
 # Cancel Action
 $cancelButton.on('click', (e)->
 
-    console.log 'resume Action'
+    console.log 'cancel Action'
 
     $uploadInput.fileinput('cancel')
     $resumeButton.prop('disabled', true).hide()

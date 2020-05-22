@@ -65,7 +65,7 @@ class OmenController extends Controller
         }
 
         $file = $request->file('fileBlob');
-        $filePath = sprintf('%s/%s', $request->post('filePath'), OmenHelper::filterFilename($request->post('fileName')));
+        $filePath = OmenHelper::sanitizePath(sprintf('%s/%s', $request->post('filePath'), OmenHelper::filterFilename($request->post('fileName'))));
         $directoryPath = OmenHelper::mb_pathinfo($filePath, \PATHINFO_DIRNAME);
         $fileName = OmenHelper::mb_pathinfo($filePath, \PATHINFO_BASENAME);
         $fileSize = $request->post('fileSize');
@@ -93,7 +93,8 @@ class OmenController extends Controller
         // Check if file exists in destination disk
         if ($fm->exists(OmenHelper::uploadPath($filePath))) {
             // need to rename file !!!
-            $filePath = $fm->getNewFileName($filePath);
+            $filePath = $fm->getNewFileName(OmenHelper::uploadPath($filePath));
+            $filePath = substr($filePath, \strlen(OmenHelper::uploadPath('')), \strlen($filePath));
             $fileName = OmenHelper::mb_pathinfo($filePath, \PATHINFO_BASENAME);
         }
 

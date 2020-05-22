@@ -128,18 +128,18 @@ class FileManager
         return $disk->exists($pathOrInode);
     }
 
-    public function getNewFileName($path)
+    public function getNewFileName($path, $counter = 0)
     {
         $extension = OmenHelper::mb_pathinfo($path, \PATHINFO_EXTENSION);
-        $path = OmenHelper::mb_rtrim($path, ".$extension");
+        $basePath = OmenHelper::mb_rtrim($path, ".$extension");
 
         // Try give another filename if the one wanted already exists on storage
-        $counter = 1;
-        do {
-            if ($this->exists($path)) {
-                return $this->getNewFileName(sprintf('%s%d.%s', $path, $counter, $extension));
+        while (++$counter < 30) {
+            $newPath = sprintf('%s%d.%s', $basePath, $counter, $extension);
+            if (!$this->exists($newPath)) {
+                return $newPath;
             }
-        } while (++$counter < 30);
+        }
         // if this failed omg, give a random filename
         try {
             // try this if openSSL is installed
