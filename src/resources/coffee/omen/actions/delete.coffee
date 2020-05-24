@@ -5,6 +5,8 @@ ln = require('./../../tools/getLine.coffee')
 trans = require('./../../tools/translate.coffee')
 alert = require('./../../tools/alert.coffee')
 
+progressbar = require('./../../tools/progressbar.coffee')
+
 
 module.exports = (action)->
     (event)->
@@ -12,6 +14,7 @@ module.exports = (action)->
         inodeFullPath = inodeFigure.data('path')
         inodes = omenApi.getProp('inodes')
         inode = inodes[inodeFullPath]
+        progressbar.run()
 
         # test file exists
         ajaxCalls(
@@ -22,6 +25,7 @@ module.exports = (action)->
             null,
             { 
                 complete : (jxhr)->
+                    progressbar.end()
                     if jxhr.status is not 200
                         logException("Error Occured on delete inode #{jxhr.status} #{jxhr.statusText} INODE => #{inode.path}", "9#{ln()}")
                         alert('danger', trans('File delete error'), trans("Server error on delete ${filename}", { 'filename': renameInput.val() }))

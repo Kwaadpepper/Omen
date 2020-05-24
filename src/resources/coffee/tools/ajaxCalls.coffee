@@ -23,5 +23,4 @@ module.exports = (method, url, data, successClosure = null, errorClosure = null,
             'X-CSRF-TOKEN': csrfToken
         }
     }
-
-    $.ajax parameters
+    $.ajax(parameters)

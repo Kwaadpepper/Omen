@@ -11,11 +11,15 @@ applySort = require('./../omen/actionEvents.coffee').applySort
 $inodeContainer = $('#inodesContainer')
 $breadcrumbContainer = $('#viewInodes').children().first()
 
+progressbar = require('../tools/progressbar.coffee')
+
 module.exports = (path)->
 
     inodes = null
     inodesHtml = null
     breadcrumbHtml = null
+
+    progressbar.run()
 
     inodesPromise = ajax(getInodesAtPathActionInfo.method, getInodesAtPathActionInfo.url, {
         path: path
@@ -25,6 +29,7 @@ module.exports = (path)->
         inodesHtml = data.inodesHtml
     ),
     ((error)->
+        progressbar.end()
         # log error
         logException("Error Occured on ajax navigation  #{error.status} #{error.statusText} INODE => #{path} URL => #{getInodesAtPathActionInfo.url}", "9#{ln()}").done(->
             # fallback to redirection   
@@ -42,6 +47,7 @@ module.exports = (path)->
         breadcrumbHtml = data.breadcrumbHtml
     ),
     ((error)->
+        progressbar.end()
         # log error
         logException("Error Occured on ajax navigation  #{error.status} #{error.statusText} INODE => #{path} URL => #{getBreadcrumbAtPathActionInfo.url}", "9#{ln()}").done(->
             # fallback to redirection   
@@ -53,6 +59,7 @@ module.exports = (path)->
     ))
 
     $.when(inodesPromise, breadcrumbPromise).then(->
+        progressbar.end()
         resetFilters()
         omenApi.setProp('inodes', inodes)
         $inodeContainer.html(inodesHtml)

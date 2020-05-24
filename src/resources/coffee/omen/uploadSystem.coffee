@@ -6,6 +6,10 @@ addInodeFigure = require('./actions/addInodeFigure.coffee')
 omenApi = require('./../omenApi.coffee')
 Base64 = require('js-base64').Base64
 actions = require('./actionEvents.coffee')
+ProgressBar = require('progressbar.js')
+
+progressBar = null
+progressBarInterval = null
 
 # handle locale
 locales = require('./../omenApi.coffee').bootstrapInputLocales
@@ -189,6 +193,10 @@ $uploadForm.on('fileloaded', (event, file, previewId, index, reader)->
     $uploadButton.prop('disabled', false)
     $clearButton.prop('disabled', false).show()
 )
+$uploadForm.on('filebatchpreupload', (outData, previewId, i)->
+    console.log 'filebatchpreupload',outData
+)
+
 uploadedFileName = null
 uploadedInode = null
 $uploadForm.on('filechunksuccess', (e, id, index, retry, fm, rm, outData) ->
@@ -216,6 +224,8 @@ $uploadForm.on('fileuploaded', (event, t, h, f)->
         $pauseButton.prop('disabled', true).hide()
         $clearButton.prop('disabled', true).hide()
         $cancelButton.prop('disabled', true).hide()
+        clearInterval progressBarInterval
+        progressBar.destroy()
         alert('success', trans('Upload succeeded'), trans("All files were uploaded successfully"))
 )
 $uploadForm.on('fileuploaderror', (event)->
@@ -271,6 +281,26 @@ $clearButton .on('click', (e)->
 $uploadButton.on('click', (e)->
 
     console.log 'upload Action'
+    $('div.kv-upload-progress div.progress-bar')
+
+    progressBar = new ProgressBar.Line($('body > div.container-fluid')[1], {
+        strokeWidth: 0.3,
+        easing: 'easeInOut',
+        duration: 1400,
+        color: '#FFEA82',
+        trailColor: '#eee',
+        trailWidth: 1,
+        svgStyle: {position: 'absolute', top: 0},
+        from: {color: '#FFEA82'},
+        to: {color: '#ED6A5A'},
+        step: (state, bar) -> bar.path.setAttribute('stroke', state.color)
+    })
+
+    progressBarInterval = setInterval((->
+        val = parseFloat($('div.kv-upload-progress div.progress-bar').attr('aria-valuenow')) / 100
+        # errors in console are du to this https://github.com/kimmobrunfeldt/progressbar.js/issues/255
+        progressBar.animate val
+    ),500)
 
     $uploadInput.fileinput('upload')
     $resumeButton.prop('disabled', true).hide()

@@ -58,7 +58,8 @@ If you are using local storage you must link the public storage to your public f
 -   [x] make upload to put files in correct path
 -   [x] inject uploaded inode
 -   [x] fix uploaded filerename increment
--   [ ] create a Loading Toast, and display on ajax queries
+-   [x] ~create a Loading Toast, and display on ajax queries~ progressbar created
+-   [ ] create lock ui function to, freeze ui while navigating
 -   [ ] drag and drop
 -   [ ] handle 419 error session timeout => CSRF token mismatch
 -   [ ] global search file

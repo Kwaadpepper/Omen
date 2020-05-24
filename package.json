@@ -30,6 +30,7 @@
     },
     "dependencies": {
         "@mdi/font": "^5.1.45",
+        "bezier-easing": "^2.1.0",
         "bootstrap": "^4.4.1",
         "bootstrap-fileinput": "^5.0.8",
         "fuzzysearch": "^1.0.3",
@@ -43,6 +44,7 @@
         "mediaelement": "^4.2.16",
         "pdfjs-dist": "^2.3.200",
         "popper.js": "^1.16.1",
+        "progressbar.js": "^1.1.0",
         "script-loader": "^0.7.2",
         "simplebar": "^5.1.0",
         "split.js": "^1.5.11"
