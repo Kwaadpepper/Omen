@@ -1,4 +1,5 @@
-.notransitions * {
+.notransitions *,
+.notransitions-force * {
     pointer-events: none !important;
 }
 

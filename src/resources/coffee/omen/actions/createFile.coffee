@@ -19,6 +19,7 @@ newFileForm = $('#newFileForm')
 newFileTitleInput = $('#newFileNameInput')
 newFileTextInput = $('#newFileTextInput')
 progressbar = require('./../../tools/progressbar.coffee')
+lockUi = require('./../../tools/lockUi.coffee')
 
 clearVars = ->
     actionInfo = null
@@ -44,7 +45,8 @@ newFileForm.on('submit', (e)->
     filepath = decodeURIComponent(getUrlLocationParameter('path'))
     urlCheck = actions.download.url + "#{filepath}/#{filename}"
 
-    progressbar.run()
+    progressbar.run(0.3)
+    lockUi.lock()
 
     #check file don't exists on server HEAD method
     
@@ -62,12 +64,14 @@ newFileForm.on('submit', (e)->
                     createFile()
                 # if server answer anything else than file is present
                 else if jxhr.status is not 200
+                    lockUi.unlock()
                     progressbar.end()
                     logException("Error Occured #{jxhr.status} #{jxhr.statusText} INODE => #{filepath} URL => #{urlCheck}", "9#{ln()}")
                     alert('danger', trans('File check error'), trans("Server could not say if ${inodename} exists", { 'inodename': filename }))
                 
                 # if file already exists
                 else
+                    lockUi.unlock()
                     progressbar.end()
                     alert('danger', trans('This file name already exists !'), trans("Please choose another name than ${inodename}", { 'inodename': filename }))
         }
@@ -98,11 +102,13 @@ newFileForm.on('submit', (e)->
             addInodeFigure(inode).then(
                 # if figure was added then scrolltop
                 (->
+                    lockUi.unlock()
                     progressbar.end()
                     require('./../../omenApi.coffee').simpleBarInodes.getScrollElement().scroll(0, 0)
                 ),
                 # if figure could not be added to Dom reload the page
                 (->
+                    lockUi.unlock()
                     progressbar.end()
                     reloadPage()()
                 )
@@ -115,6 +121,7 @@ newFileForm.on('submit', (e)->
             clearVars()
         ),
         ((error)->
+            lockUi.unlock()
             progressbar.end()
             # show toast
             alert('danger', trans('Action failure'), trans("Could not create ${inodename}, server said no", { 'inodename': filename }))

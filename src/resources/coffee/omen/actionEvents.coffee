@@ -2,6 +2,7 @@
 # for this router see routes/api.php or routes/web.php
 
 config = require('./../omenApi.coffee').config
+window.lockUi = lockUi = require('./../tools/lockUi.coffee')
 
 # remove sarting '/' of urlPrefix
 urlPrefix = config('omen.urlPrefix')
@@ -59,11 +60,11 @@ leftPanel = $('#leftPanelMenuBar')
 actionEvent = if config('omen.doubleClickToOpen') then 'dblclick' else 'click'
 
 # Figure Actions
-inodesView.on('click','button.actionDownload', require('./actions/download.coffee')(actions.download))
-inodesView.on('click','button.actionView', require('./actions/view.coffee')(actions.view))
-inodesView.on('click','button.actionRename', require('./actions/rename.coffee')(actions.rename))
-inodesView.on('click','button.actionDelete', require('./actions/delete.coffee')(actions.delete))
-inodesView.on(actionEvent, 'figure > .figIcon', require('./actions/figureAction.coffee')())
+inodesView.on('click','button.actionDownload', (e)-> if not lockUi.locked then (require('./actions/download.coffee')(actions.download)).call this, e)
+inodesView.on('click','button.actionView', (e)-> if not lockUi.locked then (require('./actions/view.coffee')(actions.view)).call this, e)
+inodesView.on('click','button.actionRename', (e)-> if not lockUi.locked then (require('./actions/rename.coffee')(actions.rename)).call this, e)
+inodesView.on('click','button.actionDelete', (e)-> if not lockUi.locked then (require('./actions/delete.coffee')(actions.delete)).call this, e)
+inodesView.on(actionEvent, 'figure > .figIcon', (e)-> if not lockUi.locked then (require('./actions/figureAction.coffee')()).call this, e)
 
 # left Pannel Actions
 leftPanel.on('click', 'button#leftPanelActionReload', require('./actions/reload.coffee')())
@@ -74,8 +75,8 @@ $breacrumbContainer = $('#viewInodes').children().first()
 if actionEvent is 'dblclick'
     $breacrumbContainer.on('click', '#actionUpperDirectory', (e)-> e.preventDefault(); return false; )
     $breacrumbContainer.on('click', '#pathBreadcrumbList ', (e)-> e.preventDefault(); return false; )
-$breacrumbContainer.on(actionEvent, '#actionUpperDirectory', require('./actions/upperDirectory.coffee')())
-$breacrumbContainer.on(actionEvent, '#pathBreadcrumbList a', require('./actions/breadcrumbNavigateTo.coffee')())
+$breacrumbContainer.on(actionEvent, '#actionUpperDirectory', (e)-> if not lockUi.locked then (require('./actions/upperDirectory.coffee')()).call this, e)
+$breacrumbContainer.on(actionEvent, '#pathBreadcrumbList a', (e)-> if not lockUi.locked then (require('./actions/breadcrumbNavigateTo.coffee')()).call this, e)
 
 # navBar actions
 

@@ -10,6 +10,7 @@ reloadPage = require('./reload.coffee')
 actions = require('./../actionEvents.coffee')
 omenApi = require('./../../omenApi.coffee')
 progressbar = require('./../../tools/progressbar.coffee')
+lockUi = require('./../../tools/lockUi.coffee')
 
 actionInfo = null
 
@@ -33,7 +34,8 @@ newDirectoryForm.on('submit', (e)->
     directorypath = decodeURIComponent(getUrlLocationParameter('path'))
     urlCheck = actions.download.url + "#{directorypath}/#{directoryname}"
 
-    progressbar.run()
+    lockUi.lock()
+    progressbar.run(0.3)
 
     #check directory don't exists on server HEAD method
     
@@ -51,12 +53,14 @@ newDirectoryForm.on('submit', (e)->
                     createDirectory()
                 # if server answer anything else than directory is present
                 else if jxhr.status is not 200
+                    lockUi.unlock()
                     progressbar.end()
                     logException("Error Occured #{jxhr.status} #{jxhr.statusText} INODE => #{directorypath} URL => #{urlCheck}", "9#{ln()}")
                     alert('danger', trans('Directory check error'), trans("Server could not say if ${inodename} exists", { 'inodename': directoryname }))
                 
                 # if directory already exists
                 else
+                    lockUi.unlock()
                     progressbar.end()
                     alert('danger', trans('This directory name already exists !'), trans("Please choose another name than ${inodename}", { 'inodename': directoryname }))
         }
@@ -85,11 +89,13 @@ newDirectoryForm.on('submit', (e)->
             addInodeFigure(inode, true).then(
                 # if figure was added then scrolltop
                 (->
+                    lockUi.unlock()
                     progressbar.end()
                     require('./../../omenApi.coffee').simpleBarInodes.getScrollElement().scroll(0, 0)
                 ),
                 # if figure could not be added to Dom reload the page
                 (->
+                    lockUi.unlock()
                     progressbar.end()
                     reloadPage()()
                 )
@@ -102,6 +108,7 @@ newDirectoryForm.on('submit', (e)->
             clearVars()
         ),
         ((error)->
+            lockUi.unlock()
             progressbar.end()
 
             # show toast

@@ -4,7 +4,7 @@ logException = require('./../../tools/logException.coffee')
 ln = require('./../../tools/getLine.coffee')
 trans = require('./../../tools/translate.coffee')
 alert = require('./../../tools/alert.coffee')
-
+progressbar = require('./../../tools/progressbar.coffee')
 
 
 
@@ -13,6 +13,7 @@ module.exports = (action)->
         fileFullPath = $(this).parents('figure').data('path')
         inodes = omenApi.getProp('inodes')
         inode = inodes[fileFullPath]
+        progressbar.run(0.3)
 
         url = if inode.visibility == 'public' then inode.url else action.url + inode.path
 
@@ -25,6 +26,7 @@ module.exports = (action)->
             null,
             { 
                 complete : (jxhr)->
+                    progressbar.end()
                     contentLength = jxhr.getResponseHeader('Content-Length')
                     if jxhr.status is not 200 or !contentLength
                         logException("Error Occured #{jxhr.status} #{jxhr.statusText} INODE => #{inode.path} URL => #{url}", "9#{ln()}")

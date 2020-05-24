@@ -1,14 +1,17 @@
 ajax = require './../../tools/ajaxCalls.coffee'
-inodes = require('./../../omenApi.coffee').inodes
+omenApi = require('./../../omenApi.coffee')
 logException = require('./../../tools/logException.coffee')
 ln = require('./../../tools/getLine.coffee')
 alert = require('./../../tools/alert.coffee')
 trans = require('./../../tools/translate.coffee')
 Base64 = require('js-base64').Base64
+progressbar = require('./../../tools/progressbar.coffee')
+lockUi = require('./../../tools/lockUi.coffee')
 
 currentFigure = null
 currentinode = null
 actionInfo = null
+inodes = null
 
 renameModal = $('#renameModal')
 renameForm = $('#renameForm')
@@ -20,11 +23,15 @@ clearVars = ->
     actionInfo = null
 
 renameForm.on('submit', (e)->
+    lockUi.lock()
+    progressbar.run(0.3)
     ajax(actionInfo.method, actionInfo.url, {
         filename: renameInput.val()+'.'+currentinode.extension,
         filepath: currentinode.path
     },
     ((data)->
+        lockUi.unlock()
+        progressbar.end()
         # close Modal
         renameModal.modal('hide')
 
@@ -38,6 +45,7 @@ renameForm.on('submit', (e)->
         #update inode
         delete inodes[Base64.encode(currentinode.fullPath)]
         inodes[fullBase64] = data
+        omenApi.setProp('inodes', inodes)
 
         # show toast
         alert('success', trans('Name changed'), trans("File was renamed in ${filename}", { 'filename': renameInput.val() }))
@@ -46,7 +54,8 @@ renameForm.on('submit', (e)->
         clearVars()
     ),
     ((error)->
-
+        lockUi.unlock()
+        progressbar.end()
         # show toast
         alert('danger', trans('Action failure'), trans("Could not rename file ${filename}, server said no", { 'filename': renameInput.val() }))
 
@@ -65,6 +74,7 @@ module.exports = (action)->
         actionInfo = action
         currentFigure = $(this).parents('figure')
         fileBase64FullPath = currentFigure.data('path')
+        inodes = omenApi.getProp('inodes')
         currentinode = inodes[fileBase64FullPath]
 
         renameInput.val(currentinode.name)

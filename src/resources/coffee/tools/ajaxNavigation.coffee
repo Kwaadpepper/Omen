@@ -19,7 +19,7 @@ module.exports = (path)->
     inodesHtml = null
     breadcrumbHtml = null
 
-    progressbar.run()
+    progressbar.run(0.3)
 
     inodesPromise = ajax(getInodesAtPathActionInfo.method, getInodesAtPathActionInfo.url, {
         path: path

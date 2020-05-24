@@ -59,7 +59,7 @@ If you are using local storage you must link the public storage to your public f
 -   [x] inject uploaded inode
 -   [x] fix uploaded filerename increment
 -   [x] ~create a Loading Toast, and display on ajax queries~ progressbar created
--   [ ] create lock ui function to, freeze ui while navigating
+-   [x] create lock ui function to, freeze ui while navigating
 -   [ ] drag and drop
 -   [ ] handle 419 error session timeout => CSRF token mismatch
 -   [ ] global search file
@@ -75,9 +75,11 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] prevent share links if storage is private and url not accessible
 -   [ ] polish PDF viewer
 -   [ ] rework exception error codes
+-   [ ] add resize and crop images
 -   [ ] extensive test on mobile
 -   [ ] unit tests ?
 -   [ ] rework sort logic
 -   [ ] implement configurable shortcuts
 -   [ ] file uploaded size return to ajax is null => size sort error
 -   [ ] fix sort error when only 1 inode to display
+-   [ ] fix rename bug on forbidden char ?

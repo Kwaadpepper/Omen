@@ -8,6 +8,7 @@ Base64 = require('js-base64').Base64
 actions = require('./actionEvents.coffee')
 ProgressBar = require('progressbar.js')
 
+uploadPath = null
 progressBar = null
 progressBarInterval = null
 
@@ -204,16 +205,17 @@ $uploadForm.on('filechunksuccess', (e, id, index, retry, fm, rm, outData) ->
     uploadedInode = outData.response.inode
 )
 $uploadForm.on('fileuploaded', (event, t, h, f)->
-    fileName = uploadedFileName
-    filePath = "#{decodeURIComponent(getUrlLocationParameter('path'))}/#{fileName}"
-    setTimeout (->
-        addInodeFigure({ path: filePath })
-        inodes = omenApi.getProp('inodes')
-        inodes[Base64.encode(uploadedInode.fullPath)] = uploadedInode
-        omenApi.setProp('inodes', inodes)
-        $uploadButton.prop('disabled', true)
-        return
-    ), 10
+    if uploadPath is decodeURIComponent(getUrlLocationParameter('path'))
+        fileName = uploadedFileName
+        filePath = "#{uploadPath}/#{fileName}"
+        setTimeout (->
+            addInodeFigure({ path: filePath })
+            inodes = omenApi.getProp('inodes')
+            inodes[Base64.encode(uploadedInode.fullPath)] = uploadedInode
+            omenApi.setProp('inodes', inodes)
+            $uploadButton.prop('disabled', true)
+            return
+        ), 10
     if pendingFiles()
         $resumeButton.prop('disabled', true).hide()
         $pauseButton.prop('disabled', true).hide()
@@ -280,8 +282,7 @@ $clearButton .on('click', (e)->
 # Upload Action
 $uploadButton.on('click', (e)->
 
-    console.log 'upload Action'
-    $('div.kv-upload-progress div.progress-bar')
+    uploadPath = decodeURIComponent(getUrlLocationParameter('path'))
 
     progressBar = new ProgressBar.Line($('body > div.container-fluid')[1], {
         strokeWidth: 0.3,
