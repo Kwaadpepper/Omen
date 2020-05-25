@@ -10,12 +10,12 @@ module.exports = (inode, isDirectory = false)->
 
     return new Promise((successCallback, failureCallback)->
         ajax(actions.getInodeHtml.method, actions.getInodeHtml.url, options,
-        ((answer)->
-            $('#inodesContainer').children().eq(2).after(answer.inodeHtml)
-            successCallback()
+        ((data)->
+            $('#inodesContainer').children().eq(2).after(data.inodeHtml)
+            successCallback(data)
         ),
-        ((jxhr)->
-            logException("Error Occured #{jxhr.status} #{jxhr.statusText} INODE => #{inode.path} URL => #{actions.getInodeHtml.url}", "9#{ln()}")
-            failureCallback()
+        ((data)->
+            logException("Error Occured #{data.status} #{data.statusText} INODE => #{inode.path} URL => #{actions.getInodeHtml.url}", "9#{ln()}")
+            failureCallback(data)
         ))
     )

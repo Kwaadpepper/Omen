@@ -146,3 +146,17 @@ switch localStorage.getItem 'sortFiles'
     when 'date' then setSortStorage('date', $('#sortDate'))
     when 'size' then setSortStorage('size', $('#sortSize'))
     when 'type' then setSortStorage('type', $('#sortType'))
+
+#operations toolbar
+displayOperationsToolbar = ->
+    setTimeout (->
+        if $('#viewInodes figure input:checked').parents('figure').toArray().length
+            $('#operationsToolbar').addClass('show')
+        else $('#operationsToolbar').removeClass('show')
+        return
+    ), 50
+displayOperationsToolbar() # init onload
+$('#viewInodes').on('click', 'span.checkmark',displayOperationsToolbar)
+$('#operationsCopy').on('click', -> if not lockUi.locked then require('./actions/copy.coffee')())
+$('#operationsCut').on('click', -> if not lockUi.locked then require('./actions/cut.coffee')())
+$('#operationsPaste').on('click', -> if not lockUi.locked then require('./actions/paste.coffee')())

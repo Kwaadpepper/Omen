@@ -1,0 +1,15 @@
+#operationsToolbar {
+    top: -5em;
+    position: absolute;
+    left: 24em;
+    transition: ease-in-out;
+    transition-duration: 200ms;
+    transition-property: top;
+}
+
+#operationsToolbar.show {
+    top: 0.3em;
+    transition: ease-in-out;
+    transition-duration: 200ms;
+    transition-property: top;
+}

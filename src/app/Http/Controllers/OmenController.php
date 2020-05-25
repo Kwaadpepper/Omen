@@ -435,7 +435,7 @@ class OmenController extends Controller
             ]
         );
 
-        return response()->json(['inodeHtml' => $view->render()], 200);
+        return response()->json(['inode' => $inode, 'inodeHtml' => $view->render()], 200);
     }
 
     public function getInodesAtPath(Request $request)

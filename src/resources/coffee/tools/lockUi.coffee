@@ -8,6 +8,7 @@ module.exports = {
             $('#filterInputText'),
             $('#leftPanelMenuBar button'),
             $('#fileSortButton'),
+            $('#operationsToolbar button'),
             $('#inodesContainer input[type="checkbox"]')
         ]
     lock: ->
