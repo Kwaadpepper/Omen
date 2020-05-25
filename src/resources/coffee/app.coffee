@@ -57,3 +57,4 @@ $(document).ready ()->
 	require './omen/leftPanel.coffee'
 	require './omen/actionEvents.coffee'
 	require './omen/uploadSystem.coffee'
+	require './omen/dragNDropSystem.coffee'

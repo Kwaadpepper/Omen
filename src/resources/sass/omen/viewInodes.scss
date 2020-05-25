@@ -69,7 +69,7 @@
                 // Selection
 
                 & > .figCheck {
-                    display: inline;
+                    display: none;
                     z-index: 4;
                     position: absolute;
                     top: 3em;
@@ -82,6 +82,10 @@
                 // hover state
                 &.figureDirectory:hover > .figAction {
                     top: 0;
+                }
+                &.figureDirectory:hover > .figCheck,
+                &.figureFile:hover > .figCheck {
+                    display: inline;
                 }
                 & > .figHoverZone {
                     &.figureFile:hover ~ .figAction {

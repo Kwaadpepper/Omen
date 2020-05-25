@@ -30,6 +30,7 @@
     },
     "dependencies": {
         "@mdi/font": "^5.1.45",
+        "@shopify/draggable": "1.0.0-beta.9",
         "bezier-easing": "^2.1.0",
         "bootstrap": "^4.4.1",
         "bootstrap-fileinput": "^5.0.8",
