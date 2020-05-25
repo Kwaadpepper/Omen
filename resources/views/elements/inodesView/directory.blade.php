@@ -11,7 +11,6 @@
 
 @else
 
-@section('extensionClass' . $id, "draggable-source")
 @section('figureType'.$id, 'figureDirectory')
 @section('name'. $id, $inode->getName())
 @section('path'. $id, base64_encode($inode->getFullPath()))

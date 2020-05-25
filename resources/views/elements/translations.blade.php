@@ -36,6 +36,12 @@
             , "EB": "{{ __('omen::EB') }}"
             , "ZB": "{{ __('omen::ZB') }}"
             , "YB": "{{ __('omen::YB') }}"
+            , "Moved": "{{ __('omen::Moved') }}"
+            , "Element was move successfully": "{{ __('omen::Element was move successfully') }}"
+            , "Move failed": "{{ __('omen::Move failed') }}"
+            , "Element could not be moved, server said no": "{{ __('omen::Element could not be moved, server said no') }}"
+            , "Moved": "{{ __('omen::Moved') }}"
+            , "Moved": "{{ __('omen::Moved') }}"
         }
 
     </script>

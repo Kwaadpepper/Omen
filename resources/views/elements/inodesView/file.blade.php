@@ -66,7 +66,7 @@ if(!empty(array_intersect($inode->getPossibleMimeTypesFromFileName(), $mediaElem
 
 @section('extension'. $id, $extension)
 
-@section('extensionClass' . $id, "$extensionClass draggable-source")
+@section('extensionClass' . $id, "$extensionClass")
 
 @section('classType'. $id, $inodeFileTypeMdiClass[$inode->getFileType()] ?? 'mdi-file-outline')
 

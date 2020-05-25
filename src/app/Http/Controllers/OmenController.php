@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\Lib\Disk;
 use Kwaadpepper\Omen\Lib\FileManager;
+use Kwaadpepper\Omen\Lib\InodeType;
 use Kwaadpepper\Omen\OmenHelper;
 use League\Flysystem\FileNotFoundException as FlysystemFileNotFoundException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -310,6 +311,41 @@ class OmenController extends Controller
             ));
         }
         return response()->json(['status' => 'OK']);
+    }
+
+    public function moveto(Request $request)
+    {
+        if (!$request->filled('sourcePath') or !$request->filled('destPath')) {
+            abort(400);
+        }
+
+        $fm = new FileManager();
+
+        $sourcePath = OmenHelper::uploadPath($request->post('sourcePath'));
+        $destPath = OmenHelper::uploadPath($request->post('destPath'));
+
+        if (!$fm->exists($sourcePath) or !$fm->exists($destPath)) {
+            abort(404);
+        }
+
+        $sourceInode = $fm->inode($sourcePath);
+        $destInode = $fm->inode($destPath);
+
+        if ($destInode->getType() != InodeType::DIR) {
+            abort(400);
+        }
+
+        try {
+            $fm->moveTo($sourceInode, $destInode);
+        } catch (OmenException $e) {
+            report($e);
+            abort(500);
+        } catch (\League\Flysystem\FileExistsException $e) {
+            return response()->json([
+                'message' => __('Cannot move element already exists')
+            ], 409);
+        }
+        return response()->json(true, 200);
     }
 
     public function download(Request $request, $filePath)

@@ -69,10 +69,15 @@
                 // Selection
 
                 & > .figCheck {
-                    display: none;
                     z-index: 4;
                     position: absolute;
                     top: 3em;
+                    & > input:checked + span.checkmark {
+                        display: inline;
+                    }
+                    & > span.checkmark {
+                        display: none;
+                    }
                 }
 
                 // END selection
@@ -83,8 +88,8 @@
                 &.figureDirectory:hover > .figAction {
                     top: 0;
                 }
-                &.figureDirectory:hover > .figCheck,
-                &.figureFile:hover > .figCheck {
+                &.figureDirectory:hover > .figCheck > span.checkmark,
+                &.figureFile:hover > .figCheck > span.checkmark {
                     display: inline;
                 }
                 & > .figHoverZone {

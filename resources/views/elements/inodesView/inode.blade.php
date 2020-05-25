@@ -1,4 +1,4 @@
-<figure class="@yield('figureType' . $id) @yield('extensionClass' . $id)" data-path="@yield('path'.$id)">
+<figure class="@yield('figureType' . $id) @yield('extensionClass' . $id) draggable-source" data-path="@yield('path'.$id)">
     @if($id != 'root')
     <div class="figHoverZone @yield('figureType' . $id)"></div>
     <div class="figAction bg-dark @yield('figureType' . $id)">

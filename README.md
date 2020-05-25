@@ -60,10 +60,10 @@ If you are using local storage you must link the public storage to your public f
 -   [x] fix uploaded filerename increment
 -   [x] ~create a Loading Toast, and display on ajax queries~ progressbar created
 -   [x] create lock ui function to, freeze ui while navigating
+-   [ ] copy, move and paste function
 -   [ ] drag and drop
 -   [ ] handle 419 error session timeout => CSRF token mismatch
 -   [ ] global search file
--   [ ] copy and paste function
 -   [ ] select appears on figure hover for icon view and stay showed if one is selected
 -   [ ] edit text files
 -   [ ] right click menu

@@ -128,6 +128,36 @@ class FileManager
         return $disk->exists($pathOrInode);
     }
 
+    /**
+     * Move an inode to another
+     * @param String|Inode $sourcePathOrInode the source
+     * @param String|Inode $destPathOrInode the destination
+     * @return void 
+     * @throws OmenException If move failed
+     */
+    public function moveTo($sourcePathOrInode, $destPathOrInode)
+    {
+        $disk = $this->getDisk();
+
+        $fm = new FileManager();
+        if ($fm::isInodeType($sourcePathOrInode)) {
+            $sourcePathOrInode = $sourcePathOrInode->getFullPath();
+        }
+
+        if ($fm::isInodeType($destPathOrInode)) {
+            $destPathOrInode = $destPathOrInode->getFullPath();
+        }
+
+        $filename = OmenHelper::mb_pathinfo($sourcePathOrInode, \PATHINFO_BASENAME);
+
+        if (!$disk->move($sourcePathOrInode, sprintf('%s/%s', $destPathOrInode, $filename))) {
+            throw new OmenException(
+                \sprintf('File move failed from %s to %s', $sourcePathOrInode, sprintf('%s/%s', $destPathOrInode, $filename)),
+                '76' . __LINE__
+            );
+        }
+    }
+
     public function getNewFileName($path, $counter = 0)
     {
         $extension = OmenHelper::mb_pathinfo($path, \PATHINFO_EXTENSION);

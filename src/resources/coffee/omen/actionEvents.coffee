@@ -22,6 +22,7 @@ module.exports = actions = {
     view: { method: 'GET', url: '/' + urlPrefix + '/download' },
     rename: { method: 'POST', url: '/' + urlPrefix + '/rename' }
     delete: { method: 'POST', url: '/' + urlPrefix + '/delete' },
+    moveTo: { method: 'POST', url: "/#{urlPrefix}/moveto" },
     createFile: { method: 'POST', url: '/' + urlPrefix + '/createtextfile' },
     createDirectory: { method: 'POST', url: '/' + urlPrefix + '/createdirectory' },
     getInodeHtml: { method: 'GET', url: '/' + urlPrefix + '/getinodehtml' },
