@@ -40,8 +40,8 @@
             , "Element was move successfully": "{{ __('omen::Element was move successfully') }}"
             , "Move failed": "{{ __('omen::Move failed') }}"
             , "Element could not be moved, server said no": "{{ __('omen::Element could not be moved, server said no') }}"
-            , "Moved": "{{ __('omen::Moved') }}"
-            , "Moved": "{{ __('omen::Moved') }}"
+            , "Copied": "{{ __('omen::Copied') }}"
+            , "Element was copied successfully": "{{ __('omen::Element was copied successfully') }}"
         }
 
     </script>

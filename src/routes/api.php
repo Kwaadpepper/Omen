@@ -18,6 +18,9 @@ Route::group([
     // File Delete
     Route::match(['post'], sprintf('%s/delete', $routePrefix), 'OmenController@delete')->name('omenDelete');
 
+    // Inode copy
+    Route::match(['post'], sprintf('%s/copyto', $routePrefix), 'OmenController@copyto')->name('omenCopyto');
+
     // Inode move
     Route::match(['post'], sprintf('%s/moveto', $routePrefix), 'OmenController@moveto')->name('omenMoveto');
 

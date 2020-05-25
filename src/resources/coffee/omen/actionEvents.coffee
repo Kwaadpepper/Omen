@@ -23,6 +23,7 @@ module.exports = actions = {
     rename: { method: 'POST', url: '/' + urlPrefix + '/rename' }
     delete: { method: 'POST', url: '/' + urlPrefix + '/delete' },
     moveTo: { method: 'POST', url: "/#{urlPrefix}/moveto" },
+    copyTo: { method: 'POST', url: "/#{urlPrefix}/copyto" },
     createFile: { method: 'POST', url: '/' + urlPrefix + '/createtextfile' },
     createDirectory: { method: 'POST', url: '/' + urlPrefix + '/createdirectory' },
     getInodeHtml: { method: 'GET', url: '/' + urlPrefix + '/getinodehtml' },

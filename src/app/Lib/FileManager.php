@@ -158,6 +158,42 @@ class FileManager
         }
     }
 
+    /**
+     * Copy an inode to another
+     * @param String|Inode $sourcePathOrInode the source
+     * @param String|Inode $destPathOrInode the destination
+     * @return void 
+     * @throws OmenException If move failed
+     */
+    public function copyTo($sourcePathOrInode, $destPathOrInode)
+    {
+        $disk = $this->getDisk();
+
+        $fm = new FileManager();
+        if ($fm::isInodeType($sourcePathOrInode)) {
+            $sourcePathOrInode = $sourcePathOrInode->getFullPath();
+        }
+
+        if ($fm::isInodeType($destPathOrInode)) {
+            $destPathOrInode = $destPathOrInode->getFullPath();
+        }
+
+        $filename = OmenHelper::mb_pathinfo($sourcePathOrInode, \PATHINFO_BASENAME);
+        $destPathOrInode = sprintf('%s/%s', $destPathOrInode, $filename);
+
+        if ($this->exists($destPathOrInode)) {
+            $destPathOrInode = $this->getNewFileName($destPathOrInode);
+        }
+
+        if (!$disk->copy($sourcePathOrInode, $destPathOrInode)) {
+            throw new OmenException(
+                \sprintf('File copy failed from %s to %s', $sourcePathOrInode, $destPathOrInode),
+                '76' . __LINE__
+            );
+        }
+        return $this->inode($destPathOrInode);
+    }
+
     public function getNewFileName($path, $counter = 0)
     {
         $extension = OmenHelper::mb_pathinfo($path, \PATHINFO_EXTENSION);

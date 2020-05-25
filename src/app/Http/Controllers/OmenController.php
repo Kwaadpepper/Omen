@@ -348,6 +348,43 @@ class OmenController extends Controller
         return response()->json(true, 200);
     }
 
+    public function copyto(Request $request)
+    {
+        if (!$request->filled('sourcePath') or !$request->filled('destPath')) {
+            abort(400);
+        }
+
+        $fm = new FileManager();
+
+        $sourcePath = OmenHelper::uploadPath($request->post('sourcePath'));
+        $destPath = OmenHelper::uploadPath($request->post('destPath'));
+
+        if (!$fm->exists($sourcePath) or !$fm->exists($destPath)) {
+            abort(404);
+        }
+
+        $sourceInode = $fm->inode($sourcePath);
+        $destInode = $fm->inode($destPath);
+
+        if ($destInode->getType() != InodeType::DIR) {
+            abort(400);
+        }
+        $inode = null;
+        try {
+            $inode = $fm->copyTo($sourceInode, $destInode);
+        } catch (OmenException $e) {
+            report($e);
+            abort(500);
+        } catch (\League\Flysystem\FileExistsException $e) {
+            return response()->json([
+                'message' => __('Cannot copy element already exists')
+            ], 409);
+        }
+        return response()->json([
+            'inode' => $inode
+        ], 200);
+    }
+
     public function download(Request $request, $filePath)
     {
         $fm = new FileManager();
