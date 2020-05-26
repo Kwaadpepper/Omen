@@ -63,7 +63,7 @@ If you are using local storage you must link the public storage to your public f
 -   [x] copy, move and paste function
 -   [x] drag and drop
 -   [x] add button selectAll
--   [ ] make ping detect offline
+-   [x] make ping detect offline
 -   [ ] create csrf system for api
 -   [ ] handle 419 error session timeout => CSRF token mismatch
 -   [ ] global search file

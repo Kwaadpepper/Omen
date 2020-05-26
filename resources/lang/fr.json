@@ -78,5 +78,6 @@
     "omen::YB": "Yo",
     "omen::ZB": "Zo",
     "omen::Session expired, do you want to extend it?": "Session expirée, voulez-vous la prolonger ?",
-    "omen::Session expired": "Session expirée"
+    "omen::Session expired": "Session expirée",
+    "omen::No web connection": "Aucune connectivitée internet"
 }

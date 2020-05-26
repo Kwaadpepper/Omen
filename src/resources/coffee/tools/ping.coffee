@@ -13,6 +13,9 @@ module.exports = ->
             pingAction.url,
             null,
             ((data)->
+                if $('#lostConnectionBanner').is(':visible')
+                    lockUi.unlock()
+                    $('#lostConnectionBanner').hide()
                 timeOutPing = setTimeout timeoutFunction, pingInterval
             ),
             ((data)->
@@ -21,7 +24,14 @@ module.exports = ->
                 else
                     window.close()
                     if not window.closed then $('body').html("<h1>#{trans('Session expired')}</h1>")
-            )
+            ),
+            {
+                error: ((XMLHttpRequest, textStatus, errorThrown)->
+                    timeOutPing = setTimeout timeoutFunction, pingInterval
+                    $('#lostConnectionBanner').show()
+                    lockUi.lock()
+                )
+            }
         )
         return
     timeOutPing = setTimeout timeoutFunction, pingInterval
