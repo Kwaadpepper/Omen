@@ -5,6 +5,17 @@
     transition: ease-in-out;
     transition-duration: 200ms;
     transition-property: top;
+
+    & #operationsSelectAll {
+        height: 2em;
+        margin-bottom: 0;
+        padding: 1.18em;
+
+        & > span.checkmark {
+            top: 0.6em;
+            left: 0.6em;
+        }
+    }
 }
 
 #operationsToolbar.show {

@@ -26,7 +26,6 @@ module.exports = ->
                     if destination == decodeURIComponent(getUrlLocationParameter('path'))
                         locationInodes = omenApi.getProp('inodes')
                         for k,updatedInode of arguments
-                            console.log updatedInode
                             addInodeFigure(updatedInode, updatedInode.type == 'directory').then(->
                                 locationInodes[Base64.encode(updatedInode.fullPath)] = updatedInode
                                 omenApi.setProp('inodes', locationInodes)

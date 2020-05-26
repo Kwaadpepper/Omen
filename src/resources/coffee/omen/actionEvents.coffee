@@ -161,3 +161,15 @@ $('#viewInodes').on('click', 'span.checkmark',displayOperationsToolbar)
 $('#operationsCopy').on('click', -> if not lockUi.locked then require('./actions/copy.coffee')())
 $('#operationsCut').on('click', -> if not lockUi.locked then require('./actions/cut.coffee')())
 $('#operationsPaste').on('click', -> if not lockUi.locked then require('./actions/paste.coffee')())
+# selection
+$('#operationsSelectAll').on('click', 'input', ->
+    if not lockUi.locked
+        require('./actions/selectAll.coffee')(true, $(this).is(':checked'))
+        displayOperationsToolbar()
+)
+$('#inodesContainer').on('click', '#viewListTopBar input', ->
+    if not lockUi.locked 
+        require('./actions/selectAll.coffee')(true, $(this).is(':checked'))
+        displayOperationsToolbar()
+)
+$('#inodesContainer').on('click', 'figure input[type="checkbox"]', -> if not lockUi.locked then require('./actions/selectAll.coffee')())

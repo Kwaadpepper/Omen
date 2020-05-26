@@ -62,6 +62,7 @@ If you are using local storage you must link the public storage to your public f
 -   [x] create lock ui function to, freeze ui while navigating
 -   [x] copy, move and paste function
 -   [x] drag and drop
+-   [x] add button selectAll
 -   [ ] handle 419 error session timeout => CSRF token mismatch
 -   [ ] global search file
 -   [ ] select appears on figure hover for icon view and stay showed if one is selected

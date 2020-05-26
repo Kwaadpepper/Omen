@@ -14,12 +14,14 @@ module.exports = {
     lock: ->
         this.locked = true
         $('#inodesContainer').addClass('notransitions-force')
+        $('#operationsSelectAll').addClass('disabled').find('input').prop('disabled', true)
         for uiElement,k in this.uiElements()
             uiElement.prop('disabled', true)
         return
     unlock: ->
         this.locked = false
         $('#inodesContainer').removeClass('notransitions-force')
+        $('#operationsSelectAll').removeClass('disabled').find('input').prop('disabled', false)
         for uiElement,k in this.uiElements()
             uiElement.prop('disabled', false)
         return
