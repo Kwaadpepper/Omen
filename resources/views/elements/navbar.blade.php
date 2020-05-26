@@ -11,10 +11,10 @@
                     <span class="sr-only">({{ __('omen::upload') }})</span>
                 </button>
                 <button class="btn btn-outline-dark mdi mdi-file-plus-outline" id="actionNewFile" type="button" aria-label="{{ __('omen::New file') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::New file') }}"> <span class="fa fa-lg fa-plus"></span>
-                    <span class="sr-only">({{ __('omen::new file') }})</span>
+                    <span class="sr-only">({{ __('omen::New file') }})</span>
                 </button>
                 <button class="btn btn-outline-dark mdi mdi-folder-plus-outline" id="actionNewDirectory" type="button" aria-label="{{ __('omen::New folder') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::New folder') }}">
-                    <span class="sr-only">({{ __('omen::new folder') }})</span>
+                    <span class="sr-only">({{ __('omen::New Folder') }})</span>
                 </button>
             </div>
             <div class="btn-group" role="group" id="viewButtonGroup" aria-label="{{ __('omen::View Layout') }}">
@@ -22,7 +22,7 @@
                     <span class="sr-only">({{ __('omen::box view') }})</span>
                 </button>
                 <button class="btn btn-outline-dark mdi mdi-view-sequential" id="viewList" type="button" aria-label="{{ __('omen::List view') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::List view') }}">
-                    <span class="sr-only">({{ __('omen::list view') }})</span>
+                    <span class="sr-only">({{ __('omen::List view') }})</span>
                 </button>
             </div>
             <div class="input-group collapse navbar-collapse" id="filterButtonGroup" role="group" aria-label="{{ __('omen::Files filter') }}">
@@ -33,10 +33,10 @@
                     <button class="btn btn-outline-dark mdi  mdi-file-outline" id="filterFiles" aria-label="{ __('omen::Show only files') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::Show only files') }}">
                         <span class="sr-only">({{ __('omen::Show only files') }})</span>
                     </button>
-                    <button class="btn btn-outline-dark mdi mdi-archive" id="filterArchives" aria-label="{{ __('omen::Show only archives files') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::Show only archive files') }}">
+                    <button class="btn btn-outline-dark mdi mdi-archive" id="filterArchives" aria-label="{{ __('omen::Show only archives files') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::Show only archives files') }}">
                         <span class="sr-only">({{ __('omen::Show only archives files') }})</span>
                     </button>
-                    <button class="btn btn-outline-dark mdi mdi-image" id="filterImages" aria-label="{{ __('omen::Show only images files') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::Show only image files') }}">
+                    <button class="btn btn-outline-dark mdi mdi-image" id="filterImages" aria-label="{{ __('omen::Show only images files') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::Show only images files') }}">
                         <span class="sr-only">({{ __('omen::Show only images files') }})</span>
                     </button>
                     <button class="btn btn-outline-dark mdi mdi-video" id="filterVideo" aria-label="{{ __('omen::Show only video files') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::Show only video files') }}">
