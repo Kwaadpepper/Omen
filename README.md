@@ -64,8 +64,9 @@ If you are using local storage you must link the public storage to your public f
 -   [x] drag and drop
 -   [x] add button selectAll
 -   [x] make ping detect offline
--   [ ] create csrf system for api
--   [ ] handle 419 error session timeout => CSRF token mismatch
+-   [x] create csrf system for api
+-   [x] handle 419 error session timeout => CSRF token mismatch
+-   [ ] find a way to use omen csrf with upload (concurrent)
 -   [ ] global search file
 -   [ ] select appears on figure hover for icon view and stay showed if one is selected
 -   [ ] edit text files

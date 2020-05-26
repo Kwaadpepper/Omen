@@ -10,6 +10,7 @@ use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Kwaadpepper\Omen\Exceptions\OmenException;
+use Kwaadpepper\Omen\Lib\CSRF;
 use Kwaadpepper\Omen\Lib\Disk;
 use Kwaadpepper\Omen\Lib\FileManager;
 use Kwaadpepper\Omen\Lib\InodeType;
@@ -32,8 +33,14 @@ class OmenController extends Controller
             'locale' => Session::get('omen.locale')
         ];
 
+        $apiCSRFToken = [
+            'name' => CSRF::getHeaderName(),
+            'key' => CSRF::generate()
+        ];
 
-        return view('omen::interface', \compact('inodes', 'path', 'query'));
+        config(['omen.CSRFTokenKey' => CSRF::getHeaderName()]);
+
+        return view('omen::interface', \compact('inodes', 'path', 'query', 'apiCSRFToken'));
     }
 
     /**

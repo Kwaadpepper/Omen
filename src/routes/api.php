@@ -6,10 +6,9 @@ $middlewareMinimal = include(__DIR__ . '/middlewareMinimal.php');
 
 Route::group([
     'middleware' => array_merge(
+        ['throttle:100,1'],
         $middlewareMinimal,
-        [
-            'throttle:100,1',
-        ]
+        [\Kwaadpepper\Omen\Http\Middleware\OmenApiCSRFMiddleware::class]
     ),
     'namespace' => 'Kwaadpepper\Omen\Http\Controllers'
 ], function () {

@@ -144,14 +144,14 @@ class OmenMiddleware
             }
             throw new OmenException(__('Something is wrong in your configuration file, please check locales and laravel log'), 1, $e);
         }
-
         if ($request->filled('locale')) {
             config(['omen.locale' => $request->get('locale')]);
             App::setLocale($request->get('locale'));
-            Session::put('omen.locale', $request->get('locale'));
-        } elseif (Session::has('omen.locale')) {
-            App::setLocale(Session::get('omen.locale'));
-            config(['omen.locale' => Session::get('omen.locale')]);
+            $request->session()->put('omen.locale', $request->get('locale'));
+            $request->session()->save();
+        } elseif ($request->session()->has('omen.locale')) {
+            App::setLocale($request->session()->get('omen.locale'));
+            config(['omen.locale' => $request->session()->get('omen.locale')]);
         }
     }
 
