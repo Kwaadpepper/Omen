@@ -50,11 +50,12 @@ $(document).ready ()->
 	# register Api
 	window.OmenFileManager = omen
 	
-	require './tools/innerTextJqueryPlugin.coffee'
-	require './omen/omenView.coffee'
-	require './omen/navbar.coffee'
-	require './omen/breadcrumb.coffee'
-	require './omen/leftPanel.coffee'
-	require './omen/actionEvents.coffee'
-	require './omen/uploadSystem.coffee'
-	require './omen/dragNDropSystem.coffee'
+	require('./tools/innerTextJqueryPlugin.coffee')
+	require('./omen/omenView.coffee')
+	require('./omen/navbar.coffee')
+	require('./omen/breadcrumb.coffee')
+	require('./omen/leftPanel.coffee')
+	require('./omen/actionEvents.coffee')
+	require('./omen/uploadSystem.coffee')
+	require('./omen/dragNDropSystem.coffee')
+	require('./tools/ping.coffee')()

@@ -76,5 +76,7 @@
     "omen::View Layout": "Disposition",
     "omen::Wrong input": "Mauvaise entrée",
     "omen::YB": "Yo",
-    "omen::ZB": "Zo"
+    "omen::ZB": "Zo",
+    "omen::Session expired, do you want to extend it?": "Session expirée, voulez-vous la prolonger ?",
+    "omen::Session expired": "Session expirée"
 }

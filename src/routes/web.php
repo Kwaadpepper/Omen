@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+$middlewareMinimal = include(__DIR__ . '/middlewareMinimal.php');
 
 Route::group([
-    'middleware' => ['OmenMiddleware'],
+    'middleware' => array_merge(['throttle:60,1'], $middlewareMinimal, [\App\Http\Middleware\VerifyCsrfToken::class]),
     'namespace' => 'Kwaadpepper\Omen\Http\Controllers'
 ], function () {
     $routePrefix = config('omen.urlPrefix');

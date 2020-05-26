@@ -590,6 +590,11 @@ class OmenController extends Controller
         return response()->json(['status' => 'OK']);
     }
 
+    public function ping(Request $request)
+    {
+        return response()->json();
+    }
+
     public function log(Request $request)
     {
         if (!$request->filled('code') || !$request->filled('message')) {

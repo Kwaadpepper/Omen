@@ -2,9 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 
+$middlewareMinimal = include(__DIR__ . '/middlewareMinimal.php');
 
 Route::group([
-    'middleware' => ['OmenMiddleware', 'throttle:100,1'],
+    'middleware' => array_merge(
+        $middlewareMinimal,
+        [
+            'throttle:100,1',
+        ]
+    ),
     'namespace' => 'Kwaadpepper\Omen\Http\Controllers'
 ], function () {
     $routePrefix = config('omen.urlPrefix');
@@ -39,6 +45,9 @@ Route::group([
     // get breacrumb at path
     Route::match(['get'], sprintf('%s/getbreadcrumbatpath', $routePrefix), 'OmenController@getBreadcrumbAtPath')->name('omenGetBreadcrumbAtPath');
 
+    // JS ping, is used to check session validity
+    Route::match(['post'], sprintf('%s/ping', $routePrefix), 'OmenController@ping')->name('omenPing');
+
     // JS LOG
     Route::match(['post'], sprintf('%s/log', $routePrefix), 'OmenController@log')->name('omenLog');
 });
@@ -46,7 +55,7 @@ Route::group([
 // public route
 Route::group([
     'namespace' => 'Kwaadpepper\Omen\Http\Controllers',
-    // 'middleware' => 'throttle:10,1'
+    'middleware' => 'throttle:100,1'
 ], function () {
     Route::match(['post'], sprintf('%s/csp/report', config('omen.urlPrefix')), 'OmenController@cspReport')->name('omenCspReport');
 });

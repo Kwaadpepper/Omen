@@ -28,7 +28,8 @@ module.exports = actions = {
     createDirectory: { method: 'POST', url: '/' + urlPrefix + '/createdirectory' },
     getInodeHtml: { method: 'GET', url: '/' + urlPrefix + '/getinodehtml' },
     getInodesAtPath: { method: 'GET', url: '/' + urlPrefix + '/getinodesatpath' }
-    getBreadcrumbAtPath: { method: 'GET', url: '/' + urlPrefix + '/getbreadcrumbatpath' }
+    getBreadcrumbAtPath: { method: 'GET', url: '/' + urlPrefix + '/getbreadcrumbatpath' },
+    ping: { method: 'POST', url: "/#{urlPrefix}/ping" }
     resetFilters: ->
         if $filterFiles.hasClass('active')
             setFilterStorage('filterFiles', 'file', $filterFiles[0])

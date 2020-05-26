@@ -42,6 +42,8 @@
             , "Element could not be moved, server said no": "{{ __('omen::Element could not be moved, server said no') }}"
             , "Copied": "{{ __('omen::Copied') }}"
             , "Element was copied successfully": "{{ __('omen::Element was copied successfully') }}"
+            , "Session expired, do you want to extend it?": "{{ __('omen::Session expired, do you want to extend it?') }}"
+            , "Session expired": "{{ __('omen::Session expired') }}"
         }
 
     </script>
