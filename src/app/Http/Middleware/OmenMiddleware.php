@@ -36,7 +36,7 @@ class OmenMiddleware
             throw new OmenException('An unknow error happened in Omen', '00' . __LINE__, $e);
         }
 
-        if (get_class($response) == "\Illuminate\Http\Response") {
+        if (get_class($response) == "Illuminate\Http\Response") {
             if (!empty($cspRuleLine)) {
                 $response->header('Content-Security-Policy', $cspRuleLine);
             }
@@ -108,8 +108,40 @@ class OmenMiddleware
             $response->header('X-Frame-Options', 'sameorigin');
         } else $response->header('X-Frame-Options', 'deny');
         $response->header('X-Content-Type-Options', 'nosniff');
-        $response->header('Referrer-Policy', 'same-origin');
-        $response->header('Feature-Policy', 'fullscreen');
+        $response->header('Referrer-Policy', 'no-referrer');
+        $response->header('Feature-Policy', \implode(
+            ' ',
+            [
+                "autoplay 'self';",
+                "fullscreen 'self';",
+                "layout-animations 'self';",
+                "legacy-image-formats 'self';",
+                "midi 'self';",
+                "navigation-override 'self';",
+                "oversized-images 'self';",
+                "picture-in-picture 'self';",
+                "sync-xhr 'self';",
+                "accelerometer 'none';",
+                "ambient-light-sensor 'none';",
+                "battery 'none';",
+                "camera 'none';",
+                "display-capture 'none';",
+                "document-domain 'none';",
+                "encrypted-media 'none';",
+                "execution-while-not-rendered 'none';",
+                "execution-while-out-of-viewport 'none';",
+                "geolocation 'none';",
+                "gyroscope 'none';",
+                "magnetometer 'none';",
+                "microphone 'none';",
+                "payment 'none';",
+                "publickey-credentials-get 'none';",
+                "usb 'none';",
+                "vr 'none';",
+                "wake-lock 'none';",
+                "xr-spatial-tracking 'none';"
+            ]
+        ));
     }
 
     /**

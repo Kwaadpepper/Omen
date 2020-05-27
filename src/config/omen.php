@@ -215,9 +215,11 @@ return [
     ],
 
     /**
-     * provide X-Frame-Option : sameorigin or deny 
+     * provide X-Frame-Options : sameorigin or deny
+     * false => deny, true => sameorigin
+     ** default is false
      */
-    'useXFrameOptions' => true,
+    'useXFrameOptions' => false,
 
 
     /* === PROTECTED DONT THOUCH THIS === */
