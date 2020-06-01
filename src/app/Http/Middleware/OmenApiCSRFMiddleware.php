@@ -4,6 +4,7 @@ namespace Kwaadpepper\Omen\Http\Middleware;
 
 use Closure;
 use Exception;
+use Illuminate\Session\TokenMismatchException;
 use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\Lib\CSRF;
 
@@ -22,9 +23,12 @@ class OmenApiCSRFMiddleware
         }
         $response = null;
         try {
-            // omenUpload can't be handled yet since its parallels requests
-            if (!CSRF::check($request) and $request->route()->getName() != "omenUpload") {
-                return \response('', 401);
+            // Check Laravel CSRF token first
+            if (
+                (!$this->checkLaravelCSRFToken($request) and $request->route()->getName() != "omenUpload") or
+                !$this->checkOmenCSRFToken($request)
+            ) {
+                return \response('', 419);
             }
 
             $response = $next($request);
@@ -47,5 +51,18 @@ class OmenApiCSRFMiddleware
     private function addCSRFTokenToResponse(&$response)
     {
         $response->header(CSRF::getHeaderName(), CSRF::generate());
+    }
+
+    private function checkOmenCSRFToken($request)
+    {
+        $omenCSRF = CSRF::check($request);
+        return $omenCSRF;
+    }
+
+    private function checkLaravelCSRFToken($request)
+    {
+        $sessionToken = session()->token();
+        $header = $request->header('X-CSRF-TOKEN');
+        return $sessionToken == $header;
     }
 }

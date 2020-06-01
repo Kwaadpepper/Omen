@@ -25,9 +25,11 @@ $pauseButton = $uploadForm .find('button.pauseBtnUpload')
 $resumeButton = $uploadForm .find('button.resumeBtnUpload')
 $cancelButton = $uploadForm .find('button.cancelBtnUpload')
 
+$uploadButton.prop('disabled', true).show()
 $resumeButton.prop('disabled', true).hide()
 $pauseButton.prop('disabled', true).hide()
 $cancelButton.prop('disabled', true).hide()
+$clearButton.prop('disabled', true).hide()
 
 # File uploader config
 $('#uploadInput').fileinput {
@@ -172,7 +174,6 @@ $uploadForm.on('change', (event)->
     console.log 'change'
 )
 
-
 $uploadForm.on('filebatchselected', (event, files)->
     console.log 'filebatchselected' 
 )
@@ -203,6 +204,8 @@ uploadedInode = null
 $uploadForm.on('filechunksuccess', (e, id, index, retry, fm, rm, outData) ->
     uploadedFileName = outData.response.filename
     uploadedInode = outData.response.inode
+
+    if outData.response.token then $('meta[name="csrf-token"]').attr('content', outData.response.token);
 )
 $uploadForm.on('fileuploaded', (event, t, h, f)->
     if uploadPath is decodeURIComponent(getUrlLocationParameter('path'))
@@ -249,7 +252,7 @@ pendingFiles = ->
     !!$uploadInput.fileinput('getFileList').length
 
 # Browse Action
-$browseButton .on('click', (e)->
+$browseButton.on('click', (e)->
 
     console.log 'browse Action'
 
@@ -262,7 +265,7 @@ $browseButton .on('click', (e)->
 )
 
 # Clear Action
-$clearButton .on('click', (e)->
+$clearButton.on('click', (e)->
 
     console.log 'clear Action'
 

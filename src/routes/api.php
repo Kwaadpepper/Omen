@@ -54,7 +54,7 @@ Route::group([
 // public route
 Route::group([
     'namespace' => 'Kwaadpepper\Omen\Http\Controllers',
-    'middleware' => 'throttle:100,1'
+    'middleware' => array_merge(['throttle:100,1'], $middlewareMinimal)
 ], function () {
     Route::match(['post'], sprintf('%s/csp/report', config('omen.urlPrefix')), 'OmenController@cspReport')->name('omenCspReport');
 });

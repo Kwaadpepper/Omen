@@ -53,7 +53,7 @@ class OmenController extends Controller
      */
     public function upload(Request $request)
     {
-        // return response()->json(['error' => 'Bad Request'], 500);
+        // return response()->json(['error' => 'true'], 500);
 
         $answer = [];
 
@@ -233,6 +233,7 @@ class OmenController extends Controller
                 $uploadedInode = $fm->inode(OmenHelper::uploadPath($filePath));
                 $uploadedInode->put($outFile->get());
                 $outFile->delete();
+                session()->save();
                 return response()->json([
                     'chunkIndex' => $chunkIndex, // the chunk index processed
                     'filename' => $fileName,
@@ -250,6 +251,8 @@ class OmenController extends Controller
                 ], 500);
             }
         }
+
+        session()->save();
 
         return response()->json([
             'chunkIndex' => $chunkIndex // the chunk index processed

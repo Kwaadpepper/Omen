@@ -207,11 +207,18 @@ return [
      * check your urles at https://csp-evaluator.withgoogle.com/
      * 
      ** Note the the scheme (http, https) is mandatory, please use https as much as possible
+     ** blob and data are needed on self to display FileReader data (in upload modal)
+     *
+     *! pdf.js policies are workaround for Firefox bug
+     * https://bugzilla.mozilla.org/show_bug.cgi?id=1582115
      */
     'csp' => [
-        'default-src' => ["'self'"],
-        'script-src' => ["'unsafe-eval'"],
-        'frame-src' => ["'self'"]
+        'default-src' => ["'self'", "data:"],
+        'script-src' => ["'unsafe-eval'", "resource://pdf.js/"],
+        'frame-src' => ["'self'"],
+        'object-src' =>  ["'self'", "blob:"],
+        'base-uri' => ["'self'", "resource://pdf.js/web/"],
+        'media-src' =>  ["'self'", "blob:"]
     ],
 
     /**

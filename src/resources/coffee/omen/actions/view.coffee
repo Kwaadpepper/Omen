@@ -84,6 +84,7 @@ pdfModal.on 'hidden.bs.modal', (e)->
 # ANCHOR Document Modal Vars
 #*========================= Document Modal VARS =====================================
 documentModal = $('#documentViewerModal')
+documentModal.attr('src', 'about:blank') # reset iframe
 documentModal.on 'click', 'button.documentModalDownload', -> viewButton.parents('figure').find('button.actionDownload').click()
 documentModal.on 'click', 'button.documentModalFullscreen', makeFullscreen('#documentViewerModal .modal-content', false) # go fullscreen
 documentModal.on 'click', 'button.documentModalFullscreenExit', makeFullscreen('#documentViewerModal .modal-content', true) # exit fullscreen

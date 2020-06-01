@@ -8,6 +8,9 @@ cspToken = iframePDF.data 'csp'
 pdfWebViewerJSUrl = iframePDF.data 'script-js-web'
 pdfWebViewerCSSUrl = iframePDF.data 'script-css-web'
 
+# reset iframe
+iframePDF.attr('src', 'about:blank')
+
 module.exports = (pdfUrl)->
   
     doc = document.getElementById('pdfViewerModalIFrame').contentWindow.document

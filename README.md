@@ -144,7 +144,8 @@ If you are using local storage you must link the public storage to your public f
 -   [x] make ping detect offline
 -   [x] create csrf system for api
 -   [x] handle 419 error session timeout => CSRF token mismatch
--   [ ] find a way to use omen csrf with upload (concurrent)
+-   [x] 401 response on ping => session timeout do something
+-   [x] ~find a way to use omen csrf with upload (concurrent)~ upload uses laravel csrf token
 -   [ ] global search file
 -   [ ] select appears on figure hover for icon view and stay showed if one is selected
 -   [ ] edit text files
