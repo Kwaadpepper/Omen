@@ -25,8 +25,8 @@ class OmenApiCSRFMiddleware
         try {
             // Check Laravel CSRF token first
             if (
-                (!$this->checkLaravelCSRFToken($request) and $request->route()->getName() != "omenUpload") or
-                !$this->checkOmenCSRFToken($request)
+                (!$this->checkOmenCSRFToken($request) and $request->route()->getName() != "omenUpload") and
+                !$this->checkLaravelCSRFToken($request)
             ) {
                 return \response('', 419);
             }
@@ -62,7 +62,7 @@ class OmenApiCSRFMiddleware
     private function checkLaravelCSRFToken($request)
     {
         $sessionToken = session()->token();
-        $header = $request->header('X-CSRF-TOKEN');
+        $header = $request->header('X-CSRF-TOKEN') ?? $request->_token;
         return $sessionToken == $header;
     }
 }

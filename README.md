@@ -147,7 +147,7 @@ If you are using local storage you must link the public storage to your public f
 -   [x] 401 response on ping => session timeout do something
 -   [x] ~find a way to use omen csrf with upload (concurrent)~ upload uses laravel csrf token
 -   [ ] global search file
--   [ ] select appears on figure hover for icon view and stay showed if one is selected
+-   [x] select appears on figure hover for icon view and stay showed if one is selected
 -   [ ] edit text files
 -   [ ] Inspect Display possibilities on images formats (legacy-image-formats)
 -   [ ] can midi files be played ?
