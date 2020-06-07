@@ -10,10 +10,23 @@ browser = require './browserDetect.coffee'
 #SVG  	image/svg+xml 	.svg 	Chrome, Edge, Firefox, Internet Explorer, Opera, Safari
 #TIFF 	image/tiff 	.tif, .tiff 	None built-in; add-ons required
 #WebP 	image/webp 	.webp 	Chrome, Edge, Firefox, Opera
+# 
+# https://en.wikipedia.org/wiki/Comparison_of_browser_engines_(graphics_support)
 
 module.exports = (->
     imageFormats = {
-        'image/apng': 1, 'image/bmp': 2, 'image/gif': 3, 'image/x-icon': 4, 'image/jpeg': 5, 'image/png': 6, 'image/svg+xml': 7, 'image/webp': 8
+        'image/apng': 1, 
+        'image/bmp': 2, 
+        'image/gif': 3, 
+        'image/x-icon': 4, 
+        'image/jpeg': 5, 
+        'image/png': 6, 
+        'image/svg+xml': 7, 
+        'image/webp': 8,
+        'image/vnd.ms-photo': 9,
+        'image/jxr': 10,
+        'image/tiff': 11,
+        'image/tiff-fx': 12
     }
 
     switch browser
@@ -27,11 +40,15 @@ module.exports = (->
         # Safari 3.0+ "[object HTMLElementConstructor]" 
         when 'firefox'
         ,'chrome'
-        ,'chromium'
+        ,'edgechromium'
         ,'edge'
         ,'blink'
         ,'opera'
         ,'safari'
+            delete imageFormats['image/vnd.ms-photo']
+            delete imageFormats['image/jxr']
+            delete imageFormats['image/tiff']
+            delete imageFormats['image/tiff-fx']
             imageFormats
         
         # Internet Explorer 6-11

@@ -56,7 +56,7 @@ module.exports = (->
 
         # Edge (based on chromium) detection
         when isEdgeChromium
-            'chromium'
+            'edgechromium'
 
         # Blink engine detection
         when isBlink
