@@ -51,10 +51,7 @@ module.exports = actions = {
             $filterInputText .val('')
             require('./actions/filterInodes.coffee')().apply $filterInputText 
 
-    applySort: ->
-        sortType = localStorage.getItem('sortFiles')
-        sortWay = localStorage.getItem("sortFilesWay#{sortType}")
-        require('./actions/sortNodes.coffee')(localStorage.getItem('sortFiles'), sortWay)()
+    applySort: -> require('./actions/sortNodes.coffee')(localStorage.getItem('sortFiles'))()
 }
 
 inodesView = $('#viewInodes')
@@ -125,19 +122,7 @@ if localStorage.getItem('filterText') != null and localStorage.getItem('filterTe
     require('./actions/filterInodes.coffee')().apply $filterInputText [0]
 
 #breadcrumb toolbar
-setSortStorage = (sortType, element, event)->
-    sortWay = undefined
-    clickedEvent = typeof event != 'undefined'
-    localStorage.setItem 'sortFiles', sortType
-    if clickedEvent
-        if typeof localStorage.getItem("sortFilesWay#{sortType}") !='undefined'
-            if localStorage.getItem("sortFilesWay#{sortType}") == 'true' then localStorage.setItem "sortFilesWay#{sortType}", false
-            else localStorage.setItem "sortFilesWay#{sortType}", true
-        else
-            localStorage.setItem "sortFilesWay#{sortType}", true
-    else
-        sortWay = localStorage.getItem("sortFilesWay#{sortType}") == 'false'
-    require('./actions/sortNodes.coffee')(sortType, sortWay).call element, event
+setSortStorage = (sortType, element, event)-> require('./actions/sortNodes.coffee')(sortType, if event then true else false).call element, event
 $('#sortAlpha').on('click', (e)-> setSortStorage('alpha', this, e))
 $('#sortDate').on('click', (e)-> setSortStorage('date', this, e))
 $('#sortSize').on('click', (e)-> setSortStorage('size', this, e))

@@ -1,7 +1,10 @@
 omenApi = require('./../../omenApi.coffee')
 
+alphaWay = null
+dateWay = null
+sizeWay = null
+typeWay = null
 inodes = null
-previousElementSorter = "sortAlpha"
 sortAlphaAscending = (a, b)->
     aI = inodes[a.getAttribute('data-path')]
     bI = inodes[b.getAttribute('data-path')]
@@ -62,27 +65,46 @@ sortTypeDescending = (a, b)->
     if aT == bT then 0 else if aT < bT then 1 else -1
 
 updateFilter = (way, elementSorter)->
-    document.getElementById(previousElementSorter).children[0].classList.add('d-none')
-    document.getElementById(previousElementSorter).children[1].classList.remove('d-none')
+    fileSortButtonWay = document.getElementById('fileSortButton').children[0]
+    fileSortButtonType = document.getElementById('fileSortButton').children[1]
+    sortType = document.getElementById(elementSorter)
     if way
-        document.getElementById(elementSorter).children[1].classList.add('d-none')
-        document.getElementById(elementSorter).children[0].classList.remove('d-none')
-        document.getElementById('fileSortButton').children[0].className = document.getElementById(elementSorter).children[0].className
+        fileSortButtonWay.className = sortType.children[0].className
+        sortType.children[0].classList.add('d-none')
+        sortType.children[1].classList.remove('d-none')
     else
-        document.getElementById(elementSorter).children[0].classList.add('d-none')
-        document.getElementById(elementSorter).children[1].classList.remove('d-none')
-        document.getElementById('fileSortButton').children[0].className = document.getElementById(elementSorter).children[1].className
-    document.getElementById('fileSortButton').children[1].className = document.getElementById(elementSorter).children[2].className
-    previousElementSorter = elementSorter
+        fileSortButtonWay.className = sortType.children[1].className
+        sortType.children[1].classList.add('d-none')
+        sortType.children[0].classList.remove('d-none')
+    fileSortButtonWay.classList.remove('d-none')
+    fileSortButtonType.className = sortType.children[2].className
 
-# True is Descending, False is Ascending
-alphaWay = true # this is the default natural sort (provided by server)
-dateWay = false
-sizeWay = false
-typeWay = false
+# init sort type way Display
+for k,sortType of ['Alpha', 'Date', 'Size', 'Type']
+    storSortType = localStorage.getItem("sortFilesWay#{sortType.toLowerCase()}")
+    if storSortType is not null then updateFilter(storSortType, "sort#{sortType}")
 
-module.exports = (sortType, forceWay)->
+sortFunctions = {
+    alpha: [sortAlphaAscending, sortAlphaDescending],
+    date: [sortDateAscending, sortDateDescending],
+    size: [sortSizeAscending, sortSizeDescending],
+    type: [sortTypeAscending, sortTypeDescending],
+}
+
+module.exports = (sortType, clickEvent = false)->
     (event)->
+
+        # True is Descending, False is Ascending
+        alphaWay = localStorage.getItem('sortFilesWayalpha') == "true" 
+        dateWay = localStorage.getItem('sortFilesWaydate') == "true" 
+        sizeWay = localStorage.getItem('sortFilesWaysize') == "true" 
+        typeWay = localStorage.getItem('sortFilesWaytype') == "true" 
+
+        # this is the default natural sort (provided by server)
+        if localStorage.getItem('sortFilesWayalpha') is null then alphaWay = true
+        if localStorage.getItem('sortFilesWaydate') is null then dateWay = true
+        if localStorage.getItem('sortFilesWaysize') is null then sizeWay = true
+        if localStorage.getItem('sortFilesWaytype') is null then typeWay = true
 
         inodes = omenApi.getProp('inodes')
         list = document.getElementById('inodesContainer')
@@ -94,64 +116,24 @@ module.exports = (sortType, forceWay)->
             itemsArr.push item
 
         switch sortType
-
-            when 'alpha'
-                if alphaWay or !!forceWay
-                    itemsArr.sort sortAlphaAscending
-                else
-                    itemsArr.sort sortAlphaDescending
-                    
-                updateFilter(alphaWay or !!forceWay, 'sortAlpha')
-                if forceWay is not undefined then alphaWay = forceWay
-                else alphaWay = !alphaWay
-                dateWay = false
-                sizeWay = false
-                typeWay = false
-                
-            when 'date'
-                if dateWay or !!forceWay
-                    itemsArr.sort sortDateAscending
-                else
-                    itemsArr.sort sortDateDescending
-
-                updateFilter(dateWay or !!forceWay, 'sortDate')
-                if forceWay is not undefined then dateWay = forceWay
-                else dateWay = !dateWay
-                alphaWay = false
-                sizeWay = false
-                typeWay = false
-
-            when 'size'
-                if sizeWay != !!forceWay
-                    itemsArr.sort sortSizeAscending
-                else
-                    itemsArr.sort sortSizeDescending
-
-                updateFilter(sizeWay or !!forceWay, 'sortSize')
-                if forceWay is not undefined then sizeWay = forceWay
-                else sizeWay = !sizeWay
-                alphaWay = false
-                dateWay = false
-                typeWay = false
-
-            when 'type'
-                if typeWay != !!forceWay
-                    itemsArr.sort sortTypeAscending
-                else
-                    itemsArr.sort sortTypeDescending
-
-                updateFilter(typeWay or !!forceWay, 'sortType')
-                if forceWay is not undefined then typeWay = forceWay
-                else typeWay = !typeWay
-                alphaWay = false
-                dateWay = false
-                sizeWay = false
-
+            when 'alpha' then way = alphaWay
+            when 'date' then way = dateWay
+            when 'size' then way = sizeWay
+            when 'type' then way = typeWay
+        
+        if clickEvent then way = !way # inverted sort way on click event
+        # apply sort functions
+        if way then itemsArr.sort sortFunctions[sortType][0] # asccending
+        else itemsArr.sort sortFunctions[sortType][1] # descending
+        # update UI
+        updateFilter(way, "sort#{sortType[0].toUpperCase()}#{sortType.substring(1)}")
+        localStorage.setItem "sortFiles", sortType # save applied sort type
+        localStorage.setItem "sortFilesWay#{sortType}", way # save applied sort way
 
         for item in itemsArr
             list.appendChild item
         
-        # $('#fileSortButton').dropdown('hide')
+        $('#fileSortButton').dropdown('hide')
         if event
             event.preventDefault()
             false
