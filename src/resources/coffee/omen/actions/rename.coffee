@@ -8,6 +8,7 @@ Base64 = require('js-base64').Base64
 progressbar = require('./../../tools/progressbar.coffee')
 lockUi = require('./../../tools/lockUi.coffee')
 imageEditor = require('./../imageEditor.coffee')
+textEditor = require('./../textEditor.coffee')
 
 currentFigure = null
 currentinode = null
@@ -76,7 +77,9 @@ renameModal.on 'hidden.bs.modal', (e)->
     renameEditButton.addClass('d-none')
 
 renameEditButton.on 'click', (e)->
-    imageEditor(currentinode)
+    if currentinode.fileType == 'image' then imageEditor(currentinode)
+    if currentinode.fileType == 'text' then textEditor(currentinode)
+    
 
 module.exports = (action)->
     (event)->

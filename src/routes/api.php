@@ -30,7 +30,10 @@ Route::group([
     Route::match(['post'], sprintf('%s/moveto', $routePrefix), 'OmenController@moveto')->name('omenMoveto');
 
     // File create text file
-    Route::match(['post'], sprintf('%s/createtextfile', $routePrefix), 'OmenController@createTextFile')->name('omenCreateTextFile');
+    Route::match(['post'], sprintf('%s/createtextfile', $routePrefix), 'TextController@createTextFile')->name('omenCreateTextFile');
+
+    // File create text file
+    Route::match(['post'], sprintf('%s/updatetextfile', $routePrefix), 'TextController@updateTextFile')->name('omenUpdateTextFile');
 
     // File create text file
     Route::match(['post'], sprintf('%s/createdirectory', $routePrefix), 'OmenController@createDirectory')->name('omenCreateDirectory');

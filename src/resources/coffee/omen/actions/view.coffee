@@ -12,6 +12,7 @@ alert = require('./../../tools/alert.coffee')
 trans = require('./../../tools/translate.coffee')
 mediaElement = require('./../../tools/mediaElement.coffee')
 imageEditor = require('./../imageEditor.coffee')
+textEditor = require('./../textEditor.coffee')
 
 
 viewButton = null
@@ -21,7 +22,6 @@ currentInode = null
 # ANCHOR Image Modal Vars
 #*========================== Image Modal VARS ==================================
 imageEditButton = $('#imageViewerModal button.edit')
-imageEditorModal = $('#imageEditorModal')
 imageModal = $('#imageViewerModal')
 imageModal.on 'click', 'button.imageModalDownload', -> viewButton.parents('figure').find('button.actionDownload').click()
 imageModal.on 'click', 'button.imageModalFullscreen', makeFullscreen('#imageViewerModal .modal-content', false) # go fullscreen
@@ -50,6 +50,7 @@ imageErrorMessage = imageModal.find('h4')
 
 # ANCHOR Text Modal Vars
 #*========================= Text Modal VARS =====================================
+textEditButton = $('#textViewerModal button.edit')
 textModal = $('#textViewerModal')
 textModal.on 'click', 'button.textModalDownload', -> viewButton.parents('figure').find('button.actionDownload').click()
 textModal.on 'click', 'button.textModalFullscreen', makeFullscreen('#textViewerModal .modal-content', false) # go fullscreen
@@ -60,6 +61,9 @@ onFullScreenChange('#textViewerModal .modal-content', ->
     textModal.find('button.textModalFullscreen').toggleClass('d-none')
     textModal.find('button.textModalFullscreenExit').toggleClass('d-none')
 )
+textEditButton.on 'click',->
+    textModal.modal('hide')
+    textEditor(currentInode)
 textModal.on 'hidden.bs.modal', (e)->
     # #hide error message
     # imageErrorMessage.addClass('d-none')

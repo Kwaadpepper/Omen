@@ -80,6 +80,7 @@ $assetPath = config('omen.assetPath');
     @include('omen::elements.lostConnectionBanner')
     @include('omen::elements.translations')
     @include('omen::elements.imageEditor')
+    @include('omen::elements.editFileModal')
     @include('omen::tools.config', compact('inodes'))
     @stack('css')
     @stack('scripts')

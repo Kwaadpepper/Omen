@@ -25,6 +25,7 @@ module.exports = actions = {
     moveTo: { method: 'POST', url: "/#{urlPrefix}/moveto" },
     copyTo: { method: 'POST', url: "/#{urlPrefix}/copyto" },
     createFile: { method: 'POST', url: '/' + urlPrefix + '/createtextfile' },
+    updateFile: { method: 'POST', url: "/#{urlPrefix}/updatetextfile" },
     createDirectory: { method: 'POST', url: '/' + urlPrefix + '/createdirectory' },
     getInodeHtml: { method: 'GET', url: '/' + urlPrefix + '/getinodehtml' },
     getInodesAtPath: { method: 'GET', url: '/' + urlPrefix + '/getinodesatpath' }
