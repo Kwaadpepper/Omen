@@ -11,6 +11,7 @@ use JsonSerializable;
 use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\OmenHelper;
 use RuntimeException;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Mime\MimeTypes;
 
@@ -100,6 +101,23 @@ class Inode implements JsonSerializable
             throw new OmenException('Calling method get on a Directory is not supported', '7' . __LINE__);
         }
         return $this->disk->get($this->fullPath);
+    }
+
+    /**
+     * Get the inode data within a temp file on the local disk
+     * @return Kwaadpepper\Omen\Lib\LocalFile|False A new temp file with the inode data | false is an error occurs
+     * @throws Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException if the inode got not be retrieved
+     */
+    public function getToTempLocalFile()
+    {
+        try {
+            return new LocalFile($this);
+        } catch (OmenException $e) {
+            return false;
+        } catch (FileNotFoundException $e) {
+            // this should not happen ever
+            return false;
+        }
     }
 
     /**
