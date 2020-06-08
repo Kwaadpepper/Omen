@@ -15,7 +15,7 @@ Route::group([
     $routePrefix = config('omen.urlPrefix');
 
     // File Upload
-    Route::match(['post'], sprintf('%s/upload', $routePrefix), 'OmenController@upload')->name('omenUpload');
+    Route::match(['post'], sprintf('%s/upload', $routePrefix), 'UploadController@upload')->name('omenUpload');
 
     // File Rename
     Route::match(['post'], sprintf('%s/rename', $routePrefix), 'OmenController@rename')->name('omenRename');

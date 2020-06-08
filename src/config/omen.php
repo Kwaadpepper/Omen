@@ -108,6 +108,64 @@ return [
         'php', 'exe', 'msi'
     ],
 
+    /**
+     *! Upload max size config
+     * 
+     * This can't be changed programatically
+     * https://www.php.net/manual/en/ini.list.php
+     * https://stackoverflow.com/questions/13442270/ini-setupload-max-filesize-200m-not-working-in-php
+     * 
+     * It needs to be set in php.ini or a .htaccess
+     * 
+     * two value need to be changed
+     * 'upload_max_filesize' and 'post_max_size' because
+     * upload is ajax handled
+     * 
+     * If you want to set a limit under this value change to bellow configuration
+     * from false to something like '3M' or just a byte size like 3145728
+     */
+    'maxUploadSize' => false,
+
+    /* === Intervention image lib config === */
+    /**
+     * Allocate additionnal memory
+     * for Intervention image lib
+     * It increases php.ini "memory_limit"
+     * Max execution time is set to 30 sec by php as default
+     * You can change this here if wanted for
+     * files operation
+     */
+    'fileOperationTimeLimit' => ini_get('max_execution_time') ?? 30,
+
+    /**
+     * Allocate additionnal memory
+     * for Intervention image lib
+     * It increases php.ini "memory_limit"
+     */
+    'fileOperationMemoryAlloc' => true,
+
+    /**
+     * Max allocation for Intervention image lib
+     * Intervention image lib won't happen if the operation could exceed
+     * this value in memory allocation
+     * can contain XM or X where X is a number
+     * eg: 64M or 64
+     * 
+     *! this must not be set bellow php ini_get('memory_limit')
+     * 
+     * How much memory do i need ?
+     * https://www.dotsamazing.com/en/labs/phpmemorylimit
+     */
+    'fileOperationMaxMemoryAlloc' => '64M',
+
+    /**
+     * Allowed gd or imagick
+     * for Intervention image lib
+     * make sure php has ext-gd or ext-imagick
+     * php can be compiled with gd
+     */
+    'fileOperationImageDriver' => 'gd',
+
     /* === FRONT END === */
 
     /**
@@ -165,48 +223,6 @@ return [
         'en', 'fr'
     ],
 
-    // 'upload_max_filesize' => 
-
-    /* === Intervention image lib config === */
-    /**
-     * Allocate additionnal memory
-     * for Intervention image lib
-     * It increases php.ini "memory_limit"
-     * Max execution time is set to 30 sec by php as default
-     * You can change this here if wanted for
-     * files operation
-     */
-    'fileOperationTimeLimit' => ini_get('max_execution_time') ?? 30,
-
-    /**
-     * Allocate additionnal memory
-     * for Intervention image lib
-     * It increases php.ini "memory_limit"
-     */
-    'fileOperationMemoryAlloc' => true,
-
-    /**
-     * Max allocation for Intervention image lib
-     * Intervention image lib won't happen if the operation could exceed
-     * this value in memory allocation
-     * can contain XM or X where X is a number
-     * eg: 64M or 64
-     * 
-     *! this must not be set bellow php ini_get('memory_limit')
-     * 
-     * How much memory do i need ?
-     * https://www.dotsamazing.com/en/labs/phpmemorylimit
-     */
-    'fileOperationMaxMemoryAlloc' => '64M',
-
-    /**
-     * Allowed gd or imagick
-     * for Intervention image lib
-     * make sure php has ext-gd or ext-imagick
-     * php can be compiled with gd
-     */
-    'fileOperationImageDriver' => 'gd',
-
     /* === JS PART === */
 
     /**
@@ -257,6 +273,7 @@ return [
     'csp' => [
         'default-src' => ["'self'", "data:"],
         'script-src' => ["'unsafe-eval'", "resource://pdf.js/"],
+        'style-src' => ["'self'", "'unsafe-inline'"],
         'frame-src' => ["'self'"],
         'object-src' =>  ["'self'", "blob:"],
         'base-uri' => ["'self'", "resource://pdf.js/web/"],

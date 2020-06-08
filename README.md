@@ -118,6 +118,19 @@ If you are using local storage you must link the public storage to your public f
     midi 'self'; navigation-override 'self'; oversized-images 'self; payment 'none'; picture-in-picture 'self';
     publickey-credentials-get 'none'; sync-xhr 'self'; usb 'none'; vr 'none'; wake-lock 'none' xr-spatial-tracking 'none';
 
+-   About max upload size
+
+    Because upload is ajax handled yt has to be changed on `php.ini` or `.htaccess`, two values needs to be changed:
+    'upload_max_filesize' and 'post_max_size'
+
+    You can put this in `public/.htaccess`
+
+        php_value post_max_size 2M
+        php_value upload_max_filesize 2M
+
+    Because upload is ajax handled, it sends chunks of 2M size. Then if you want to set a limit
+    just change maxUploadSize to something like `'3M'` or `3145728`
+
 ---
 
 **TODO:**
@@ -146,7 +159,7 @@ If you are using local storage you must link the public storage to your public f
 -   [x] handle 419 error session timeout => CSRF token mismatch
 -   [x] 401 response on ping => session timeout do something
 -   [x] ~find a way to use omen csrf with upload (concurrent)~ upload uses laravel csrf token
--   [ ] setUpload Max size
+-   [x] setUpload Max size
 -   [x] select appears on figure hover for icon view and stay showed if one is selected
 -   [x] edit text files
 -   [x] edit images files
@@ -154,6 +167,7 @@ If you are using local storage you must link the public storage to your public f
 -   [x] ~can midi files be played ?~ not easily, won't do
 -   [ ] right click menu
 -   [ ] work on left panel fancy tree
+-   [ ] implement configurable shortcuts
 -   [ ] focus and search on type (for left pannel and main)
 -   [ ] correct file delete error not handled properly need ajax response and error handle
 -   [ ] correct bu file and folder create upper case
@@ -166,8 +180,9 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] extensive test on mobile
 -   [ ] unit tests ?
 -   [x] rework sort logic
--   [ ] implement configurable shortcuts
 -   [ ] file uploaded size return to ajax is null => size sort error
+-   [ ] fix upload message error not showing
+-   [ ] fix crop image save will clone the figure instead of updating it
 -   [ ] fix sort error when only 1 inode to display
 -   [ ] fix rename bug on forbidden char ?
 -   [ ] find a solution for resize image CSP violation (jquery-ui resisable code)
