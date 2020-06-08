@@ -7,6 +7,7 @@ omenApi = require('./../omenApi.coffee')
 Base64 = require('js-base64').Base64
 actions = require('./actionEvents.coffee')
 ProgressBar = require('progressbar.js')
+uuid = require('./../tools/uuid.coffee')
 
 uploadPath = null
 progressBar = null
@@ -84,7 +85,7 @@ $('#uploadInput').fileinput {
     rtl: false,
     hideThumbnailContent: false,
     encodeUrl: true,
-    generateFileId: null,
+    generateFileId: uuid,
     previewClass: '',
     captionClass: '',
     frameClass: 'krajee-default',
