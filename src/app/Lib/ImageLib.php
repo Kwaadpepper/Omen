@@ -228,6 +228,10 @@ class ImageLib
      */
     private static function allocMemory(float $width, float $height)
     {
+        if (!config('omen.fileOperationMemoryAlloc')) {
+            return;
+        }
+
         \set_time_limit(\config('omen.fileOperationTimeLimit', 30));
 
         //initializing variables
