@@ -147,11 +147,10 @@ If you are using local storage you must link the public storage to your public f
 -   [x] 401 response on ping => session timeout do something
 -   [x] ~find a way to use omen csrf with upload (concurrent)~ upload uses laravel csrf token
 -   [ ] setUpload Max size
--   [ ] global search file
 -   [x] select appears on figure hover for icon view and stay showed if one is selected
--   [ ] edit text files
+-   [x] edit text files
 -   [x] edit images files
--   [ ] Inspect Display possibilities on images formats (legacy-image-formats)
+-   [x] Inspect Display possibilities on images formats (legacy-image-formats)
 -   [x] ~can midi files be played ?~ not easily, won't do
 -   [ ] right click menu
 -   [ ] work on left panel fancy tree
@@ -163,7 +162,7 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] prevent share links if storage is private and url not accessible
 -   [ ] polish PDF viewer
 -   [ ] rework exception error codes
--   [ ] add resize and crop images
+-   [x] add resize and crop images
 -   [ ] extensive test on mobile
 -   [ ] unit tests ?
 -   [x] rework sort logic
@@ -179,3 +178,4 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] Video stream, with optionnal ffmepg => Mpeg-Dash or HLS ?
         https://github.com/pascalbaljetmedia/laravel-ffmpeg
 -   [ ] Resize image keep ratio function
+-   [ ] global search file
