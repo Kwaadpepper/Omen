@@ -165,6 +165,48 @@ return [
         'en', 'fr'
     ],
 
+    // 'upload_max_filesize' => 
+
+    /* === Intervention image lib config === */
+    /**
+     * Allocate additionnal memory
+     * for Intervention image lib
+     * It increases php.ini "memory_limit"
+     * Max execution time is set to 30 sec by php as default
+     * You can change this here if wanted for
+     * files operation
+     */
+    'fileOperationTimeLimit' => ini_get('max_execution_time') ?? 30,
+
+    /**
+     * Allocate additionnal memory
+     * for Intervention image lib
+     * It increases php.ini "memory_limit"
+     */
+    'fileOperationMemoryAlloc' => true,
+
+    /**
+     * Max allocation for Intervention image lib
+     * Intervention image lib won't happen if the operation could exceed
+     * this value in memory allocation
+     * can contain XM or X where X is a number
+     * eg: 64M or 64
+     * 
+     *! this must not be set bellow php ini_get('memory_limit')
+     * 
+     * How much memory do i need ?
+     * https://www.dotsamazing.com/en/labs/phpmemorylimit
+     */
+    'fileOperationMaxMemoryAlloc' => '64M',
+
+    /**
+     * Allowed gd or imagick
+     * for Intervention image lib
+     * make sure php has ext-gd or ext-imagick
+     * php can be compiled with gd
+     */
+    'fileOperationImageDriver' => 'gd',
+
     /* === JS PART === */
 
     /**
@@ -320,44 +362,7 @@ return [
     'access_keys' => array(env('RFM_KEY')),
 
 
-    // 'upload_max_filesize' => 
 
-    /**
-     * Allocate additionnal memory
-     * for the file conversion
-     * It increases php.ini "memory_limit"
-     * Max execution time is set to 30 sec by php as default
-     * You can change this here if wanted for
-     * files operation
-     */
-    'file_operation_time_limit' => ini_get('max_execution_time') ?? 30,
-
-    /**
-     * Allocate additionnal memory
-     * for the file conversion
-     * It increases php.ini "memory_limit"
-     */
-    'file_operation_memory_alloc' => true,
-
-    /**
-     * Max allocation for thumbs creation
-     * Thumbs won't be created the operation could exceed
-     * this value in memory allocation
-     * can contain XM or X where X is a number
-     * eg: 64M or 64
-     * 
-     * How much memory do i need ?
-     * https://www.dotsamazing.com/en/labs/phpmemorylimit
-     */
-    'file_operation_max_memory_alloc' => ini_get('memory_limit'),
-
-    /**
-     * Allowed gd or imagick
-     * 
-     * make sure php has ext-gd or ext-imagick
-     * php can be compiled with gd
-     */
-    'file_operation_image_driver' => 'gd',
 
 
     // TO CHECK MB functions

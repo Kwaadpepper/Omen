@@ -149,6 +149,7 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] global search file
 -   [x] select appears on figure hover for icon view and stay showed if one is selected
 -   [ ] edit text files
+-   [x] edit images files
 -   [ ] Inspect Display possibilities on images formats (legacy-image-formats)
 -   [ ] can midi files be played ?
 -   [ ] right click menu
@@ -168,3 +169,9 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] file uploaded size return to ajax is null => size sort error
 -   [ ] fix sort error when only 1 inode to display
 -   [ ] fix rename bug on forbidden char ?
+-   [ ] find a solution for resize image CSP violation (jquery-ui resisable code)
+-   [ ] check if deps are installed before enable resize and crop
+
+**Whishlit**
+
+-   [ ] Resize image keep ratio function

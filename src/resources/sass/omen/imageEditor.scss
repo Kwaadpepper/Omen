@@ -1,0 +1,58 @@
+#imageEditorModal {
+    & .modal-90 {
+        max-width: 90%;
+    }
+    & .modal-body {
+        position: relative;
+        width: 100%;
+
+        &::before {
+            content: "\A0";
+            position: absolute;
+            height: 15em;
+            width: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url("/vendor/omen/images/loading.svg");
+        }
+    }
+
+    & .resizebox {
+        background-color: $body-bg;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    & .ui-icon-gripsmall-diagonal-se {
+        background-image: url("/vendor/omen/images/griphandle.png");
+        width: 34px;
+        height: 34px;
+    }
+
+    & #imageResizer {
+        & div:nth-child(2) {
+            & div.row > span {
+                line-height: 2em;
+                width: 7em;
+                border-bottom: 1px black solid;
+                margin-top: 0.5em;
+            }
+            & div.row > div.input-group {
+                & > div.input-group-prepend,
+                > input {
+                    margin-top: 0.5em;
+                    &:nth-child(1) {
+                        border-bottom: 1px black solid;
+                    }
+                }
+                & > div.input-group-prepend {
+                    width: 7em;
+                    line-height: 2em;
+                }
+                & > input {
+                    width: 7em;
+                }
+            }
+        }
+    }
+}

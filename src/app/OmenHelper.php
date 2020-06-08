@@ -3,6 +3,7 @@
 namespace Kwaadpepper\Omen;
 
 use Illuminate\Support\Facades\Config;
+use Kwaadpepper\Omen\Exceptions\OmenException;
 
 class OmenHelper
 {
@@ -284,5 +285,75 @@ class OmenHelper
     {
         for ($i = 0; ($bytes / self::BYTE_NEXT) >= 0.9 && $i < count(self::BYTE_UNITS); $i++) $bytes /= self::BYTE_NEXT;
         return round($bytes, is_null($precision) ? self::BYTE_PRECISION[$i] : $precision) . __(self::BYTE_UNITS[$i]);
+    }
+
+    /**
+     * Assert a variable's value
+     * @param mixed $variable The variable to test
+     * @param mixed $value The value it should have
+     * @return void 
+     * @throws OmenException if assertion is wrong
+     */
+    public static function assert($variable, $value)
+    {
+        if ($variable != $value) {
+            $parentClass = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? '';
+            $parentFunction = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function'] ?? '';
+            $parentLine = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['line'] ?? '';
+            throw new OmenException("Asserted $variable was equal to $value in $parentClass $parentFunction on line $parentLine");
+        };
+    }
+
+    /**
+     * Assert type of variable
+     * (Supports class testing)
+     * @param Mixed $variable Any variable to test
+     * @param String $type A string with the type of $variable to assert (case insensitive)
+     * @return Void
+     * @throws OmenException when $variable does not match $type or is a ressource (unsupported), or the type is unknown
+     */
+    public static function assertType($variable, string $type)
+    {
+        $varType = \gettype($variable);
+        $check = false;
+        $getContext = function () {
+            return [
+                debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['class'] ?? '',
+                debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['function'] ?? '',
+                debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['line'] ?? ''
+            ];
+        };
+        switch ($varType) {
+            case 'integer':
+            case 'float':
+            case 'double':
+                $check = \in_array(\strtolower($type), ['integer', 'float', 'double']);
+                break;
+            case 'boolean':
+            case 'string':
+            case 'array':
+                $check = $varType == \strtolower($type);
+                break;
+            case 'NULL':
+                $check = \isNull($type) ? true : (
+                    (\strtolower($type) == 'null') ? true : false);
+                break;
+            case 'resource':
+            case 'resource (closed)':
+                list($parentClass, $parentFunction, $parentLine) = $getContext();
+                throw new OmenException("Unupported $variable type $varType assertion in $parentClass $parentFunction on line $parentLine");
+            case 'unknown type':
+                list($parentClass, $parentFunction, $parentLine) = $getContext();
+                throw new OmenException("Unupported $variable type $varType assertion in $parentClass $parentFunction on line $parentLine");
+            case 'object':
+                if (\strtolower($type) == \get_class($variable)) {
+                    $check = true;
+                }
+        }
+
+        if (!$check) {
+            list($parentClass, $parentFunction, $parentLine) = $getContext();
+            throw new OmenException("Asserted $variable was type of $type in $parentClass $parentFunction on line $parentLine");
+        };
     }
 }

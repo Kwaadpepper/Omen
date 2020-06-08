@@ -35,6 +35,12 @@ Route::group([
     // File create text file
     Route::match(['post'], sprintf('%s/createdirectory', $routePrefix), 'OmenController@createDirectory')->name('omenCreateDirectory');
 
+    // Image resize
+    Route::match(['post'], sprintf('%s/resizeimage', $routePrefix), 'ImageController@resize')->name('omenResizeImage');
+
+    // Image crop
+    Route::match(['post'], sprintf('%s/cropimage', $routePrefix), 'ImageController@crop')->name('omenCropImage');
+
     // File get Inode Html
     Route::match(['get'], sprintf('%s/getinodehtml', $routePrefix), 'OmenController@getInodeHtml')->name('omenGetInodeHtml');
 

@@ -18,6 +18,7 @@ mix.copy('src/images/favicon/dist/', 'resources/images/favicon/');
 mix.copy('src/images/whitenoise-361x370.png', 'resources/images/');
 mix.copy('src/images/loading.svg', 'resources/images/');
 mix.copy('src/images/shadow.png', 'resources/images/');
+mix.copy('src/images/griphandle.png', 'resources/images/');
 mix.copy('src/images/fancytree-li.gif', 'resources/images/vendor/fancytree/');
 
 mix.copy('node_modules/bootstrap-fileinput/img/loading.gif', 'resources/images/vendor/bootstrap-fileinput/');

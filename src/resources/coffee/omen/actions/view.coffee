@@ -11,13 +11,17 @@ pdfInjector = require('./../../tools/pdfInjector.coffee')
 alert = require('./../../tools/alert.coffee')
 trans = require('./../../tools/translate.coffee')
 mediaElement = require('./../../tools/mediaElement.coffee')
+imageEditor = require('./../imageEditor.coffee')
 
 
-viewButton = null;
+viewButton = null
+currentInode = null
 
 
 # ANCHOR Image Modal Vars
 #*========================== Image Modal VARS ==================================
+imageEditButton = $('#imageViewerModal button.edit')
+imageEditorModal = $('#imageEditorModal')
 imageModal = $('#imageViewerModal')
 imageModal.on 'click', 'button.imageModalDownload', -> viewButton.parents('figure').find('button.actionDownload').click()
 imageModal.on 'click', 'button.imageModalFullscreen', makeFullscreen('#imageViewerModal .modal-content', false) # go fullscreen
@@ -28,6 +32,9 @@ onFullScreenChange('#imageViewerModal .modal-content', ->
     imageModal.find('button.imageModalFullscreen').toggleClass('d-none')
     imageModal.find('button.imageModalFullscreenExit').toggleClass('d-none')
 )
+imageEditButton.on 'click',->
+    imageModal.modal('hide')
+    imageEditor(currentInode)
 imageModal.on 'hidden.bs.modal', (e)-> # ON Modal Hidden
     #hide error message
     imageErrorMessage.addClass('d-none')
@@ -146,7 +153,7 @@ module.exports = (action)->
         viewButton = $(this)
         fileBase64FullPath = $(this).parents('figure').data('path')
         inodes = omenApi.getProp('inodes')
-        inode = inodes[fileBase64FullPath]
+        inode = currentInode = inodes[fileBase64FullPath]
 
         # get the inode showable url
         url = if inode.visibility == 'public' then inode.url else action.url + inode.path

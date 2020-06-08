@@ -8,6 +8,7 @@
                     <span class="sr-only">({{ __('omen::fullscreen') }})</span></button>
                 <button type="button" class="imageModalFullscreenExit d-none btn btn-dark mdi mdi-fullscreen-exit">
                     <span class="sr-only">({{ __('omen::exit fullscreen') }})</span></button>
+                <button type="button" class="btn btn-secondary edit" data-dismiss="modal">{{ __('Edit file') }}</button>
                 <h5 class="ml-4"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span class="sr-only">({{ __('omen::close image viewer') }})</span>

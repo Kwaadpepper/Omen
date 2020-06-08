@@ -4,7 +4,8 @@
 @import "~@mdi/font/scss/materialdesignicons";
 @import "~bootstrap-fileinput/scss/fileinput";
 @import "~bootstrap-fileinput/scss/themes/explorer/theme";
-
+@import "~cropperjs/dist/cropper.css";
+@import "~jquery-ui/themes/base/resizable.css";
 // Bootstrap variables Use this as indication
 // @import "./bootstrap/_variables";
 @import "./tools/index";
@@ -23,3 +24,4 @@
 @import "./omen/uploadFileModal";
 @import "./omen/operationsBar";
 @import "./omen/lostConnectionBanner";
+@import "./omen/imageEditor";

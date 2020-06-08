@@ -21,7 +21,12 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.1",
-        "jenssegers/date": "4.*"
+        "jenssegers/date": "4.*",
+        "intervention/image": "2.*"
+    },
+    "suggest": {
+        "ext-gd": "to use GD library for image crop and resize",
+        "ext-imagick": "to use Imagick for image crop and resize"
     },
     "autoload": {
         "psr-4": {

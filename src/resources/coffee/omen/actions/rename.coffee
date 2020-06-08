@@ -7,6 +7,7 @@ trans = require('./../../tools/translate.coffee')
 Base64 = require('js-base64').Base64
 progressbar = require('./../../tools/progressbar.coffee')
 lockUi = require('./../../tools/lockUi.coffee')
+imageEditor = require('./../imageEditor.coffee')
 
 currentFigure = null
 currentinode = null
@@ -16,6 +17,8 @@ inodes = null
 renameModal = $('#renameModal')
 renameForm = $('#renameForm')
 renameInput = $('#renameInput')
+renameEditButton = $('#renameModal button.edit')
+imageEditorModal = $('#imageEditorModal')
 
 clearVars = ->
     currentFigure = null
@@ -69,6 +72,12 @@ renameForm.on('submit', (e)->
     false
 )
 
+renameModal.on 'hidden.bs.modal', (e)->
+    renameEditButton.addClass('d-none')
+
+renameEditButton.on 'click', (e)->
+    imageEditor(currentinode)
+
 module.exports = (action)->
     (event)->
         actionInfo = action
@@ -76,6 +85,8 @@ module.exports = (action)->
         fileBase64FullPath = currentFigure.data('path')
         inodes = omenApi.getProp('inodes')
         currentinode = inodes[fileBase64FullPath]
+
+        if currentinode.fileType == 'image' or currentinode.fileType == 'text' then renameEditButton.removeClass('d-none')
 
         renameInput.val(currentinode.name)
         renameModal.modal('show')

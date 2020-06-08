@@ -1,4 +1,4 @@
-<div id="renameModal" class="modal" tabindex="-1" role="dialog">
+<div class="modal fade" id="renameModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form id="renameForm" action="/rename">
@@ -16,6 +16,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary d-none edit" data-dismiss="modal">{{ __('Edit file') }}</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Cancel') }}</button>
                     <button type="submit" class="btn btn-primary">{{ __('Rename') }}</button>
                 </div>

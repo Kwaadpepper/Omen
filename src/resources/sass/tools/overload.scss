@@ -19,20 +19,25 @@ button.mdi.mdi-24px {
     left: 0;
 }
 
+// fix for image resizer
+.modal {
+    overflow-y: auto !important;
+}
+
 // media elements assets overload path
 .mejs__overlay-button {
-    background: url("/vendor/omen/images/vendor/mediaelement/mejs-controls.svg")
+    background: url("/vendor/omen/images/vendor/mediaelement/mejs-controls.png") -80px -39px
         no-repeat;
 }
 
 .mejs__overlay-loading-bg-img {
     background: transparent
-        url("/vendor/omen/images/vendor/mediaelement/mejs-controls.svg") -160px -40px
+        url("/vendor/omen/images/vendor/mediaelement/mejs-controls.png") -160px -40px
         no-repeat;
 }
 
 .mejs__button > button {
-    background-image: url("/vendor/omen/images/vendor/mediaelement/mejs-controls.svg");
+    background-image: url("/vendor/omen/images/vendor/mediaelement/mejs-controls.png");
 }
 
 ul.fancytree-connectors.fancytree-container li {

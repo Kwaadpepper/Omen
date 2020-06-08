@@ -29,6 +29,8 @@ module.exports = actions = {
     getInodeHtml: { method: 'GET', url: '/' + urlPrefix + '/getinodehtml' },
     getInodesAtPath: { method: 'GET', url: '/' + urlPrefix + '/getinodesatpath' }
     getBreadcrumbAtPath: { method: 'GET', url: '/' + urlPrefix + '/getbreadcrumbatpath' },
+    resizeImage: { method: 'POST', url: "/#{urlPrefix}/resizeimage"},
+    cropImage: { method: 'POST', url: "/#{urlPrefix}/cropimage"},
     ping: { method: 'POST', url: "/#{urlPrefix}/ping" }
     resetFilters: ->
         if $filterFiles.hasClass('active')
