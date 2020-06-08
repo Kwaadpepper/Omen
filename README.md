@@ -146,14 +146,16 @@ If you are using local storage you must link the public storage to your public f
 -   [x] handle 419 error session timeout => CSRF token mismatch
 -   [x] 401 response on ping => session timeout do something
 -   [x] ~find a way to use omen csrf with upload (concurrent)~ upload uses laravel csrf token
+-   [ ] setUpload Max size
 -   [ ] global search file
 -   [x] select appears on figure hover for icon view and stay showed if one is selected
 -   [ ] edit text files
 -   [x] edit images files
 -   [ ] Inspect Display possibilities on images formats (legacy-image-formats)
--   [ ] can midi files be played ?
+-   [x] ~can midi files be played ?~ not easily, won't do
 -   [ ] right click menu
 -   [ ] work on left panel fancy tree
+-   [ ] focus and search on type (for left pannel and main)
 -   [ ] correct file delete error not handled properly need ajax response and error handle
 -   [ ] correct bu file and folder create upper case
 -   [ ] support zoom in image viewer
@@ -164,7 +166,7 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] add resize and crop images
 -   [ ] extensive test on mobile
 -   [ ] unit tests ?
--   [ ] rework sort logic
+-   [x] rework sort logic
 -   [ ] implement configurable shortcuts
 -   [ ] file uploaded size return to ajax is null => size sort error
 -   [ ] fix sort error when only 1 inode to display
@@ -174,4 +176,6 @@ If you are using local storage you must link the public storage to your public f
 
 **Whishlit**
 
+-   [ ] Video stream, with optionnal ffmepg => Mpeg-Dash or HLS ?
+        https://github.com/pascalbaljetmedia/laravel-ffmpeg
 -   [ ] Resize image keep ratio function
