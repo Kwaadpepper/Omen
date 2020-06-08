@@ -34,6 +34,12 @@ class OmenException extends Exception
      */
     public function render($request)
     {
+        if ($request->ajax()) {
+            return response()->json([
+                'code' => $this->code . $this->line,
+                'message' => $this->message
+            ], 500);
+        }
         return response()->view('omen::tools.exception', [
             'code' => $this->code . $this->line,
             'message' => $this->message
