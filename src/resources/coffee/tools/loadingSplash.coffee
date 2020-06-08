@@ -3,6 +3,7 @@ waiting = []
 
 # fadeIn on change page
 window.onbeforeunload =  (e)->
+    $('.modal').modal('hide') # close all modals
     $('#loadingSplash').fadeIn()
     undefined
 
