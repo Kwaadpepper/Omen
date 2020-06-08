@@ -4,3 +4,5 @@ resources/css
 resources/images
 resources/fonts
 mix-manifest.json
+.vscode/laravel-omen.code-workspace
+.vscode/launch.json
