@@ -181,6 +181,7 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] unit tests ?
 -   [x] rework sort logic
 -   [ ] file uploaded size return to ajax is null => size sort error
+-   [x] fix maxupload => convert '3M' to bytes in upload controller
 -   [ ] fix upload message error not showing
 -   [ ] fix crop image save will clone the figure instead of updating it
 -   [ ] fix sort error when only 1 inode to display

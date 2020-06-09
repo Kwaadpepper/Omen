@@ -51,7 +51,8 @@ class UploadController extends Controller
         $totalChunks = $request->post('chunkCount');
         $omenTempPath = 'tmp';
 
-        if (config('omen.maxUploadSize') and $fileSize > config('omen.maxUploadSize')) {
+        // check announced file size
+        if (config('omen.maxUploadSize') and $fileSize > \intval(\rtrim(config('omen.maxUploadSize'), 'M'))) {
             return response()->json([
                 'chunkIndex' => $chunkIndex,
                 'error' => __('File too large')
@@ -206,7 +207,7 @@ class UploadController extends Controller
                 ], 500);
             }
 
-            // check file size
+            // check real assembled file size
             if ($outFileSize != $fileSize) {
                 $clearChunks();
                 return response()->json([
@@ -214,7 +215,7 @@ class UploadController extends Controller
                     'error' => __('Uploaded file was truncated, missing data')
                 ], 400);
             }
-            if (config('omen.maxUploadSize') and $outFileSize > config('omen.maxUploadSize')) {
+            if (config('omen.maxUploadSize') and $outFileSize > \intval(\rtrim(config('omen.maxUploadSize'), 'M'))) {
                 $clearChunks();
                 return response()->json([
                     'chunkIndex' => $chunkIndex,
