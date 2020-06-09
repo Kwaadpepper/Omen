@@ -6,6 +6,8 @@
 
 ### **This is a Work in progress**
 
+![Capture d’écran - 2020-06-09 à 08 51 18](https://user-images.githubusercontent.com/6019313/84115508-7a94a180-aa2e-11ea-8a13-389514e598bb.png)
+
 ### A To compile
 
 just run `yarn install` and then `yarn dev` or `yarn prod`
