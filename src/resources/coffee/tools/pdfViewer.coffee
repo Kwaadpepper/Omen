@@ -49,10 +49,10 @@ module.exports = (url)->
                         pages.forEach((page)->
 
                             # get Page viewport in pixel at scale 1
-                            pdfViewport = page.getViewport({ scale: 1});
+                            pdfViewport = page.getViewport({ scale: 1})
                             
                             # get page container
-                            pageContainer = viewport.children[page.pageIndex]
+                            pageContainer = viewport.children[page.pageNumber - 1]
 
                             # get page canvas
                             canvas = pageContainer.children[0]
