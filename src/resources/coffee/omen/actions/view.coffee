@@ -15,7 +15,7 @@ imageEditor = require('./../imageEditor.coffee')
 textEditor = require('./../textEditor.coffee')
 
 
-viewButton = null
+figureElement = null
 currentInode = null
 
 
@@ -23,7 +23,7 @@ currentInode = null
 #*========================== Image Modal VARS ==================================
 imageEditButton = $('#imageViewerModal button.edit')
 imageModal = $('#imageViewerModal')
-imageModal.on 'click', 'button.imageModalDownload', -> viewButton.parents('figure').find('button.actionDownload').click()
+imageModal.on 'click', 'button.imageModalDownload', -> figureElement.parents('figure').find('button.actionDownload').click()
 imageModal.on 'click', 'button.imageModalFullscreen', makeFullscreen('#imageViewerModal .modal-content', false) # go fullscreen
 imageModal.on 'click', 'button.imageModalFullscreenExit', makeFullscreen('#imageViewerModal .modal-content', true) # exit fullscreen
 imageModal.on 'hide.bs.modal', makeFullscreen('#imageViewerModal .modal-content', true) # exit fullscreen
@@ -52,7 +52,7 @@ imageErrorMessage = imageModal.find('h4')
 #*========================= Text Modal VARS =====================================
 textEditButton = $('#textViewerModal button.edit')
 textModal = $('#textViewerModal')
-textModal.on 'click', 'button.textModalDownload', -> viewButton.parents('figure').find('button.actionDownload').click()
+textModal.on 'click', 'button.textModalDownload', -> figureElement.parents('figure').find('button.actionDownload').click()
 textModal.on 'click', 'button.textModalFullscreen', makeFullscreen('#textViewerModal .modal-content', false) # go fullscreen
 textModal.on 'click', 'button.textModalFullscreenExit', makeFullscreen('#textViewerModal .modal-content', true) # exit fullscreen
 textModal.on 'hide.bs.modal', makeFullscreen('#textViewerModal .modal-content', true) # exit fullscreen
@@ -75,7 +75,7 @@ textModal.on 'hidden.bs.modal', (e)->
 # ANCHOR PDF Modal Vars
 #*========================= PDF Modal VARS =====================================
 pdfModal = $('#pdfViewerModal')
-pdfModal.on 'click', 'button.pdfModalDownload', -> viewButton.parents('figure').find('button.actionDownload').click()
+pdfModal.on 'click', 'button.pdfModalDownload', -> figureElement.parents('figure').find('button.actionDownload').click()
 pdfModal.on 'click', 'button.pdfModalFullscreen', makeFullscreen('#pdfViewerModal .modal-content', false) # go fullscreen
 pdfModal.on 'click', 'button.pdfModalFullscreenExit', makeFullscreen('#pdfViewerModal .modal-content', true) # exit fullscreen
 pdfModal.on 'hide.bs.modal', makeFullscreen('#pdfViewerModal .modal-content', true) # exit fullscreen
@@ -96,7 +96,7 @@ pdfModal.on 'hidden.bs.modal', (e)->
 #*========================= Document Modal VARS =====================================
 documentModal = $('#documentViewerModal')
 documentModal.attr('src', 'about:blank') # reset iframe
-documentModal.on 'click', 'button.documentModalDownload', -> viewButton.parents('figure').find('button.actionDownload').click()
+documentModal.on 'click', 'button.documentModalDownload', -> figureElement.parents('figure').find('button.actionDownload').click()
 documentModal.on 'click', 'button.documentModalFullscreen', makeFullscreen('#documentViewerModal .modal-content', false) # go fullscreen
 documentModal.on 'click', 'button.documentModalFullscreenExit', makeFullscreen('#documentViewerModal .modal-content', true) # exit fullscreen
 documentModal.on 'hide.bs.modal', makeFullscreen('#documentViewerModal .modal-content', true) # exit fullscreen
@@ -116,7 +116,7 @@ documentModal.on 'hidden.bs.modal', (e)->
 # ANCHOR Video Modal Vars
 #*========================= Video Modal VARS =====================================
 videoModal = $('#videoViewerModal')
-videoModal.on 'click', 'button.videoModalDownload', -> viewButton.parents('figure').find('button.actionDownload').click()
+videoModal.on 'click', 'button.videoModalDownload', -> figureElement.parents('figure').find('button.actionDownload').click()
 videoModal.on 'hidden.bs.modal', (e)->
     # #hide error message
     # imageErrorMessage.addClass('d-none')
@@ -129,7 +129,7 @@ videoModal.on 'hidden.bs.modal', (e)->
 # ANCHOR Audio Modal Vars
 #*========================= Video Modal VARS =====================================
 audioModal = $('#audioViewerModal')
-audioModal.on 'click', 'button.audioModalDownload', -> viewButton.parents('figure').find('button.actionDownload').click()
+audioModal.on 'click', 'button.audioModalDownload', -> figureElement.parents('figure').find('button.actionDownload').click()
 
 audioModal.on 'hidden.bs.modal', (e)->
     # #hide error message
@@ -154,8 +154,8 @@ if not (
 
 module.exports = (action)->
     (event)->
-        viewButton = $(this)
-        fileBase64FullPath = $(this).parents('figure').data('path')
+        figureElement = $(this)
+        fileBase64FullPath = figureElement.parents('figure').data('path')
         inodes = omenApi.getProp('inodes')
         inode = currentInode = inodes[fileBase64FullPath]
 
