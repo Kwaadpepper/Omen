@@ -1,4 +1,5 @@
 let mix = require('laravel-mix');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 if (process.env.NODE_ENV == 'production') {
     mix.disableNotifications();
@@ -9,6 +10,21 @@ if (process.env.NODE_ENV != 'production') {
 
 mix.webpackConfig({
     devtool: 'source-map',
+    plugins: [
+        new CleanWebpackPlugin({
+            // dry: true,
+            verbose: true,
+            cleanOnceBeforeBuildPatterns: [
+                '**/*',
+                '!views','!views/**/*',
+                '!lang','!lang/**/*',
+            ],
+            // hack to remove unwanted assets emmited from plugins
+            cleanAfterEveryBuildPatterns: [
+                'fonts/vendor'
+            ],
+        }),
+    ]
 });
 
 mix.setPublicPath('resources');
@@ -66,7 +82,14 @@ mix.coffee(['src/resources/coffee/app.coffee'], 'js/omen.js').extract([
     // Simplebar
     'simplebar',
 
-    'bootstrap-fileinput'
+    'progressbar.js',
+    'shifty',
+    'bootstrap-fileinput',
+    'jquery-contextmenu',
+    'jquery-ui',
+    'cropperjs',
+    'bezier-easing',
+    '@shopify/draggable'
 ]);
 
 mix.scripts('node_modules/mediaelement/build/mediaelement-and-player.js', 'resources/js/vendor/mediaelement.min.js');
