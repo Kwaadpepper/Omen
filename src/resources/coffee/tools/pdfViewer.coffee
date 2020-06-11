@@ -102,7 +102,9 @@ module.exports = (url)->
                                         div: annotationLayer,
                                         annotations: annotationData,
                                         page: page,
+                                        eventBus: new pdfjsViewer.EventBus(),
                                         linkService:  new pdfjsViewer.PDFLinkService({
+                                            eventBus: new pdfjsViewer.EventBus(),
                                             externalLinkTarget: 2
                                         })
                                     })
@@ -136,6 +138,7 @@ module.exports = (url)->
                                     pdfjsLib.renderTextLayer({
                                         textContent: textContent,
                                         container: textLayer,
+                                        eventBus: new pdfjsViewer.EventBus(),
                                         viewport: pdfPageContainerViewport,
                                         textDivs: []
                                     });
