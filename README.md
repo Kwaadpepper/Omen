@@ -172,8 +172,6 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] work on left panel fancy tree
 -   [ ] implement configurable shortcuts
 -   [ ] focus and search on type (for left pannel and main)
--   [ ] correct file delete error not handled properly need ajax response and error handle
--   [ ] correct bu file and folder create upper case
 -   [ ] support zoom in image viewer
 -   [ ] add error message on text viewer ?
 -   [ ] prevent share links if storage is private and url not accessible
@@ -184,11 +182,16 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] unit tests ?
 -   [x] rework sort logic
 -   [ ] file uploaded size return to ajax is null => size sort error
+-   [ ] find a way to garbage clean failed and aborted uploads
+-   [ ] correct file delete error not handled properly need ajax response and error handle
+-   [ ] correct bu file and folder create upper case
 -   [x] fix maxupload => convert '3M' to bytes in upload controller
+-   [ ] fix applySort() after addInodeFigure
 -   [ ] fix upload message error not showing
 -   [ ] fix crop image save will clone the figure instead of updating it
 -   [ ] fix sort error when only 1 inode to display
 -   [ ] fix rename bug on forbidden char ?
+-   [ ] fix delete inode
 -   [ ] find a solution for resize image CSP violation (jquery-ui resisable code)
 -   [ ] check if deps are installed before enable resize and crop
 
@@ -198,3 +201,4 @@ If you are using local storage you must link the public storage to your public f
         https://github.com/pascalbaljetmedia/laravel-ffmpeg
 -   [ ] Resize image keep ratio function
 -   [ ] global search file
+-   [ ] change visibility
