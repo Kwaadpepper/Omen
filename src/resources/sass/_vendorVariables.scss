@@ -1,5 +1,7 @@
 // Override font-path => serve it anyway through omen
 $mdi-font-path: "~/vendor/omen/fonts";
+// jquery-contextmenu import hack, don't use included font
+$context-menu-icon-font-path: "~jquery-contextmenu/dist/font/";
 
 // Override bootstrap
 $enable-shadows: true;

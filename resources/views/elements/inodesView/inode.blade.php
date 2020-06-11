@@ -36,8 +36,8 @@
     <div class="figDate">@yield('date'. $id)</div>
     <div class="figSize">@yield('size'. $id)</div>
     @if ($__env->yieldContent('visibility'. $id) == 'public')
-    <div class="figVisibility mdi mdi-earth"></div>
+    <div class="figVisibility mdi mdi-earth" data-visibility="{{ __('public') }}"></div>
     @else
-    <div class="figVisibility mdi mdi-eye-off-outline"></div>
+    <div class="figVisibility mdi mdi-eye-off-outline" data-visibility="{{ __('private') }}"></div>
     @endif
 </figure>

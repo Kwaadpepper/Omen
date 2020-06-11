@@ -12,6 +12,8 @@ module.exports = {
                 this.action = action
             else 
                 this.action = copy
+    clear: ->
+        this.items = []
     get: ->
         this.items
     getAction: ->

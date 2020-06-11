@@ -4295,6 +4295,13 @@ jest-worker@^25.4.0:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
+jquery-contextmenu@^2.9.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/jquery-contextmenu/-/jquery-contextmenu-2.9.2.tgz#f9dc362e45871dda2e50fa45de2243e917446ced"
+  integrity sha512-6S6sH/08owDStC/7zNwcN366yR0ydX6PmMB0RnjLRQOp7Nc/rqwEHglshfHrrw2kdTev97GXwRXrayDUmToIOw==
+  dependencies:
+    jquery "^3.5.0"
+
 jquery-ui@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.1.tgz#bcb4045c8dd0539c134bc1488cdd3e768a7a9e51"

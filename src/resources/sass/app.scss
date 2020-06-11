@@ -6,6 +6,7 @@
 @import "~bootstrap-fileinput/scss/themes/explorer/theme";
 @import "~cropperjs/dist/cropper.css";
 @import "~jquery-ui/themes/base/resizable.css";
+@import "~jquery-contextmenu/src/sass/jquery.contextMenu.scss";
 // Bootstrap variables Use this as indication
 // @import "./bootstrap/_variables";
 @import "./tools/index";
@@ -25,3 +26,4 @@
 @import "./omen/operationsBar";
 @import "./omen/lostConnectionBanner";
 @import "./omen/imageEditor";
+@import "./omen/contextMenus";

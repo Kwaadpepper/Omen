@@ -167,7 +167,8 @@ If you are using local storage you must link the public storage to your public f
 -   [x] edit images files
 -   [x] Inspect Display possibilities on images formats (legacy-image-formats)
 -   [x] ~can midi files be played ?~ not easily, won't do
--   [ ] right click menu
+-   [x] rework copy and paste
+-   [x] right click menu
 -   [ ] work on left panel fancy tree
 -   [ ] implement configurable shortcuts
 -   [ ] focus and search on type (for left pannel and main)

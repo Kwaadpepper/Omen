@@ -39,6 +39,7 @@
         "fuzzyset.js": "^0.0.91",
         "highlight.js": "^10.0.1",
         "jquery": "^3.5.1",
+        "jquery-contextmenu": "^2.9.2",
         "jquery-ui": "^1.12.1",
         "jquery.fancytree": "^2.35.0",
         "js-base64": "^2.5.2",

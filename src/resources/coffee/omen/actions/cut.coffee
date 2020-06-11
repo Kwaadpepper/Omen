@@ -1,5 +1,7 @@
 omenApi = require('../../omenApi.coffee')
 clipboard = require('../../tools/clipboard.coffee')
+alert = require('./../../tools/alert.coffee')
+trans = require('./../../tools/translate.coffee')
 
 module.exports = ->
     inodes = omenApi.getProp('inodes')
@@ -8,4 +10,6 @@ module.exports = ->
         items.push inodes[$(el).data('path')]
     )
 
-    if items.length then clipboard.save(items, 'cut')
+    if items.length
+        alert('info', trans('Clipboard'), trans("${n} elements in clipboard", { 'n': items.length }))
+        clipboard.save(items, 'cut')

@@ -11,6 +11,9 @@ lockUi = require('./../../tools/lockUi.coffee')
 
 module.exports = (action)->
     (event)->
+
+        if !confirm(trans('Delete inode ?')) then return false
+
         inodeFigure = $(this).parents('figure')
         inodeFullPath = inodeFigure.data('path')
         inodes = omenApi.getProp('inodes')

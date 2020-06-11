@@ -43,3 +43,9 @@ button.mdi.mdi-24px {
 ul.fancytree-connectors.fancytree-container li {
     background-image: url("/vendor/omen/images/vendor/fancytree/fancytree-li.gif");
 }
+
+// context menu icon
+.mdi-context-item::before {
+    left: 0.6em;
+    position: absolute;
+}

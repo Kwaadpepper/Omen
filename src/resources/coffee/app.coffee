@@ -59,3 +59,4 @@ $(document).ready ()->
 	require('./omen/uploadSystem.coffee')
 	require('./omen/dragNDropSystem.coffee')
 	require('./tools/ping.coffee')()
+	require('./omen/contextMenu.coffee')

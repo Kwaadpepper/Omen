@@ -1,0 +1,19 @@
+.fileContextMenu:before {
+    content: attr(data-menutitle);
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 1em;
+    left: 0;
+    padding: 2px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: pre;
+}
+.fileContextMenu :first-child {
+    margin-top: 20px;
+}
+
+.context-menu-list {
+    z-index: 2 !important;
+}
