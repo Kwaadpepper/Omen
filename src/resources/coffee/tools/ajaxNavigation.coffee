@@ -5,8 +5,11 @@ getBreadcrumbAtPathActionInfo = require('./../omen/actionEvents.coffee').getBrea
 setLocationParameters = require('./../tools/setLocationParameters.coffee')
 logException = require('./../tools/logException.coffee')
 ln = require('./../tools/getLine.coffee')
+Base64 = require('js-base64').Base64
+fancyTree = require('jquery.fancytree')
 resetFilters = require('./../omen/actionEvents.coffee').resetFilters
 applySort = require('./../omen/actionEvents.coffee').applySort
+fillNodeChilds = require('./../tools/fancyTreeFillNodeChilds.coffee')
 
 $inodeContainer = $('#inodesContainer')
 $breadcrumbContainer = $('#viewInodes').children().first()
@@ -66,5 +69,16 @@ module.exports = (path)->
         $breadcrumbContainer.html(breadcrumbHtml)
         window.history.pushState("","", setLocationParameters({ 'path': encodeURIComponent(path) }))
         applySort()
+
+        try
+            ftree = fancyTree.getTree('#leftPanelTreeView')
+            key = Base64.encode(path.replace(/\/?$/, ''))
+            ftree.activateKey(key, { activeVisible: true})
+            fNode = ftree.getNodeByKey(Base64.encode(path))
+            fNode.makeVisible()
+            if fNode.data.refType is 'directory' then fillNodeChilds(fNode)
+        catch e
+            console.error 'fTree navigation error',e
+            
     )
     

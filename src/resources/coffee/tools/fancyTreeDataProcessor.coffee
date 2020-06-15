@@ -1,3 +1,6 @@
+Base64 = require('js-base64').Base64
+getUrlLocationParameter = require('./../tools/getUrlLocationParameter.coffee')
+
 ##
 # {
 #    "path": "omen/uploads/2015",
@@ -22,17 +25,35 @@
 #    ]}
 
 module.exports = (inodes)->
-    # console.log 'inodes'
-    # console.log inodes
 
-    processedData = []
+    # build path
+    path = ''
+    lastObj = null
+    lastDir = processedData = []
+    pathDirectories = decodeURIComponent(getUrlLocationParameter('path')).split('/')
+    pathDirectories.shift()
+    $.each(pathDirectories, (k,directory)->
+        if directory == '' then return;
+        data = {
+            title: directory,
+            key: Base64.encode(path += "/#{directory}"),
+            refType: 'directory',
+            folder: true
+        }
+        if not lastDir.length then processedData.push(lastObj = data)
+        else
+            lastDir[0]['children'] = [lastObj = data]
+            lastDir = lastDir[0]['children']
+    )
+    if lastObj then lastDir = lastObj['children'] = []
     
+    # add path inodes
     for k,inode of inodes
-        processedData.push({
+        lastDir.push({
             title: inode.baseName,
-            key: k,
-            refType: inode.fileType
+            key: Base64.encode(inode.path),
+            refType: if inode.type is 'directory' then inode.type else inode.fileType
+            folder: if inode.type is 'directory' then true else false
         })
+    console.log 'data',processedData
     return processedData
-
-
