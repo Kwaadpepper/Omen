@@ -60,3 +60,4 @@ $(document).ready ()->
 	require('./omen/dragNDropSystem.coffee')
 	require('./tools/ping.coffee')()
 	require('./omen/contextMenu.coffee')
+	require('./omen/hotKeySystem.coffee')

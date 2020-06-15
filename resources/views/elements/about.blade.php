@@ -28,6 +28,9 @@
                             <pre>{{ config('omen.package.description') }}</pre>
                         </div>
                         <div class="mt-3">
+                            <pre id="aboutShortcuts"></pre>
+                        </div>
+                        <div class="mt-3">
                             <h6>Contributors</h6>
                             @foreach(config('omen.package.authors') as $author)
                             <pre>@foreach($author as $propertyName => $value){{ $value.PHP_EOL }}@endforeach</pre><br>

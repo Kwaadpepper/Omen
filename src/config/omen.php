@@ -248,6 +248,35 @@ return [
      */
     'documentEmbedViewer' => 'https://docs.google.com/gview?url=###URL###&embedded=true',
 
+    /**
+     * Enable or Disable app shortcuts
+     * These works with ALT modifier only
+     * 
+     * you can override any down there
+     * if you want to disable a specific one
+     * just put false value eg: 'u' => false
+     */
+    'enableShorcuts' => true,
+    'shorcuts' => [
+        'u' => 'upload',
+        'i' => 'iconview',
+        'l' => 'listview',
+        'f' => 'newfile',
+        'g' => 'newdirectory',
+        'j' => 'about',
+        'q' => 'leftpannel',
+        '1' => 'filterfiles',
+        '2' => 'filterarchives',
+        '3' => 'filterimages',
+        '4' => 'filtervideo',
+        '5' => 'filteraudio',
+        'r' => 'reload',
+        'a' => 'sortalpha',
+        'd' => 'sortdate',
+        's' => 'sortsize',
+        't' => 'sorttype'
+    ],
+
     /* === CORS Headers === */
 
     /**
