@@ -169,9 +169,9 @@ If you are using local storage you must link the public storage to your public f
 -   [x] ~can midi files be played ?~ not easily, won't do
 -   [x] rework copy and paste
 -   [x] right click menu
--   [ ] work on left panel fancy tree
--   [ ] implement configurable shortcuts
--   [ ] focus and search on type (for left pannel and main)
+-   [x] work on left panel fancy tree, Navigation ok
+-   [x] implement configurable shortcuts
+-   [x] focus and search on type
 -   [ ] support zoom in image viewer
 -   [ ] add error message on text viewer ?
 -   [ ] prevent share links if storage is private and url not accessible
@@ -192,6 +192,7 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] fix sort error when only 1 inode to display
 -   [ ] fix rename bug on forbidden char ?
 -   [ ] fix delete inode
+-   [ ] fix dont apply actions to checked figure but hidden
 -   [ ] find a solution for resize image CSP violation (jquery-ui resisable code)
 -   [ ] check if deps are installed before enable resize and crop
 
@@ -202,3 +203,4 @@ If you are using local storage you must link the public storage to your public f
 -   [ ] Resize image keep ratio function
 -   [ ] global search file
 -   [ ] change visibility
+-   [ ] more global actions such as mass delete
