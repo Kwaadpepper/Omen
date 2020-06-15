@@ -104,10 +104,10 @@ saveImage = (saveAsNew)->
                     addInodeFigure({ path: inode.path }).then(->
                         resetFilters()
                         applySort()
-                        $("figure[data-path='#{Base64.encode(inode.fullPath)}'")[0].scrollIntoView({ behavior: 'smooth' });
+                        $("figure[data-path='#{Base64.encode(inode.path)}'")[0].scrollIntoView({ behavior: 'smooth' });
                     )
                     inodes = omenApi.getProp('inodes')
-                    inodes[Base64.encode(inode.fullPath)] = inode
+                    inodes[Base64.encode(inode.path)] = inode
                     omenApi.setProp('inodes', inodes)
                     imageEditorModal.modal('hide')
                     alert('success', trans('File cropped'), trans("${filename} has been cropped", { 'filename': inode.baseName }))
@@ -137,10 +137,10 @@ saveImage = (saveAsNew)->
                     addInodeFigure({ path: inode.path }).then(->
                         resetFilters()
                         applySort()
-                        $("figure[data-path='#{Base64.encode(inode.fullPath)}'")[0].scrollIntoView({ behavior: 'smooth' });
+                        $("figure[data-path='#{Base64.encode(inode.path)}'")[0].scrollIntoView({ behavior: 'smooth' });
                     )
                     inodes = omenApi.getProp('inodes')
-                    inodes[Base64.encode(inode.fullPath)] = inode
+                    inodes[Base64.encode(inode.path)] = inode
                     omenApi.setProp('inodes', inodes)
                     imageEditorModal.modal('hide')
                     alert('success', trans('File resized'), trans("${filename} has been resized", { 'filename': inode.baseName }))

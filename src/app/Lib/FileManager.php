@@ -68,12 +68,14 @@ class FileManager
             $pathOrInode = $pathOrInode->getFullPath();
         }
 
-        foreach ($disk->directories($pathOrInode) as $directoryPath) {
-            $inodes[\base64_encode($directoryPath)] = new Inode($directoryPath, InodeType::DIR, $disk);
+        foreach ($disk->directories($pathOrInode) as $directoryFullPath) {
+            $i = new Inode($directoryFullPath, InodeType::DIR, $disk);
+            $inodes[\base64_encode($i->getPath())] = $i;
         }
 
-        foreach ($disk->files($pathOrInode) as $filePath) {
-            $inodes[\base64_encode($filePath)] = new Inode($filePath, InodeType::FILE, $disk);
+        foreach ($disk->files($pathOrInode) as $fileFullPath) {
+            $i = new Inode($fileFullPath, InodeType::FILE, $disk);
+            $inodes[\base64_encode($i->getPath())] = $i;
         }
 
         return $inodes;

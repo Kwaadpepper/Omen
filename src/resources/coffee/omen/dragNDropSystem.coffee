@@ -43,9 +43,9 @@ draggable.on('drag:stop', ()->
         $lastTarget.css({'background-color': ''})
         if $lastTarget.hasClass('figureDirectory') and $lastTarget.data('path') != $el.data('path')
             inodes = omenApi.getProp('inodes')
-            sourceFullPath = $el.data('path')
+            sourcePath = $el.data('path')
             # keep in mind elements
-            sourcePath = inodes[sourceFullPath].path
+            sourcePath = inodes[sourcePath].path
             if $lastTarget.hasClass('Root')
                 destPath = getParentFolder(decodeURIComponent(getUrlLocationParameter('path')))
             else
@@ -53,9 +53,9 @@ draggable.on('drag:stop', ()->
             console.log sourcePath,destPath
             moveTo(sourcePath, destPath).done(->
                 inodes = omenApi.getProp('inodes')
-                if typeof inodes[sourceFullPath] != 'undefined'
-                    delete inodes[sourceFullPath]
-                    $("figure[data-path='#{sourceFullPath}'").remove()
+                if typeof inodes[sourcePath] != 'undefined'
+                    delete inodes[sourcePath]
+                    $("figure[data-path='#{sourcePath}'").remove()
                     alert('success', trans('Moved'), trans("Element was move successfully"))
             ).fail((message)->
                 if typeof message != 'undefined' and message.length

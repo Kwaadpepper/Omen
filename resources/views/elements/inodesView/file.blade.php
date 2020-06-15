@@ -70,7 +70,7 @@ if(!empty(array_intersect($inode->getPossibleMimeTypesFromFileName(), $mediaElem
 
 @section('classType'. $id, $inodeFileTypeMdiClass[$inode->getFileType()] ?? 'mdi-file-outline')
 
-@section('path'. $id, base64_encode($inode->getFullPath()))
+@section('path'. $id, base64_encode($inode->getPath()))
 
 @section('size'. $id, $inode->getSize())
 @section('date'. $id, $inode->getDateFormated())

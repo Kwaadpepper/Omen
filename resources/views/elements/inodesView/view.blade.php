@@ -8,6 +8,6 @@ $path = dirname($path);
 @include(sprintf('omen::elements.inodesView.%s', 'directory'), ['id' => 'root', 'path' => $path, 'inodeType' => 'directory'])
 @endif
 
-@foreach($inodes as $fullPath => $inode)
-@include(sprintf('omen::elements.inodesView.%s', $inode->getType()), ['id' => sha1($loop->count.$fullPath), 'inodeType' => $inode->getType()])
+@foreach($inodes as $inode)
+@include(sprintf('omen::elements.inodesView.%s', $inode->getType()), ['id' => sha1($loop->count.$inode->getPath()), 'inodeType' => $inode->getType()])
 @endforeach

@@ -33,7 +33,7 @@ module.exports = ->
                         locationInodes = omenApi.getProp('inodes')
                         for k,updatedInode of arguments
                             addInodeFigure(updatedInode, updatedInode.type == 'directory').then(->
-                                locationInodes[Base64.encode(updatedInode.fullPath)] = updatedInode
+                                locationInodes[Base64.encode(updatedInode.path)] = updatedInode
                                 omenApi.setProp('inodes', locationInodes)
                                 applySort()
                             ,(data)->
@@ -64,7 +64,7 @@ module.exports = ->
                         for inode,k in inodes
                             inode.path = "#{destination}/#{inode.baseName}"
                             addInodeFigure(inode, inode.type == 'directory').then((data)->
-                                locationInodes[Base64.encode(data.inode.fullPath)] = data.inode
+                                locationInodes[Base64.encode(data.inode.path)] = data.inode
                                 omenApi.setProp('inodes', locationInodes)
                                 applySort()
                             ,(data)->

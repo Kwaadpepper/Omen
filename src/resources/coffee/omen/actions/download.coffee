@@ -10,9 +10,9 @@ progressbar = require('./../../tools/progressbar.coffee')
 
 module.exports = (action)->
     (event)->
-        fileFullPath = $(this).parents('figure').data('path')
+        filePath = $(this).parents('figure').data('path')
         inodes = omenApi.getProp('inodes')
-        inode = inodes[fileFullPath]
+        inode = inodes[filePath]
         progressbar.run(0.3)
 
         url = if inode.visibility == 'public' then inode.url else action.url + inode.path

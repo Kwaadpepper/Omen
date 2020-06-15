@@ -13,7 +13,7 @@
 
 @section('figureType'.$id, 'figureDirectory')
 @section('name'. $id, $inode->getName())
-@section('path'. $id, base64_encode($inode->getFullPath()))
+@section('path'. $id, base64_encode($inode->getPath()))
 
 @section('date'. $id, $inode->getDateFormated())
 @section('visibility'. $id, $inode->getVisibility())

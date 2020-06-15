@@ -39,16 +39,16 @@ renameForm.on('submit', (e)->
         # close Modal
         renameModal.modal('hide')
 
-        fullBase64 = Base64.encode(data.fullPath)
+        encPath = Base64.encode(data.path)
 
         # update figure
         currentFigure.find('figcaption').text(data.name)
-        currentFigure.data('path', fullBase64)
-        currentFigure.attr('data-path', fullBase64)
+        currentFigure.data('path', encPath)
+        currentFigure.attr('data-path', encPath)
 
         #update inode
-        delete inodes[Base64.encode(currentinode.fullPath)]
-        inodes[fullBase64] = data
+        delete inodes[Base64.encode(currentinode.path)]
+        inodes[encPath] = data
         omenApi.setProp('inodes', inodes)
 
         # show toast
@@ -85,9 +85,9 @@ module.exports = (action)->
     (event)->
         actionInfo = action
         currentFigure = $(this).parents('figure')
-        fileBase64FullPath = currentFigure.data('path')
+        fileBase64Path = currentFigure.data('path')
         inodes = omenApi.getProp('inodes')
-        currentinode = inodes[fileBase64FullPath]
+        currentinode = inodes[fileBase64Path]
 
         if currentinode.fileType == 'image' or currentinode.fileType == 'text' then renameEditButton.removeClass('d-none')
 

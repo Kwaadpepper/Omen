@@ -442,7 +442,7 @@ class Inode implements JsonSerializable
             'path' => $this->path,
             'dirName' => $this->dirName,
             'baseName' => $this->baseName,
-            'fullPath' => $this->fullPath,
+            'path' => $this->getPath(),
             'url' => $this->url,
             'type' => $this->type,
             'extension' => $this->getExtension(),

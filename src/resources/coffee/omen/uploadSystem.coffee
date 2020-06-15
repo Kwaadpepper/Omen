@@ -215,7 +215,7 @@ $uploadForm.on('fileuploaded', (event, t, h, f)->
         setTimeout (->
             addInodeFigure({ path: filePath })
             inodes = omenApi.getProp('inodes')
-            inodes[Base64.encode(uploadedInode.fullPath)] = uploadedInode
+            inodes[Base64.encode(uploadedInode.path)] = uploadedInode
             omenApi.setProp('inodes', inodes)
             $uploadButton.prop('disabled', true)
             return

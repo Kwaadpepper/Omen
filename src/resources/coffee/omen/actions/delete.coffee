@@ -15,9 +15,9 @@ module.exports = (action)->
         if !confirm(trans('Delete inode ?')) then return false
 
         inodeFigure = $(this).parents('figure')
-        inodeFullPath = inodeFigure.data('path')
+        inodePath = inodeFigure.data('path')
         inodes = omenApi.getProp('inodes')
-        inode = inodes[inodeFullPath]
+        inode = inodes[inodePath]
         lockUi.lock()
         progressbar.run(0.3)
 
@@ -37,7 +37,7 @@ module.exports = (action)->
                         alert('danger', trans('File delete error'), trans("Server error on delete ${filename}", { 'filename': renameInput.val() }))
                     else
                         # remove inode
-                        delete inodes[inodeFullPath]
+                        delete inodes[inodePath]
                         omenApi.setProp('inodes', inodes)
                         inodeFigure.remove()
 

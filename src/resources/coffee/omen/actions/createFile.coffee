@@ -93,9 +93,9 @@ newFileForm.on('submit', (e)->
             newFileModal.modal('hide')
 
             # add inode
-            fullBase64 = Base64.encode(inode.fullPath)
+            encPath = Base64.encode(inode.path)
             inodes = omenApi.getProp('inodes')
-            inodes[fullBase64] = inode
+            inodes[encPath] = inode
             omenApi.setProp('inodes', inodes)
 
             # add figure

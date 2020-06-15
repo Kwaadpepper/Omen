@@ -11,9 +11,9 @@ module.exports = (action)->
     (event)->
 
         figure = $(this).parents('figure')
-        fileBase64FullPath = figure.data('path')
+        fileBase64Path = figure.data('path')
         inodes = omenApi.getProp('inodes')
-        inode = inodes[fileBase64FullPath]
+        inode = inodes[fileBase64Path]
 
         # if directory is Parent
         if(figure.hasClass('Root'))

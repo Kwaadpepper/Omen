@@ -155,9 +155,9 @@ if not (
 module.exports = (action)->
     (event)->
         figureElement = $(this)
-        fileBase64FullPath = figureElement.parents('figure').data('path')
+        fileBase64Path = figureElement.parents('figure').data('path')
         inodes = omenApi.getProp('inodes')
-        inode = currentInode = inodes[fileBase64FullPath]
+        inode = currentInode = inodes[fileBase64Path]
 
         # get the inode showable url
         url = if inode.visibility == 'public' then inode.url else action.url + inode.path

@@ -61,7 +61,7 @@ editFileForm.on('submit', (e)->
         alert('danger', trans('Action failure'), trans("Could not update ${inodename}, server said no", { 'inodename': currentInode.baseName }))
 
         # log error
-        logException("Error Occured on update  #{error.status} #{error.statusText} INODE => #{currentInode.fullPath} URL => #{updateFileAction.url}", "9#{ln()}")
+        logException("Error Occured on update  #{error.status} #{error.statusText} INODE => #{currentInode.path} URL => #{updateFileAction.url}", "9#{ln()}")
     ))
 
     e.preventDefault()
