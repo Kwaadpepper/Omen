@@ -4,4 +4,4 @@ module.exports = (path)->
     path = path.split('/')
     path = path.splice(0, path.length - 1)
     path = if path.length then path.join('/') else '/'
-    return path
+    return "/#{path}"
