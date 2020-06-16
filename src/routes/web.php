@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Kwaadpepper\Omen\Http\Middleware\CheckCookieCsrfTokenMiddleware;
+use \App\Http\Middleware\VerifyCsrfToken as VerifyAndSetCsrfToken;
 
 $middlewareMinimal = include(__DIR__ . '/middlewareMinimal.php');
 
@@ -29,5 +31,5 @@ Route::group([
     Route::match(['get'], sprintf('%s/download/{file}', $routePrefix), 'DownloadController@download')->where('file', '(.*)')->name('omenDownload');
 
     // Assets
-    Route::get(sprintf('%s/{fileUri}', config('omen.assetPath')), 'OmenController@asset')->where('fileUri', '.*')->name('omenAsset');
+    Route::get(sprintf('%s/{fileUri}', config('omen.assetPath')), 'OmenController@asset')->where('fileUri', '.*')->name('omenAsset')->middleware(CheckCookieCsrfTokenMiddleware::class);
 });
