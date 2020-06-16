@@ -3,6 +3,7 @@
 
 return [
 
+    'debug' => config('app.debug'),
 
     /* === BACK END === */
     /**
