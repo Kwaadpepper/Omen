@@ -218,9 +218,7 @@ module.exports = (action)->
                     null,
                     (textData)->
                         textModal.find('pre').text(textData)
-                        document.querySelectorAll('pre').forEach((block)->
-                            hightlightJS.highlightBlock(block)
-                        )
+                        hightlightJS.highlightBlock(textModal.find('pre')[0])
                     ,
                     (error)->
                         alert('danger', trans('Error'), trans('Could not retrieve text file'))

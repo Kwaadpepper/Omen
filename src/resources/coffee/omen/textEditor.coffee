@@ -86,9 +86,7 @@ editFileModal.on 'shown.bs.modal', ((e)->
             progressbar.end()
             editFormSubmitButton.prop('disabled', false)
             editFileModal.find('pre').text(textData)
-            document.querySelectorAll('pre').forEach((block)->
-                hightlightJS.highlightBlock(block)
-            )
+            hightlightJS.highlightBlock(editFileModal.find('pre')[0])
         ,
         (error)->
             lockUi.unlock()
