@@ -15,7 +15,7 @@ class TextController extends Controller
     {
         // only filepath and filename must be filled
         if (!$request->filled('filePath') or !$request->filled('fileName') or !$request->has('fileText')) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $filePath = OmenHelper::uploadPath(sprintf('%s/%s', $request->post('filePath'), OmenHelper::filterFilename($request->post('fileName'))));
@@ -25,10 +25,10 @@ class TextController extends Controller
         $inode = $fm->inode($filePath);
         try {
             if (!$inode->put($fileText)) {
-                abort(500);
+                return OmenHelper::abort(500);
             }
         } catch (OmenException $e) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         return response()->json($inode, 200);
@@ -38,7 +38,7 @@ class TextController extends Controller
     {
         // only filepath and filename must be filled
         if (!$request->filled('filePath') or !$request->has('fileText')) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $filePath = OmenHelper::uploadPath($request->post('filePath'));
@@ -48,10 +48,10 @@ class TextController extends Controller
         $inode = $fm->inode($filePath);
         try {
             if (!$inode->put($fileText)) {
-                abort(500);
+                return OmenHelper::abort(500);
             }
         } catch (OmenException $e) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         return response()->json([], 200);

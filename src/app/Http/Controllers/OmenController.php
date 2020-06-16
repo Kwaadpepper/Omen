@@ -43,7 +43,7 @@ class OmenController extends Controller
     public function rename(Request $request)
     {
         if (!$request->filled('filename') or !$request->filled('filepath')) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $fm = new FileManager();
@@ -52,7 +52,7 @@ class OmenController extends Controller
         $filename = OmenHelper::filterFilename($request->post('filename'));
 
         if (!$fm->exists($filepath)) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
 
         $inode = $fm->inode($filepath);
@@ -77,7 +77,7 @@ class OmenController extends Controller
     public function delete(Request $request)
     {
         if (!$request->filled('filepath')) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $fm = new FileManager();
@@ -85,7 +85,7 @@ class OmenController extends Controller
         $filepath = OmenHelper::uploadPath($request->post('filepath'));
 
         if (!$fm->exists($filepath)) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
 
         try {
@@ -107,7 +107,7 @@ class OmenController extends Controller
     public function moveto(Request $request)
     {
         if (!$request->filled('sourcePath') or !$request->filled('destPath')) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $fm = new FileManager();
@@ -116,21 +116,21 @@ class OmenController extends Controller
         $destPath = OmenHelper::uploadPath($request->post('destPath'));
 
         if (!$fm->exists($sourcePath) or !$fm->exists($destPath)) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
 
         $sourceInode = $fm->inode($sourcePath);
         $destInode = $fm->inode($destPath);
 
         if ($destInode->getType() != InodeType::DIR) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         try {
             $fm->moveTo($sourceInode, $destInode);
         } catch (OmenException $e) {
             report($e);
-            abort(500);
+            return OmenHelper::abort(500);
         } catch (\League\Flysystem\FileExistsException $e) {
             return response()->json([
                 'message' => __('Cannot move element already exists')
@@ -142,7 +142,7 @@ class OmenController extends Controller
     public function copyto(Request $request)
     {
         if (!$request->filled('sourcePath') or !$request->filled('destPath')) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $fm = new FileManager();
@@ -151,21 +151,21 @@ class OmenController extends Controller
         $destPath = OmenHelper::uploadPath($request->post('destPath'));
 
         if (!$fm->exists($sourcePath) or !$fm->exists($destPath)) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
 
         $sourceInode = $fm->inode($sourcePath);
         $destInode = $fm->inode($destPath);
 
         if ($destInode->getType() != InodeType::DIR) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
         $inode = null;
         try {
             $inode = $fm->copyTo($sourceInode, $destInode);
         } catch (OmenException $e) {
             report($e);
-            abort(500);
+            return OmenHelper::abort(500);
         } catch (\League\Flysystem\FileExistsException $e) {
             return response()->json([
                 'message' => __('Cannot copy element already exists')
@@ -195,7 +195,7 @@ class OmenController extends Controller
     public function createDirectory(Request $request)
     {
         if (!$request->filled('directoryPath') or !$request->filled('directoryName')) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $directoryPath = OmenHelper::uploadPath(sprintf('%s/%s', $request->post('directoryPath'), OmenHelper::filterFilename($request->post('directoryName'))));
@@ -206,7 +206,7 @@ class OmenController extends Controller
             $fm->createDirectory($directoryPath);
         } catch (OmenException $e) {
             report($e);
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $inode = $fm->inode($directoryPath);
@@ -217,7 +217,7 @@ class OmenController extends Controller
     public function getInodeHtml(Request $request)
     {
         if (!$request->filled('filepath') and !$request->filled('directorypath')) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $inodepath = !empty($request->post('filepath')) ? $request->post('filepath') : $request->post('directorypath');
@@ -227,7 +227,7 @@ class OmenController extends Controller
         $fm = new FileManager();
 
         if (!$fm->exists($inodepath)) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
 
         $inode = $fm->inode($inodepath);
@@ -246,14 +246,14 @@ class OmenController extends Controller
     public function getInodesAtPath(Request $request)
     {
         if (!$request->filled('path')) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $inodepath = OmenHelper::uploadPath($request->get('path'));
         $fm = new FileManager();
 
         if (!$fm->exists($inodepath)) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
 
         $inodes = $fm->inodes($inodepath);
@@ -274,14 +274,14 @@ class OmenController extends Controller
     public function getBreadcrumbAtPath(Request $request)
     {
         if (!$request->filled('path')) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $inodepath = OmenHelper::uploadPath($request->get('path'));
         $fm = new FileManager();
 
         if (!$fm->exists($inodepath)) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
 
         // session should be filled with path request
@@ -331,7 +331,7 @@ class OmenController extends Controller
                 'Content-Size' => $fileSize
             ]);
         } catch (FileNotFoundException $e) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
     }
 
@@ -339,7 +339,7 @@ class OmenController extends Controller
     {
         $jsonRequest = json_decode($request->getContent(), true);
         if (empty($jsonRequest['csp-report'])) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
         try {
             report(new OmenException(\sprintf('Omen CSP violation report %s', OmenHelper::formatCspReport($jsonRequest)), '23' . __LINE__));
@@ -366,7 +366,7 @@ class OmenController extends Controller
     public function log(Request $request)
     {
         if (!$request->filled('code') || !$request->filled('message')) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
         try {
             report(new OmenException(\sprintf('FrontEND : %s', $request->post('message')), $request->post('code')));

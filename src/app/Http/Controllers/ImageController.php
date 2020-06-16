@@ -17,21 +17,21 @@ class ImageController extends Controller
             !$request->filled('fileheight') or
             !$request->filled('filewidth')
         ) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         if (
             !\filter_var($request->post('fileheight'), FILTER_VALIDATE_FLOAT) or
             !\filter_var($request->post('filewidth'), FILTER_VALIDATE_FLOAT)
         ) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $fm = new FileManager();
         $filepath = OmenHelper::uploadPath($request->post('filepath'));
 
         if (!$fm->exists($filepath)) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
 
         $inode = $fm->inode($filepath);
@@ -46,7 +46,7 @@ class ImageController extends Controller
             \floatval($request->post('fileheight')),
             $newInode
         )) {
-            abort(500);
+            return OmenHelper::abort(500);
         }
 
         if ($newInode) {
@@ -68,7 +68,7 @@ class ImageController extends Controller
             !$request->filled('scaleX') or
             !$request->filled('scaleY')
         ) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         $cropX = $request->post('x');
@@ -88,7 +88,7 @@ class ImageController extends Controller
             !\is_numeric($sx) or
             !\is_numeric($sy)
         ) {
-            abort(400);
+            return OmenHelper::abort(400);
         }
 
         // Intervention crop only supports integer values
@@ -104,7 +104,7 @@ class ImageController extends Controller
         $filepath = OmenHelper::uploadPath($request->post('filepath'));
 
         if (!$fm->exists($filepath)) {
-            abort(404);
+            return OmenHelper::abort(404);
         }
 
         $inode = $fm->inode($filepath);
@@ -144,7 +144,7 @@ class ImageController extends Controller
         ];
 
         if (!ImageLib::applyOn($inode, $operations, $newInode)) {
-            abort(500);
+            return OmenHelper::abort(500);
         }
 
         if ($newInode) {

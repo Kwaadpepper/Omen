@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Session\TokenMismatchException;
 use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\Lib\CSRF;
+use Kwaadpepper\Omen\OmenHelper;
 
 class OmenApiCSRFMiddleware
 {
@@ -25,15 +26,15 @@ class OmenApiCSRFMiddleware
         try {
             // Check Laravel CSRF token first
             if (
-                (!$this->checkOmenCSRFToken($request) and $request->route()->getName() != "omenUpload") and
+                (!$this->checkOmenCSRFToken($request) and $request->route()->getName() != 'OmenApi.omenUpload') and
                 !$this->checkLaravelCSRFToken($request)
             ) {
-                return \response('', 419);
+                return OmenHelper::abort(419, __('CSRF token mismatch.'));
             }
 
             $response = $next($request);
 
-            if ($request->route()->getName() != "omenUpload") {
+            if ($request->route()->getName() != 'OmenApi.omenUpload') {
                 $this->addCSRFTokenToResponse($response);
             }
         } catch (Exception $e) {
@@ -45,7 +46,7 @@ class OmenApiCSRFMiddleware
 
     private function isUploadRoute($request)
     {
-        return  $request->route()->getActionName() == 'omenUpload';
+        return  $request->route()->getActionName() == 'OmenApi.omenUpload';
     }
 
     private function addCSRFTokenToResponse(&$response)

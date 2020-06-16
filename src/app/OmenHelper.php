@@ -356,4 +356,25 @@ class OmenHelper
             throw new OmenException("Asserted $variable was type of $type in $parentClass $parentFunction on line $parentLine");
         };
     }
+
+    public static function abort(int $code, string $message = '')
+    {
+        if ($message == '') {
+            switch ($code) {
+                case 400:
+                    $message = __('Bad request');
+                    break;
+                case 404:
+                    $message = __('File not found');
+                    break;
+                case 409:
+                    $message = __('Page expired');
+                    break;
+                case 500:
+                    $message = __('Server error');
+                    break;
+            }
+        }
+        return (new OmenException($message, $code))->render(\request());
+    }
 }
