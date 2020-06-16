@@ -5,8 +5,9 @@ use Illuminate\Support\Facades\Route;
 $middlewareMinimal = include(__DIR__ . '/middlewareMinimal.php');
 
 Route::group([
+    'as' => 'OmenApi.',
     'middleware' => array_merge(
-        ['throttle:100,1'],
+        ['omenthrottle:100,1'],
         $middlewareMinimal,
         [\Kwaadpepper\Omen\Http\Middleware\OmenApiCSRFMiddleware::class]
     ),
@@ -62,8 +63,9 @@ Route::group([
 
 // public route
 Route::group([
+    'as' => 'OmenReport.',
     'namespace' => 'Kwaadpepper\Omen\Http\Controllers',
-    'middleware' => array_merge(['throttle:100,1'], $middlewareMinimal)
+    'middleware' => array_merge(['omenthrottle:100,1'], $middlewareMinimal)
 ], function () {
     Route::match(['post'], sprintf('%s/csp/report', config('omen.urlPrefix')), 'OmenController@cspReport')->name('omenCspReport');
 });

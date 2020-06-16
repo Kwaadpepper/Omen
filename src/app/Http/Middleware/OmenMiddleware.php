@@ -99,7 +99,7 @@ class OmenMiddleware
             $cspRuleLine .= !empty($cspOptionUrls[$policy]) ? \sprintf('%s %s; ', $policy, \implode(' ', $cspOptionUrls[$policy])) : '';
         }
 
-        return $cspRuleLine . 'report-uri ' . route('omenCspReport', [], false);
+        return $cspRuleLine . 'report-uri ' . route('OmenReport.omenCspReport', [], false);
     }
 
     private function corsHandle(&$response)

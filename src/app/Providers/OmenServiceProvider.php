@@ -9,6 +9,7 @@ use \Blade as _Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 use Kwaadpepper\Omen\Exceptions\OmenException;
+use Kwaadpepper\Omen\Http\Middleware\OmenThrottleMiddleware;
 
 class OmenServiceProvider extends ServiceProvider
 {
@@ -32,6 +33,7 @@ class OmenServiceProvider extends ServiceProvider
         $this->loadJsonTranslationsFrom(__DIR__ . '/../../../resources/lang/');
         $this->loadViewsFrom(__DIR__ . '/../../../resources/views', 'omen');
 
+        $router->aliasMiddleware('omenthrottle', OmenThrottleMiddleware::class);
         $router->middlewareGroup(
             'OmenMiddleware',
             array(
