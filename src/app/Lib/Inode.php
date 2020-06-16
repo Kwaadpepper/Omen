@@ -40,13 +40,13 @@ class Inode implements JsonSerializable
     {
         $this->disk = $disk;
 
-        $this->initWithFullPath($fullPath);
-
         if (empty($type)) {
             $this->type = $this->isPathDirectory($fullPath, $disk) ? InodeType::DIR : InodeType::FILE;
         } else {
             $this->type = $type;
         }
+
+        $this->initWithFullPath($fullPath);
 
         if ($this->mimeType = $this->getMimeTypeFromFileName()) {
             $this->fileType = InodeFileType::getFromMimeType($this->mimeType);
@@ -78,13 +78,18 @@ class Inode implements JsonSerializable
         $this->baseName = empty($this->baseName) ? '/' : $this->baseName;
 
         try {
-            $this->url = $this->disk->url($fullPath);
-            // Check this with other storage types
-            if (empty(\parse_url($this->url, \PHP_URL_HOST)))
-                $this->url = url('/') . $this->url;
+            if ($this->type == InodeType::FILE) {
+                $this->url = $this->disk->url($fullPath);
+
+                // check if is a HTTP url
+                if (empty(\parse_url($this->url, \PHP_URL_HOST))) {
+                    // fallback to omen serve file
+                    $this->url = Application::getInstance()->make('url')->route('httpFileSend.omenDownload', \ltrim($this->path, '/'));
+                }
+            }
         } catch (RuntimeException $e) {
             \report(new OmenException(sprintf('Can\'t get this inode public url %s ', $fullPath), '5' . __LINE__, $e));
-            $this->url = Application::getInstance()->make('url')->route('omenDownload', $this->path);
+            $this->url = Application::getInstance()->make('url')->route('httpFileSend.omenDownload', \ltrim($this->path, '/'));
         }
     }
 
