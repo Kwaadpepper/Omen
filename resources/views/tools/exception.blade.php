@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Omen File Manager - Error code {{ $code }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
+    <link nonce="{{ config('omen.cspToken') }}" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
 </head>
 <body class="bg-dark">
     <div class="container-fluid vh-100 text-center text-light">
@@ -13,8 +13,9 @@
                 <br>
             </div>
             <div class="col-10 border-left border-right border-light">
-                <h1><img id="logo" src="" style="margin-right: 2em;">Omen File Manager Error</h1>
+                <h1><img id="logo" src="" class="mr-4">Omen File Manager</h1>
                 <h2 class="m-0">{{ $message }}</h2>
+                <h4>{{ $code }}</h4>
             </div>
             <div class="col-1 border-bottom border-light">
                 <br>
