@@ -14,7 +14,6 @@ use Kwaadpepper\Omen\Lib\CSRF;
 use Kwaadpepper\Omen\Lib\FileManager;
 use Kwaadpepper\Omen\Lib\InodeType;
 use Kwaadpepper\Omen\OmenHelper;
-use League\Flysystem\FileNotFoundException as FlysystemFileNotFoundException;
 
 class OmenController extends Controller
 {
@@ -174,22 +173,6 @@ class OmenController extends Controller
         return response()->json([
             'inode' => $inode
         ], 200);
-    }
-
-    public function download(Request $request, $filePath)
-    {
-        $fm = new FileManager();
-
-        if ($request->method('HEAD')) {
-            if (!$fm->exists(OmenHelper::uploadPath($filePath)))
-                abort(404);
-        }
-
-        try {
-            return $fm->inode(OmenHelper::uploadPath($filePath))->download();
-        } catch (FlysystemFileNotFoundException $e) {
-            abort(404);
-        }
     }
 
     public function createDirectory(Request $request)

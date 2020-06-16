@@ -26,7 +26,7 @@ Route::group([
     $routePrefix = config('omen.urlPrefix');
 
     // JS Download
-    Route::match(['get'], sprintf('%s/download/{file}', $routePrefix), 'OmenController@download')->where('file', '(.*)')->name('omenDownload');
+    Route::match(['get'], sprintf('%s/download/{file}', $routePrefix), 'DownloadController@download')->where('file', '(.*)')->name('omenDownload');
 
     // Assets
     Route::get(sprintf('%s/{fileUri}', config('omen.assetPath')), 'OmenController@asset')->where('fileUri', '.*')->name('omenAsset');
