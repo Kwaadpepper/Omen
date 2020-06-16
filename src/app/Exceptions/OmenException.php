@@ -32,18 +32,18 @@ class OmenException extends Exception
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function render($request)
+    public function render($request, $sendCode = false)
     {
         if ($request->ajax()) {
             return response()->json([
                 'code' => $this->code . $this->line,
                 'message' => $this->message
-            ], 500);
+            ], $sendCode ? $this->code : 500);
         }
         return response()->view('omen::tools.exception', [
             'code' => $this->code . $this->line,
             'message' => $this->message
-        ], 500);
+        ], $sendCode ? $this->code : 500);
     }
 
     private function renderForConsole()

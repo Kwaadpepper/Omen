@@ -375,6 +375,6 @@ class OmenHelper
                     break;
             }
         }
-        return (new OmenException($message, $code))->render(\request());
+        return (new OmenException($message, $code))->render(\request(), true);
     }
 }
