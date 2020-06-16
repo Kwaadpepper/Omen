@@ -32,6 +32,7 @@
     & .modal-body {
         position: relative;
         text-align: center;
+        min-height: 10em;
 
         // Errorm Message
         & > h4 {
@@ -48,29 +49,22 @@
         & > img {
             max-width: 100%;
             position: relative;
-            top: -15em;
             height: auto;
-            margin-bottom: -15em;
-        }
-
-        // Loader image
-        & > div {
-            position: relative;
             width: 100%;
-            height: 15em;
-            min-height: 15em;
+            height: 100%;
 
-            &:before {
-                content: "\00A0"; // whiteSpace
-                position: absolute;
-                height: 15em;
-                width: 100%;
-                left: 0;
-                background-position: center;
-                background-repeat: no-repeat;
+            &:active {
+                cursor: pointer;
+            }
 
-                background-image: url("/vendor/omen/images/loading.svg");
+            &:focus,
+            &:hover {
+                cursor: all-scroll;
             }
         }
+
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("/vendor/omen/images/loading.svg");
     }
 }

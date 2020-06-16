@@ -16,10 +16,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                {{-- This div is needed for a css hack image loader --}}
-                <div></div>
                 <h4 class="text-center d-none">{{ __('omen::Can\'t display image, your browser does not support it, you can still download it') }}</h4>
-                <img class="img-fluid border-0" src="" alt="">
+                <img class="img-fluid border-0" src="" alt="" data-toggle="tooltip" title="{{ __('omen::Scroll to zoom, drag to move') }}">
             </div>
         </div>
     </div>

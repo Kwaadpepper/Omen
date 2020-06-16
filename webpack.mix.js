@@ -89,7 +89,8 @@ mix.coffee(['src/resources/coffee/app.coffee'], 'js/omen.js').extract([
     'jquery-ui',
     'cropperjs',
     'bezier-easing',
-    '@shopify/draggable'
+    '@shopify/draggable',
+    'wheelzoom'
 ]);
 
 mix.scripts('node_modules/mediaelement/build/mediaelement-and-player.js', 'resources/js/vendor/mediaelement.min.js');

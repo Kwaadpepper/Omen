@@ -13,7 +13,7 @@ trans = require('./../../tools/translate.coffee')
 mediaElement = require('./../../tools/mediaElement.coffee')
 imageEditor = require('./../imageEditor.coffee')
 textEditor = require('./../textEditor.coffee')
-
+require('wheelzoom')
 
 figureElement = null
 currentInode = null
@@ -23,6 +23,8 @@ currentInode = null
 #*========================== Image Modal VARS ==================================
 imageEditButton = $('#imageViewerModal button.edit')
 imageModal = $('#imageViewerModal')
+image = $('#imageViewerModal img')
+imageZoom = null
 imageModal.on 'click', 'button.imageModalDownload', -> figureElement.parents('figure').find('button.actionDownload').click()
 imageModal.on 'click', 'button.imageModalFullscreen', makeFullscreen('#imageViewerModal .modal-content', false) # go fullscreen
 imageModal.on 'click', 'button.imageModalFullscreenExit', makeFullscreen('#imageViewerModal .modal-content', true) # exit fullscreen
@@ -43,7 +45,11 @@ imageModal.on 'hidden.bs.modal', (e)-> # ON Modal Hidden
     imageModal.find('img').attr('src', '')
     # destroy lazyload
     if(lazyLoadImage) then lazyLoadImage.destroy()
+    if imageZoom then triggerEvent(imageZoom, 'wheelzoom.destroy'); imageZoom = null
 
+image.on 'load', (->
+    if not imageZoom then imageZoom = wheelzoom(image[0])
+)
 lazyLoadImage = null;
 imageErrorMessage = imageModal.find('h4')
 #*======================= END Image Modal VARS ==================================
