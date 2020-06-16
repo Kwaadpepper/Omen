@@ -173,7 +173,7 @@ If you are using local storage you must link the public storage to your public f
 -   [x] implement configurable shortcuts
 -   [x] focus and search on type
 -   [x] support zoom in image viewer
--   [ ] add error message on text viewer ?
+-   [x] add error message on text viewer ?
 -   [ ] prevent share links if storage is private and url not accessible
 -   [ ] polish PDF viewer
 -   [ ] rework exception error codes
