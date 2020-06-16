@@ -172,7 +172,7 @@ If you are using local storage you must link the public storage to your public f
 -   [x] work on left panel fancy tree, Navigation ok
 -   [x] implement configurable shortcuts
 -   [x] focus and search on type
--   [ ] support zoom in image viewer
+-   [x] support zoom in image viewer
 -   [ ] add error message on text viewer ?
 -   [ ] prevent share links if storage is private and url not accessible
 -   [ ] polish PDF viewer
