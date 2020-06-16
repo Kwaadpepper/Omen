@@ -6,7 +6,6 @@ fancyTree = require 'jquery.fancytree'
 omenApi = require './../omenApi.coffee'
 dataProcessor = require "./../tools/fancyTreeDataProcessor.coffee"
 readyEvent = require('./../tools/loadingSplash.coffee').registerWaiting()
-config = require('./../tools/configGetter.coffee')
 ajaxNavigation = require('./../tools/ajaxNavigation.coffee')
 Base64 = require('js-base64').Base64
 getUrlLocationParameter = require('./../tools/getUrlLocationParameter.coffee')
@@ -22,6 +21,7 @@ fillNodeChilds = require('./../tools/fancyTreeFillNodeChilds.coffee')
 # path Inode
 source = dataProcessor(omenApi.getProp('inodes'))
 
+config = require('./../omenApi.coffee').config
 
 #! Events
 openInode = (evt,data)->
@@ -43,7 +43,7 @@ openInode = (evt,data)->
 
 #! CONFIG
 fancyTreeConfig = {
-    debugLevel: 4,
+    debugLevel: if config('omen.debug') then 4 else 0,
     extensions: ['edit', 'filter', 'glyph'],
     source: source,
     autoScroll: true,
