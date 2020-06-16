@@ -55,5 +55,4 @@ module.exports = (inodes)->
             refType: if inode.type is 'directory' then inode.type else inode.fileType
             folder: if inode.type is 'directory' then true else false
         })
-    console.log 'data',processedData
     return processedData
