@@ -38,7 +38,7 @@ You can override `--tag=config, --tag=assets, --tag=views, --tag=lang` :
 
     php artisan vendor:publish --provider="Kwaadpepper\Omen\Providers\OmenServiceProvider" --tag=assets
 
-If you are using local storage you must link the public storage to your public folder
+If you are using local storage and dont need to set files to private you can use this
 
     sudo php artisan omen:link
 
@@ -174,7 +174,7 @@ If you are using local storage you must link the public storage to your public f
 -   [x] focus and search on type
 -   [x] support zoom in image viewer
 -   [x] add error message on text viewer ?
--   [ ] prevent share links if storage is private and url not accessible
+-   [x] prevent share links if storage is private and url not accessible
 -   [ ] polish PDF viewer
 -   [ ] rework exception error codes
 -   [x] add resize and crop images
