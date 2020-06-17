@@ -12,6 +12,10 @@ class ImageController extends Controller
 {
     public function resize(Request $request)
     {
+        if (!config('omen.imageLib')) {
+            return OmenHelper::abort(404);
+        }
+
         if (
             !$request->filled('filepath') or
             !$request->filled('fileheight') or
@@ -58,6 +62,10 @@ class ImageController extends Controller
 
     public function crop(Request $request)
     {
+        if (!config('omen.imageLib')) {
+            return OmenHelper::abort(404);
+        }
+
         if (
             !$request->filled('filepath') or
             !$request->filled('x') or

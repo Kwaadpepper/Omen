@@ -28,6 +28,8 @@ class OmenMiddleware
         $this->interfaceParamsHandle($request);
         $cspRuleLine = $this->csfpHandle();
 
+        $this->checkExtensionsHandle();
+
         $response = null;
 
         try {
@@ -46,6 +48,15 @@ class OmenMiddleware
 
 
         return $response;
+    }
+
+    private function checkExtensionsHandle()
+    {
+        if (\extension_loaded('gd') or \extension_loaded('imagick')) {
+            config(['omen.imageLib' => true]);
+        } else {
+            config(['omen.imageLib' => false]);
+        }
     }
 
     private function csfpHandle()

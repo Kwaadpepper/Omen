@@ -9,6 +9,7 @@ progressbar = require('./../../tools/progressbar.coffee')
 lockUi = require('./../../tools/lockUi.coffee')
 imageEditor = require('./../imageEditor.coffee')
 textEditor = require('./../textEditor.coffee')
+config = require('./../../omenApi.coffee').config
 
 currentFigure = null
 currentinode = null
@@ -20,6 +21,8 @@ renameForm = $('#renameForm')
 renameInput = $('#renameInput')
 renameEditButton = $('#renameModal button.edit')
 imageEditorModal = $('#imageEditorModal')
+
+if not config('omen.imageLib') then renameEditButton.hide()
 
 clearVars = ->
     currentFigure = null

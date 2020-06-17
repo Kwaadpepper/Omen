@@ -14,6 +14,7 @@ mediaElement = require('./../../tools/mediaElement.coffee')
 imageEditor = require('./../imageEditor.coffee')
 textEditor = require('./../textEditor.coffee')
 require('wheelzoom')
+config = require('./../../omenApi.coffee').config
 
 figureElement = null
 currentInode = null
@@ -25,6 +26,7 @@ imageEditButton = $('#imageViewerModal button.edit')
 imageModal = $('#imageViewerModal')
 image = $('#imageViewerModal img')
 imageZoom = null
+if not config('omen.imageLib') then imageEditButton.hide()
 imageModal.on 'click', 'button.imageModalDownload', -> figureElement.parents('figure').find('button.actionDownload').click()
 imageModal.on 'click', 'button.imageModalFullscreen', makeFullscreen('#imageViewerModal .modal-content', false) # go fullscreen
 imageModal.on 'click', 'button.imageModalFullscreenExit', makeFullscreen('#imageViewerModal .modal-content', true) # exit fullscreen
