@@ -175,7 +175,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [x] support zoom in image viewer
 -   [x] add error message on text viewer ?
 -   [x] prevent share links if storage is private and url not accessible
--   [ ] polish PDF viewer
+-   [x] polish PDF viewer
 -   [ ] rework exception error codes
 -   [x] add resize and crop images
 -   [ ] extensive test on mobile
