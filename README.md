@@ -194,7 +194,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [ ] fix delete inode
 -   [ ] fix dont apply actions to checked figure but hidden
 -   [ ] find a solution for resize image CSP violation (jquery-ui resisable code)
--   [ ] check if deps are installed before enable resize and crop
+-   [x] check if deps are installed before enable resize and crop
 
 **Whishlit**
 
