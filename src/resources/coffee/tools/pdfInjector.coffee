@@ -11,9 +11,9 @@ pdfWebViewerCSSUrl = iframePDF.data 'script-css-web'
 # reset iframe
 iframePDF.attr('src', 'about:blank')
 
-module.exports = (pdfUrl)->
+module.exports = (pdfUrl, scale = 100)->
   
     doc = document.getElementById('pdfViewerModalIFrame').contentWindow.document
     doc.open()
-    doc.write(pdfTemplate(pdfJSCode(pdfUrl), pdfJSUrl, pdfJSWorkerUrl, pdfCSSUrl, pdfWebViewerJSUrl, pdfWebViewerCSSUrl, cspToken))
+    doc.write(pdfTemplate(pdfJSCode(pdfUrl, cspToken), pdfJSUrl, scale, pdfJSWorkerUrl, pdfCSSUrl, pdfWebViewerJSUrl, pdfWebViewerCSSUrl, cspToken))
     doc.close()

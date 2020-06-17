@@ -62,6 +62,8 @@
             , "sortdate": "{{ __('omen::Sort elements by the last modification date') }}"
             , "sortsize": "{{ __('omen::Sort elements by file size') }}"
             , "sorttype": "{{ __('omen::Sort elements by file type (image, audio,..)') }}"
+            , "Print": "{{ __('omen::Print') }}"
+            , "View in browser": "{{ __('omen::View in browser') }}"
         }
 
     </script>

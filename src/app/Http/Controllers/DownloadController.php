@@ -34,7 +34,8 @@ class DownloadController
         }
 
         try {
-            return $inode->download();
+            if ($request->has('view')) return $inode->response();
+            else return $inode->download();
         } catch (FileNotFoundException $e) {
             return OmenHelper::abort(404);
         }

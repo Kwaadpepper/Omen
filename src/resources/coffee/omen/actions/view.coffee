@@ -234,7 +234,6 @@ module.exports = (action)->
             when 'pdf'
 
                 # https://stackoverflow.com/questions/19654577/html-embedded-pdf-iframe
-
                 pdfInjector(url)
                 pdfModal.find('h5').text(inode.baseName).show()
                 pdfModal.modal('show')
