@@ -144,7 +144,17 @@ class Inode implements JsonSerializable
 
         $file = new File($filename);
 
-        return $this->disk->putFileAs($this->dirName, $file, $this->baseName, $this->getVisibility()) ? true : false;
+        $out = $this->disk->putFileAs($this->dirName, $file, $this->baseName, $this->getVisibility()) ? true : false;
+
+        if (function_exists('mb_strlen')) {
+            $this->size = \mb_strlen($content, '8bit');
+        } else {
+            $this->size = \strlen($content);
+        }
+
+        $this->lastModified = \time();
+
+        return $out;
     }
 
     /**
