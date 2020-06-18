@@ -114,8 +114,9 @@ class CrudController
                 '9' + __LINE__,
                 $e
             ));
+            return response()->json([], 500);
         }
-        return response()->json(['status' => 'OK']);
+        return response()->json();
     }
 
     public function copyto(Request $request)
