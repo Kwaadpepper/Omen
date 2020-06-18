@@ -190,13 +190,13 @@ If you are using local storage and dont need to set files to private you can use
 -   [ ] file uploaded size return to ajax is null => size sort error
 -   [ ] find a way to garbage clean failed and aborted uploads
 -   [ ] correct file delete error not handled properly need ajax response and error handle
--   [ ] fix delete inode
+-   [x] fix delete inode
 -   [x] ~correct bu file and folder create upper case~ lowercase for windows/unix interoperability http://support.microsoft.com/kb/100625
 -   [x] fix maxupload => convert '3M' to bytes in upload controller
 -   [x] fix applySort() after addInodeFigure
 -   [ ] fix upload message error not showing
 -   [ ] fix crop image save will clone the figure instead of updating it
--   [ ] fix sort error when only 1 inode to display
+-   [x] fix sort error when only 1 inode to display
 -   [x] fix rename bug on forbidden char ?
 -   [x] fix keayboard regression, can't type in new folder name or new file name
 -   [ ] fix dont apply actions to checked figure but hidden
