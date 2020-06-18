@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
-use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\Lib\FileManager;
 use Kwaadpepper\Omen\Lib\InodeVisibility;
 use Kwaadpepper\Omen\OmenHelper;
