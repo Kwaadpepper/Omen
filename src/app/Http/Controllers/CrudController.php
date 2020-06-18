@@ -50,6 +50,15 @@ class CrudController
 
         $inode = $fm->inode($filepath);
 
+        $fb = \pathinfo($filename, \PATHINFO_FILENAME);
+        $emptyFilename = ($inode->getExtension() xor \pathinfo($filename, \PATHINFO_EXTENSION));
+        if (\strlen($fb) < 3 or $emptyFilename) {
+            return response()->json([
+                'message' => __('Filename must be at least :length long', ['length' => 3]),
+                'filename' => $emptyFilename ? $inode->getName() : $fb
+            ], 400);
+        }
+
         try {
             $inode->setFullName($filename);
         } catch (Error $e) {

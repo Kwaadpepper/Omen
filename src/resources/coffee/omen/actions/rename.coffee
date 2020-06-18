@@ -1,4 +1,4 @@
-ajax = require './../../tools/ajaxCalls.coffee'
+ajaxCalls = require './../../tools/ajaxCalls.coffee'
 omenApi = require('./../../omenApi.coffee')
 logException = require('./../../tools/logException.coffee')
 ln = require('./../../tools/getLine.coffee')
@@ -24,15 +24,10 @@ imageEditorModal = $('#imageEditorModal')
 
 if not config('omen.imageLib') then renameEditButton.hide()
 
-clearVars = ->
-    currentFigure = null
-    currentinode = null
-    actionInfo = null
-
 renameForm.on('submit', (e)->
     lockUi.lock()
     progressbar.run(0.3)
-    ajax(actionInfo.method, actionInfo.url, {
+    ajaxCalls( actionInfo.method, actionInfo.url, {
         filename: renameInput.val()+'.'+currentinode.extension,
         filepath: currentinode.path
     },
@@ -55,22 +50,17 @@ renameForm.on('submit', (e)->
         omenApi.setProp('inodes', inodes)
 
         # show toast
-        alert('success', trans('Name changed'), trans("File was renamed in ${filename}", { 'filename': renameInput.val() }))
-
-        # clean memory
-        clearVars()
+        alert('success', trans('Name changed'), trans("File was renamed in ${inodename}", { 'inodename': data.name }))
     ),
     ((error)->
         lockUi.unlock()
         progressbar.end()
-        # show toast
-        alert('danger', trans('Action failure'), trans("Could not rename file ${filename}, server said no", { 'filename': renameInput.val() }))
-
-        # log error
-        logException("Error Occured on rename  #{error.status} #{error.statusText} INODE => #{currentinode.path} URL => #{actionInfo.url}", "9#{ln()}")
-
-        # clean memory
-        clearVars()
+        if error.status is 400
+            renameInput.val(error.responseJSON.filename)
+            alert('danger', trans('Action failure'), error.responseJSON.message)
+        else
+            alert('danger', trans('Action failure'), trans("Could not rename file ${inodename}, server said no", { 'inodename': currentinode.name }))
+            logException("Error Occured on rename  #{error.status} #{error.statusText} INODE => #{currentinode.path} URL => #{actionInfo.url}", "9#{ln()}")
     ))
     e.preventDefault()
     false

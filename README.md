@@ -190,7 +190,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [ ] fix upload message error not showing
 -   [ ] fix crop image save will clone the figure instead of updating it
 -   [ ] fix sort error when only 1 inode to display
--   [ ] fix rename bug on forbidden char ?
+-   [x] fix rename bug on forbidden char ?
 -   [ ] fix delete inode
 -   [x] fix keayboard regression, can't type in new folder name or new file name
 -   [ ] fix dont apply actions to checked figure but hidden
