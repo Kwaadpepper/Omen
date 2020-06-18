@@ -22,6 +22,8 @@ newFileTextInput = $('#newFileTextInput')
 progressbar = require('./../../tools/progressbar.coffee')
 lockUi = require('./../../tools/lockUi.coffee')
 
+newFileModal.on('shown.bs.modal', -> hightlightJS.highlightBlock(newFileTextInput[0]))
+
 clearVars = ->
     actionInfo = null
 
@@ -141,7 +143,5 @@ newFileForm.on('submit', (e)->
 module.exports = (action)->
     (event)->
         actionInfo = action
-
-        hightlightJS.highlightBlock(newFileTextInput[0])
 
         newFileModal.modal('show')
