@@ -192,6 +192,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [ ] fix sort error when only 1 inode to display
 -   [ ] fix rename bug on forbidden char ?
 -   [ ] fix delete inode
+-   [x] fix keayboard regression, can't type in new folder name or new file name
 -   [ ] fix dont apply actions to checked figure but hidden
 -   [ ] find a solution for resize image CSP violation (jquery-ui resisable code)
 -   [x] check if deps are installed before enable resize and crop
