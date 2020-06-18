@@ -32,9 +32,9 @@ module.exports = (action)->
                 complete : (jxhr)->
                     lockUi.unlock()
                     progressbar.end()
-                    if jxhr.status is not 200
+                    if jxhr.status != 200
                         logException("Error Occured on delete inode #{jxhr.status} #{jxhr.statusText} INODE => #{inode.path}", "9#{ln()}")
-                        alert('danger', trans('File delete error'), trans("Server error on delete ${filename}", { 'filename': renameInput.val() }))
+                        alert('danger', trans('File delete error'), trans("Server error on delete ${filename}", { 'filename': inode.name }))
                     else
                         # remove inode
                         delete inodes[inodePath]
