@@ -37,12 +37,7 @@ newFileTextInput.parent().delegate('pre', 'keydown', (event)->
 
 
 newFileForm.on('submit', (e)->
-
-    if newFileTitleInput.val().length < 3
-        alert('danger', trans('Wrong input'), trans('the file shall be at least 3 characters'))
-        e.preventDefault()
-        false
-    
+  
     filename = "#{newFileTitleInput.val()}.txt"
     filetext = newFileTextInput.innerText()
     filepath = decodeURIComponent(getUrlLocationParameter('path'))
@@ -120,18 +115,17 @@ newFileForm.on('submit', (e)->
 
             # show toast
             alert('success', trans('File created'), trans("${inodename} has been created", { 'inodename': filename }))
-
-            # clean memory
-            clearVars()
         ),
         ((error)->
             lockUi.unlock()
             progressbar.end()
-            # show toast
-            alert('danger', trans('Action failure'), trans("Could not create ${inodename}, server said no", { 'inodename': filename }))
 
-            # log error
-            logException("Error Occured on create  #{error.status} #{error.statusText} INODE => #{filepath} URL => #{actionInfo.url}", "9#{ln()}")
+            if error.status == 400
+                newFileTitleInput.val(error.responseJSON.filename)
+                alert('danger', trans('Action failure'), error.responseJSON.message)
+            else
+                alert('danger', trans('Action failure'), trans("Could not create ${inodename}, server said no", { 'inodename': filename }))
+                logException("Error Occured on create  #{error.status} #{error.statusText} INODE => #{filepath} URL => #{actionInfo.url}", "9#{ln()}")
         ))
     )
 

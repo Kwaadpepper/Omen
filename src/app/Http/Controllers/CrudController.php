@@ -17,7 +17,17 @@ class CrudController
             return OmenHelper::abort(400);
         }
 
-        $directoryPath = OmenHelper::uploadPath(sprintf('%s/%s', $request->post('directoryPath'), OmenHelper::filterFilename($request->post('directoryName'))));
+        $filename = OmenHelper::filterFilename($request->post('directoryName'));
+        $directoryPath = OmenHelper::uploadPath(sprintf('%s/%s', $request->post('directoryPath'), $filename));
+        if (\strlen($filename) < config('omen.minimumFileLength', 3)) {
+            return response()->json([
+                'message' => __('Directory name must be at least :length long', [
+                    'length' => config('omen.minimumFileLength', 3)
+                ]),
+                'filename' => $filename
+            ], 400);
+        }
+
 
         $fm = new FileManager();
 
@@ -52,9 +62,11 @@ class CrudController
 
         $fb = \pathinfo($filename, \PATHINFO_FILENAME);
         $emptyFilename = ($inode->getExtension() xor \pathinfo($filename, \PATHINFO_EXTENSION));
-        if (\strlen($fb) < 3 or $emptyFilename) {
+        if (\strlen($fb) < config('omen.minimumFileLength', 3) or $emptyFilename) {
             return response()->json([
-                'message' => __('Filename must be at least :length long', ['length' => 3]),
+                'message' => __('Filename must be at least :length long', [
+                    'length' => config('omen.minimumFileLength', 3)
+                ]),
                 'filename' => $emptyFilename ? $inode->getName() : $fb
             ], 400);
         }

@@ -167,6 +167,14 @@ return [
      */
     'fileOperationImageDriver' => 'gd',
 
+    /**
+     * This is used for rename and create functions
+     * but not for upload (yet)
+     * 
+     * default is 3
+     */
+    'minimumFileLength' => 3,
+
     /* === FRONT END === */
 
     /**

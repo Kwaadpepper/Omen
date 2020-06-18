@@ -19,11 +19,6 @@ newDirectoryModal = $('#newDirectoryModal')
 newDirectoryForm = $('#newDirectoryForm')
 newDirectoryTitleInput = $('#newDirectoryNameInput')
 
-clearVars = ->
-    actionInfo = null
-
-
-
 newDirectoryForm.on('submit', (e)->
 
     if newDirectoryTitleInput.val().length < 3
@@ -105,19 +100,17 @@ newDirectoryForm.on('submit', (e)->
 
             # show toast
             alert('success', trans('Directory created'), trans("${inodename} has been created", { 'inodename': directoryname }))
-
-            # clean memory
-            clearVars()
         ),
         ((error)->
             lockUi.unlock()
             progressbar.end()
 
-            # show toast
-            alert('danger', trans('Action failure'), trans("Could not create ${inodename}, server said no", { 'inodename': directoryname }))
-
-            # log error
-            logException("Error Occured on create  #{error.status} #{error.statusText} INODE => #{filepath} URL => #{actionInfo.url}", "9#{ln()}")
+            if error.status == 400
+                newDirectoryTitleInput.val(error.responseJSON.filename)
+                alert('danger', trans('Action failure'), error.responseJSON.message)
+            else
+                alert('danger', trans('Action failure'), trans("Could not create ${inodename}, server said no", { 'inodename': directoryname }))
+                logException("Error Occured on create  #{error.status} #{error.statusText} INODE => #{filepath} URL => #{actionInfo.url}", "9#{ln()}")
         ))
     )
 
@@ -129,5 +122,4 @@ newDirectoryForm.on('submit', (e)->
 module.exports = (action)->
     (event)->
         actionInfo = action
-
         newDirectoryModal.modal('show')

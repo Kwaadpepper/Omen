@@ -133,6 +133,12 @@ If you are using local storage and dont need to set files to private you can use
     Because upload is ajax handled, it sends chunks of 2M size. Then if you want to set a limit
     just change maxUploadSize to something like `'3M'` or `3145728`
 
+-   About file names
+
+    File names are always lower cased on created, this is for Windows compatibility since windows file names
+    are not case sensible which means windows will threat 'file.pdf' 'File.pdf' as the same file
+    whereas on a Unix based it will not.
+
 ---
 
 **TODO:**
@@ -184,18 +190,19 @@ If you are using local storage and dont need to set files to private you can use
 -   [ ] file uploaded size return to ajax is null => size sort error
 -   [ ] find a way to garbage clean failed and aborted uploads
 -   [ ] correct file delete error not handled properly need ajax response and error handle
--   [ ] correct bu file and folder create upper case
+-   [ ] fix delete inode
+-   [x] ~correct bu file and folder create upper case~ lowercase for windows/unix interoperability http://support.microsoft.com/kb/100625
 -   [x] fix maxupload => convert '3M' to bytes in upload controller
 -   [x] fix applySort() after addInodeFigure
 -   [ ] fix upload message error not showing
 -   [ ] fix crop image save will clone the figure instead of updating it
 -   [ ] fix sort error when only 1 inode to display
 -   [x] fix rename bug on forbidden char ?
--   [ ] fix delete inode
 -   [x] fix keayboard regression, can't type in new folder name or new file name
 -   [ ] fix dont apply actions to checked figure but hidden
 -   [ ] find a solution for resize image CSP violation (jquery-ui resisable code)
 -   [x] check if deps are installed before enable resize and crop
+-   [ ] check file name length for uploads
 
 **Whishlit**
 
