@@ -1,10 +1,11 @@
-refreshRate = 1000 # in seconds
-refreshed = true
+hash = require('./stringHash.coffee')
+timeouts = {}
 
-module.exports = (func, rRate = refreshRate)->
-    if refreshed
-        refreshed = !refreshed
-        setTimeout (()->
-            refreshed = !refreshed
+module.exports = (func, rRate = 1000)->
+    id = hash(func.toString())
+    if not timeouts[id]
+        timeouts[id] = true
+        setTimeout(->
+            timeouts[id] = false
             func.apply(null, Array.prototype.shift.apply(arguments))
-        ), rRate
+        , rRate)
