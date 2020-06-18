@@ -11,6 +11,8 @@ resetFilters = require('./../omen/actionEvents.coffee').resetFilters
 applySort = require('./../omen/actionEvents.coffee').applySort
 fillNodeChilds = require('./../tools/fancyTreeFillNodeChilds.coffee')
 
+breadcrumbRefresh = require('./../omen/breadcrumb.coffee')
+
 $inodeContainer = $('#inodesContainer')
 $breadcrumbContainer = $('#viewInodes').children().first()
 
@@ -69,6 +71,7 @@ module.exports = (path)->
         $breadcrumbContainer.html(breadcrumbHtml)
         window.history.pushState("","", setLocationParameters({ 'path': encodeURIComponent(path) }))
         applySort()
+        breadcrumbRefresh()
 
         try
             ftree = fancyTree.getTree('#leftPanelTreeView')

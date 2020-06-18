@@ -1,14 +1,14 @@
 timeoutEvent = require './../tools/timeoutEvent.coffee'
 config = require('./../omenApi.coffee').config
-$subFolders = $ '#pathBreadcrumbList > li'
-$breadCrumbList = $ '#pathBreadcrumbList'
 
 ##
 # Shorten the breadcrumb at screen size
 #* If it fails because a folder name is too long
 #* a css overflow-x makes the breadcrumb readable
 # 
-breadcrumbEllipsis = ()->
+breadcrumbEllipsis = ->
+	$subFolders = $ '#pathBreadcrumbList > li'
+	$breadCrumbList = $ '#pathBreadcrumbList'
 	dotSpawned = false
 	ellipsisWord = 2
 	breadCrumbWidth = $('#pathBreadcrumb').width()
@@ -35,3 +35,6 @@ breadcrumbEllipsis = ()->
 if(config('omen.breadcrumbEllipsis', true))
 	breadcrumbEllipsis()
 	$(window).on 'resize',()-> timeoutEvent(breadcrumbEllipsis, 500)
+
+module.exports = ->
+	if(config('omen.breadcrumbEllipsis', true)) then breadcrumbEllipsis()
