@@ -1,4 +1,4 @@
-<div id="uploadModal" class="modal" tabindex="-1" role="dialog">
+<div id="uploadModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <form id="uploadForm" method="post" action="" enctype="multipart/form-data">
