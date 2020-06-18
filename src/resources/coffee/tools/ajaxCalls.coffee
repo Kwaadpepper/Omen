@@ -7,7 +7,7 @@ ajaxQueue = []
 
 module.exports = (method, url, data, successClosure = null, errorClosure = null, moreParameters = null)->
 
-    if typeof moreParameters is not 'object' then console.log 'OMEN error moreParameters must be an object on ' + url
+    if typeof moreParameters is not 'object' then console.error 'OMEN error moreParameters must be an object on ' + url
 
     parameters = {
         method: method,
