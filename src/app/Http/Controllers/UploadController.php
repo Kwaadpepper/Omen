@@ -148,19 +148,6 @@ class UploadController extends Controller
 
         $chunckFiles = $fm->globFiles(OmenHelper::privatePath($omenTempPath), sprintf('%s.*', \base64_encode($fileId . $fileName)));
 
-        function memory_usage()
-        {
-            $mem_usage = memory_get_usage(true);
-            if ($mem_usage < 1024) {
-                $mem_usage .= ' bytes';
-            } elseif ($mem_usage < 1048576) {
-                $mem_usage = round($mem_usage / 1024, 2) . ' kilobytes';
-            } else {
-                $mem_usage = round($mem_usage / 1048576, 2) . ' megabytes';
-            }
-            return $mem_usage;
-        };
-
         // check if all chunks are uploaded
         if (\count($chunckFiles) == $totalChunks) {
 
@@ -235,7 +222,6 @@ class UploadController extends Controller
 
             $fm->switchToDisk(Disk::PUBLIC);
 
-            // TODO upload the tmp file to storage
             try {
                 $uploadedInode = $fm->inode(OmenHelper::uploadPath($filePath));
                 $uploadedInode->put($outFile->get());
