@@ -6,7 +6,7 @@ trans = require('./../../tools/translate.coffee')
 module.exports = ->
     inodes = omenApi.getProp('inodes')
     items = []
-    $('#viewInodes figure input:checked').parents('figure').each((k,el)->
+    $('#viewInodes figure input:checked:visible').parents('figure').each((k,el)->
         items.push inodes[$(el).data('path')]
     )
 

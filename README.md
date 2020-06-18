@@ -199,7 +199,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [x] fix sort error when only 1 inode to display
 -   [x] fix rename bug on forbidden char ?
 -   [x] fix keayboard regression, can't type in new folder name or new file name
--   [ ] fix dont apply actions to checked figure but hidden
+-   [x] fix dont apply actions to checked figure but hidden
 -   [ ] find a solution for resize image CSP violation (jquery-ui resisable code)
 -   [x] check if deps are installed before enable resize and crop
 -   [ ] check file name length for uploads

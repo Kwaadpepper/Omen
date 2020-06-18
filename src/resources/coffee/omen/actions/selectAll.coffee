@@ -5,7 +5,7 @@ module.exports = (force = false, selectAllStatus = false)->
     for v,k in $('#inodesContainer').find('figure input[type="checkbox"]').toArray()
         if force
             if selectAllStatus
-                $(v).prop('checked', true)
+                if $(v).parents('figure').is(':visible') then $(v).prop('checked', true)
             else
                 $(v).prop('checked', false)
         if not $(v).is(':checked') then allChecked = false
