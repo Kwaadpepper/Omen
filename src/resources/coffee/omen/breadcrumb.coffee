@@ -1,5 +1,6 @@
-timeoutEvent = require './../tools/timeoutEvent.coffee'
 config = require('./../omenApi.coffee').config
+
+resizeTimeout = null
 
 ##
 # Shorten the breadcrumb at screen size
@@ -34,7 +35,10 @@ breadcrumbEllipsis = ->
 
 if(config('omen.breadcrumbEllipsis', true))
 	breadcrumbEllipsis()
-	$(window).on 'resize',()-> timeoutEvent(breadcrumbEllipsis, 500)
+	$(window).on('resize',->
+		clearTimeout(resizeTimeout)
+		resizeTimeout = setTimeout(breadcrumbEllipsis, 500)
+	)
 
 module.exports = ->
 	if(config('omen.breadcrumbEllipsis', true)) then breadcrumbEllipsis()
