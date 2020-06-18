@@ -10,6 +10,7 @@ reloadPage = require('./reload.coffee')
 actions = require('./../actionEvents.coffee')
 omenApi = require('./../../omenApi.coffee')
 hightlightJS = require('highlight.js')
+applySort = require('./../actionEvents.coffee').applySort
 
 
 actionInfo = null
@@ -102,6 +103,7 @@ newFileForm.on('submit', (e)->
             addInodeFigure(inode).then(
                 # if figure was added then scrolltop
                 (->
+                    applySort()
                     lockUi.unlock()
                     progressbar.end()
                     require('./../../omenApi.coffee').simpleBarInodes.getScrollElement().scroll(0, 0)

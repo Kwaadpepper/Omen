@@ -11,6 +11,7 @@ actions = require('./../actionEvents.coffee')
 omenApi = require('./../../omenApi.coffee')
 progressbar = require('./../../tools/progressbar.coffee')
 lockUi = require('./../../tools/lockUi.coffee')
+applySort = require('./../actionEvents.coffee').applySort
 
 actionInfo = null
 
@@ -89,6 +90,7 @@ newDirectoryForm.on('submit', (e)->
             addInodeFigure(inode, true).then(
                 # if figure was added then scrolltop
                 (->
+                    applySort()
                     lockUi.unlock()
                     progressbar.end()
                     require('./../../omenApi.coffee').simpleBarInodes.getScrollElement().scroll(0, 0)

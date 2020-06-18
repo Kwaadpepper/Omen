@@ -186,7 +186,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [ ] correct file delete error not handled properly need ajax response and error handle
 -   [ ] correct bu file and folder create upper case
 -   [x] fix maxupload => convert '3M' to bytes in upload controller
--   [ ] fix applySort() after addInodeFigure
+-   [x] fix applySort() after addInodeFigure
 -   [ ] fix upload message error not showing
 -   [ ] fix crop image save will clone the figure instead of updating it
 -   [ ] fix sort error when only 1 inode to display

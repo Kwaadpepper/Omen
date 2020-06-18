@@ -8,6 +8,7 @@ Base64 = require('js-base64').Base64
 actions = require('./actionEvents.coffee')
 ProgressBar = require('progressbar.js')
 uuid = require('./../tools/uuid.coffee')
+applySort = require('./actionEvents.coffee').applySort
 
 uploadPath = null
 progressBar = null
@@ -218,6 +219,7 @@ $uploadForm.on('fileuploaded', (event, t, h, f)->
             inodes[Base64.encode(uploadedInode.path)] = uploadedInode
             omenApi.setProp('inodes', inodes)
             $uploadButton.prop('disabled', true)
+            applySort()
             return
         ), 10
     if pendingFiles()
