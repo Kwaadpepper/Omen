@@ -189,7 +189,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [x] rework sort logic
 -   [ ] file uploaded size return to ajax is null => size sort error
 -   [ ] find a way to garbage clean failed and aborted uploads
--   [ ] correct file delete error not handled properly need ajax response and error handle
+-   [x] correct file delete error not handled properly need ajax response and error handle
 -   [x] fix delete inode
 -   [x] ~correct bu file and folder create upper case~ lowercase for windows/unix interoperability http://support.microsoft.com/kb/100625
 -   [x] fix maxupload => convert '3M' to bytes in upload controller
