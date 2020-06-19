@@ -51,6 +51,15 @@ class UploadController extends Controller
         $totalChunks = $request->post('chunkCount');
         $omenTempPath = 'tmp';
 
+        $ext = \pathinfo($fileName, \PATHINFO_EXTENSION);
+        $bn = \substr($fileName, 0, \strlen($fileName) - \strlen($ext) - (\strlen($ext) ? 1 : 0));
+        if (\strlen($bn) < 3) {
+            return response()->json([
+                'chunkIndex' => $chunkIndex,
+                'error' => __('File name is too short ":filename", check it does not contain invalid chars and it is longer than 3 characters', ['filename' => $fileName])
+            ], 400);
+        }
+
         // check announced file size
         if (config('omen.maxUploadSize') and $fileSize > \intval(\rtrim(config('omen.maxUploadSize'), 'M'))) {
             return response()->json([

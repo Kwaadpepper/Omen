@@ -205,7 +205,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [x] find a solution for resize image CSP violation (jquery-ui resisable code)
         https://github.com/jquery/jquery-ui/pull/1925
 -   [x] check if deps are installed before enable resize and crop
--   [ ] check file name length for uploads
+-   [x] check file name length for uploads
 
 **Whishlit**
 
