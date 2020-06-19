@@ -21,7 +21,7 @@ class TextController extends Controller
         $filename = OmenHelper::filterFilename($request->post('fileName'));
         $filePath = OmenHelper::uploadPath(sprintf('%s/%s', $request->post('filePath'), $filename));
         $fileText = $request->post('fileText');
-        $fileExt = \pathinfo($filename, \PATHINFO_EXTENSION);
+        $fileExt = OmenHelper::mb_pathinfo($filename, \PATHINFO_EXTENSION);
         $fb = \substr($filename, 0, \strlen($filename) - \strlen($fileExt) - (\strlen($fileExt) ? 1 : 0));
         $emptyFileName = ($filename == 'txt' and !\strlen($fileExt));
         if (\strlen($fb) < config('omen.minimumFileLength', 3) or $emptyFileName) {

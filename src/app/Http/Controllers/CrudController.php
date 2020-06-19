@@ -60,8 +60,8 @@ class CrudController
 
         $inode = $fm->inode($filepath);
 
-        $fb = \pathinfo($filename, \PATHINFO_FILENAME);
-        $emptyFilename = ($inode->getExtension() xor \pathinfo($filename, \PATHINFO_EXTENSION));
+        $fb = OmenHelper::mb_pathinfo($filename, \PATHINFO_FILENAME);
+        $emptyFilename = ($inode->getExtension() xor OmenHelper::mb_pathinfo($filename, \PATHINFO_EXTENSION));
         if (\strlen($fb) < config('omen.minimumFileLength', 3) or $emptyFilename) {
             return response()->json([
                 'message' => __('Filename must be at least :length long', [
