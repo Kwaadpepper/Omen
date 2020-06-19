@@ -7,4 +7,4 @@ module.exports = (action)->
         window.location.replace(setLocationParameters({
             'locale': $(this).data('locale')
         }))
-        false
+        true
