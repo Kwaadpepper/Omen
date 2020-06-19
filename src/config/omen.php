@@ -309,8 +309,7 @@ return [
      * https://bugzilla.mozilla.org/show_bug.cgi?id=1582115
      */
     'csp' => [
-        'default-src' => ["'self'", "data:"],
-        'script-src' => ["'unsafe-eval'", "resource://pdf.js/"],
+        'script-src' => ["resource://pdf.js/"],
         'style-src' => ["'self'"],
         'frame-src' => ["'self'"],
         'object-src' =>  ["'self'", "blob:"],
