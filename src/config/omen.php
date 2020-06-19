@@ -309,6 +309,7 @@ return [
      * https://bugzilla.mozilla.org/show_bug.cgi?id=1582115
      */
     'csp' => [
+        'default-src' => ["'self'", "data:", "blob:"],
         'script-src' => ["resource://pdf.js/"],
         'style-src' => ["'self'"],
         'frame-src' => ["'self'"],
