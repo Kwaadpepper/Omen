@@ -311,7 +311,7 @@ return [
     'csp' => [
         'default-src' => ["'self'", "data:"],
         'script-src' => ["'unsafe-eval'", "resource://pdf.js/"],
-        'style-src' => ["'self'", "'unsafe-inline'"],
+        'style-src' => ["'self'"],
         'frame-src' => ["'self'"],
         'object-src' =>  ["'self'", "blob:"],
         'base-uri' => ["'self'", "resource://pdf.js/web/"],

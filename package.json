@@ -40,7 +40,7 @@
         "highlight.js": "^10.0.1",
         "jquery": "^3.5.1",
         "jquery-contextmenu": "^2.9.2",
-        "jquery-ui": "^1.12.1",
+        "jquery-ui": "https://github.com/Kwaadpepper/jquery-ui",
         "jquery.fancytree": "^2.35.0",
         "js-base64": "^2.5.2",
         "lazyload": "^2.0.0-rc.2",

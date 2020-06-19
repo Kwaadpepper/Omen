@@ -200,7 +200,8 @@ If you are using local storage and dont need to set files to private you can use
 -   [x] fix rename bug on forbidden char ?
 -   [x] fix keayboard regression, can't type in new folder name or new file name
 -   [x] fix dont apply actions to checked figure but hidden
--   [ ] find a solution for resize image CSP violation (jquery-ui resisable code)
+-   [x] find a solution for resize image CSP violation (jquery-ui resisable code)
+        https://github.com/jquery/jquery-ui/pull/1925
 -   [x] check if deps are installed before enable resize and crop
 -   [ ] check file name length for uploads
 
