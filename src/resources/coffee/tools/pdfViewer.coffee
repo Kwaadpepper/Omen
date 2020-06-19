@@ -256,4 +256,4 @@ module.exports = (url, cspToken)->
         )
 
     # Return Code to string injection
-    '(' + o.toString().replaceAll("###url###", url).replace('###cspToken###', cspToken) + ')();'
+    '(' + o.toString().replace(/###url###/g,url).replace('###cspToken###', cspToken) + ')();'
