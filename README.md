@@ -191,10 +191,12 @@ If you are using local storage and dont need to set files to private you can use
 -   [ ] find a way to garbage clean failed and aborted uploads
 -   [x] correct file delete error not handled properly need ajax response and error handle
 -   [x] fix delete inode
--   [x] ~correct bu file and folder create upper case~ lowercase for windows/unix interoperability http://support.microsoft.com/kb/100625
+-   [x] ~correct bu file and folder create upper case~ lowercase for windows/unix interoperability
+        http://support.microsoft.com/kb/100625
 -   [x] fix maxupload => convert '3M' to bytes in upload controller
 -   [x] fix applySort() after addInodeFigure
--   [ ] fix upload message error not showing
+-   [x] fix upload message error not showing
+        https://github.com/kartik-v/bootstrap-fileinput/pull/1587
 -   [x] fix crop image save will clone the figure instead of updating it
 -   [x] fix sort error when only 1 inode to display
 -   [x] fix rename bug on forbidden char ?
