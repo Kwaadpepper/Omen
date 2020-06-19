@@ -100,19 +100,22 @@ saveImage = (saveAsNew)->
             ((inode)->
                 lockUi.unlock()
                 progressbar.end()
-                setTimeout (->
-                    addInodeFigure({ path: inode.path }).then(->
-                        resetFilters()
-                        applySort()
-                        $("figure[data-path='#{Base64.encode(inode.path)}'")[0].scrollIntoView({ behavior: 'smooth' });
-                    )
-                    inodes = omenApi.getProp('inodes')
-                    inodes[Base64.encode(inode.path)] = inode
-                    omenApi.setProp('inodes', inodes)
-                    imageEditorModal.modal('hide')
-                    alert('success', trans('File cropped'), trans("${filename} has been cropped", { 'filename': inode.baseName }))
-                    return
-                ), 10
+                if saveAsNew
+                    setTimeout (->
+                        addInodeFigure({ path: inode.path }).then(->
+                            resetFilters()
+                            applySort()
+                            $("figure[data-path='#{Base64.encode(inode.path)}'")[0].scrollIntoView({ behavior: 'smooth' });
+                        )
+                        inodes = omenApi.getProp('inodes')
+                        inodes[Base64.encode(inode.path)] = inode
+                        omenApi.setProp('inodes', inodes)
+                        imageEditorModal.modal('hide')
+                        alert('success', trans('File cropped'), trans("${filename} has been cropped", { 'filename': inode.baseName }))
+                        return
+                    ), 10
+                else
+                    alert('success', trans('File cropped'), trans("${filename} has been cropped", { 'filename': currentInode.baseName }))
             ),
             ((error)->
                 lockUi.unlock()

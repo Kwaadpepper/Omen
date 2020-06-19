@@ -195,7 +195,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [x] fix maxupload => convert '3M' to bytes in upload controller
 -   [x] fix applySort() after addInodeFigure
 -   [ ] fix upload message error not showing
--   [ ] fix crop image save will clone the figure instead of updating it
+-   [x] fix crop image save will clone the figure instead of updating it
 -   [x] fix sort error when only 1 inode to display
 -   [x] fix rename bug on forbidden char ?
 -   [x] fix keayboard regression, can't type in new folder name or new file name

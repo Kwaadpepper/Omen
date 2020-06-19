@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use Kwaadpepper\Omen\Exceptions\OmenDebugException;
 use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\OmenHelper;
 
@@ -52,10 +53,19 @@ class OmenMiddleware
 
     private function checkExtensionsHandle()
     {
-        if (\extension_loaded('gd') or \extension_loaded('imagick')) {
+        $imageDriver = config('omen.fileOperationImageDriver');
+        if ($imageDriver != 'gd' and $imageDriver != 'imagick') {
+            config(['omen.imageLib' => false]);
+            report(new OmenDebugException(sprintf('Asked image lib %s but only "gd" or "imagick" are supported', $imageDriver)));
+            return;
+        }
+        if ($imageDriver == 'gd' and \extension_loaded('gd')) {
+            config(['omen.imageLib' => true]);
+        } else if ($imageDriver == 'imagick' and \extension_loaded('imagick')) {
             config(['omen.imageLib' => true]);
         } else {
             config(['omen.imageLib' => false]);
+            report(new OmenDebugException(sprintf('Asked image lib %s, but it is not enabled', $imageDriver)));
         }
     }
 
