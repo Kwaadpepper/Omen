@@ -34,8 +34,7 @@ $cancelButton.prop('disabled', true).hide()
 $clearButton.prop('disabled', true).hide()
 
 # File uploader config
-$('#uploadInput').fileinput {
-    language: uploadLocale, # changed
+uploadConfig = {
 
     # upload
     uploadAsync: true, # changed
@@ -170,6 +169,11 @@ $('#uploadInput').fileinput {
     pdfRendererTemplate: '<iframe class="kv-preview-data file-preview-pdf" src="{renderer}?file={data}" {style}></iframe>'
 }
 
+# workaround local bug in bootstrap fileinput
+if uploadLocale is 'en' then uploadConfig['language'] = '_LANG_'
+
+$('#uploadInput').fileinput(uploadConfig)
+
 # events
 $uploadForm.on('change', (event)->
     console.log 'change'
@@ -248,6 +252,8 @@ $uploadForm.on('filecleared', (event)->
 $uploadForm.on('fileuploadcancelled', (event)->
     $resumeButton.prop('disabled', true).hide()
     $pauseButton.prop('disabled', true).hide()
+    clearInterval progressBarInterval
+    if progressBar then progressBar.destroy()
 )
 
 pendingFiles = ->
