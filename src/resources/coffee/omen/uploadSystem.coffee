@@ -86,7 +86,6 @@ $('#uploadInput').fileinput {
     rtl: false,
     hideThumbnailContent: false,
     encodeUrl: true,
-    generateFileId: uuid,
     previewClass: '',
     captionClass: '',
     frameClass: 'krajee-default',
