@@ -305,6 +305,8 @@ class UploadController extends Controller
             $chunkInode = $this->fm->inode($chunkFilePath);
             $chunkInode->delete();
         }
+        $this->setSessionChunks([]);
+        session()->save();
     }
 
     private function getUploadSession(string $filePath)
