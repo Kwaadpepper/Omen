@@ -189,6 +189,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [x] rework sort logic
 -   [x] file uploaded size return to ajax is null => size sort error
 -   [x] find a way to garbage clean failed and aborted uploads
+-   [ ] edited image won't reload => nuke browser cache
 -   [x] correct file delete error not handled properly need ajax response and error handle
 -   [x] fix delete inode
 -   [x] ~correct bu file and folder create upper case~ lowercase for windows/unix interoperability
@@ -206,6 +207,7 @@ If you are using local storage and dont need to set files to private you can use
         https://github.com/jquery/jquery-ui/pull/1925
 -   [x] check if deps are installed before enable resize and crop
 -   [x] check file name length for uploads
+-   [ ] test functions with chromium
 
 **Whishlit**
 
@@ -215,3 +217,4 @@ If you are using local storage and dont need to set files to private you can use
 -   [ ] global search file
 -   [ ] change visibility
 -   [ ] more global actions such as mass delete
+-   [ ] use thumbnails for images
