@@ -42,7 +42,7 @@
         "jquery-contextmenu": "^2.9.2",
         "jquery-ui": "https://github.com/Kwaadpepper/jquery-ui",
         "jquery.fancytree": "^2.35.0",
-        "js-base64": "2.4.8",
+        "js-base64": "^2.6.1",
         "lazyload": "^2.0.0-rc.2",
         "lodash": "^4.17.15",
         "mediaelement": "^4.2.16",
