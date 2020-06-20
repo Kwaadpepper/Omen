@@ -82,7 +82,7 @@ class UploadController extends Controller
                 $this->createDirectory(Disk::PRIVATE, $omenTempPath);
             }
 
-            $chunkFileName = \base64_encode($fileId . $fileName);
+            $chunkFileName = \base64_encode(sprintf('%s###%d###', $fileId, time()));
 
             //* if uploaded file is a chunk *//
             if ($totalChunks > 1) {

@@ -174,6 +174,8 @@ class Inode implements JsonSerializable
             throw new OmenException('Calling method append on a Directory is not supported', '7' . __LINE__);
         }
 
+        $this->lastModified = \time();
+
         /**
          * Because the FileSystem contract does not specify the third parameter on
          * append method, we have to check manually
@@ -269,6 +271,11 @@ class Inode implements JsonSerializable
         if (!$this->disk->delete($this->fullPath)) {
             throw new OmenException(sprintf('Could not delete file %s', $this->fullPath), '99' + __LINE__);
         }
+    }
+
+    public function getLastModfied()
+    {
+        return $this->lastModified;
     }
 
     /**

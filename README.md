@@ -188,7 +188,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [ ] unit tests ?
 -   [x] rework sort logic
 -   [x] file uploaded size return to ajax is null => size sort error
--   [ ] find a way to garbage clean failed and aborted uploads
+-   [x] find a way to garbage clean failed and aborted uploads
 -   [x] correct file delete error not handled properly need ajax response and error handle
 -   [x] fix delete inode
 -   [x] ~correct bu file and folder create upper case~ lowercase for windows/unix interoperability
