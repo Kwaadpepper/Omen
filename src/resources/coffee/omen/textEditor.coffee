@@ -5,7 +5,6 @@ lockUi = require('./../tools/lockUi.coffee')
 progressbar = require('./../tools/progressbar.coffee')
 logException = require('./../tools/logException.coffee')
 alert = require('./../tools/alert.coffee')
-ln = require('./../tools/getLine.coffee')
 trans = require('./../tools/translate.coffee')
 getUrlLocationParameter = require('./../tools/getUrlLocationParameter.coffee')
 hightlightJS = require('highlight.js')
@@ -61,7 +60,7 @@ editFileForm.on('submit', (e)->
         alert('danger', trans('Action failure'), trans("Could not update ${inodename}, server said no", { 'inodename': currentInode.baseName }))
 
         # log error
-        logException("Error Occured on update  #{error.status} #{error.statusText} INODE => #{currentInode.path} URL => #{updateFileAction.url}", "9#{ln()}")
+        logException("Error Occured on update  #{error.status} #{error.statusText} INODE => #{currentInode.path} URL => #{updateFileAction.url}")
     ))
 
     e.preventDefault()
@@ -92,7 +91,7 @@ editFileModal.on 'shown.bs.modal', ((e)->
             lockUi.unlock()
             progressbar.end()
             alert('danger', trans('Error'), trans('Could not retrieve text file'))
-            logException("Error Occured #{error.status} #{error.statusText} INODE => #{currentInode.path} URL => #{url}", "9#{ln()}")
+            logException("Error Occured #{error.status} #{error.statusText} INODE => #{currentInode.path} URL => #{url}")
         ,
         { dataType : 'html'}
     )

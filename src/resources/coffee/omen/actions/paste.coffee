@@ -3,7 +3,6 @@ clipboard = require('./../../tools/clipboard.coffee')
 getUrlLocationParameter = require('./../../tools/getUrlLocationParameter.coffee')
 setLocationParameters = require('./../../tools/setLocationParameters.coffee')
 logException = require('./../../tools/logException.coffee')
-ln = require('./../../tools/getLine.coffee')
 moveTo = require('./moveTo.coffee')
 copyTo = require('./copyTo.coffee')
 trans = require('./../../tools/translate.coffee')
@@ -38,7 +37,7 @@ module.exports = ->
                                 applySort()
                             ,(data)->
                                 # if failed
-                                logException("Error Occured on paste  #{data.status} #{data.statusText} INODE => #{updatedInode.path}", "9#{ln()}").done(->
+                                logException("Error Occured on paste  #{data.status} #{data.statusText} INODE => #{updatedInode.path}").done(->
                                 # fallback to redirection   
                                     window.location.replace(setLocationParameters({
                                         'path': getUrlLocationParameter('path')
@@ -69,7 +68,7 @@ module.exports = ->
                                 applySort()
                             ,(data)->
                                 # if failed
-                                logException("Error Occured on paste  #{data.status} #{data.statusText} INODE => #{inode.path}", "9#{ln()}").done(->
+                                logException("Error Occured on paste  #{data.status} #{data.statusText} INODE => #{inode.path}").done(->
                                 # fallback to redirection   
                                     window.location.replace(setLocationParameters({
                                         'path': encodeURIComponent(path)

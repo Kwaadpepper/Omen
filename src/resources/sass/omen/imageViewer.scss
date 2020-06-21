@@ -32,17 +32,17 @@
     & .modal-body {
         position: relative;
         text-align: center;
-        min-height: 10em;
+        min-height: 14em;
 
         // Errorm Message
         & > h4 {
             position: relative;
-            top: -8.5em;
+            top: 0;
             background-color: $body-bg;
-            height: 5em;
             padding-top: 3em;
             padding-bottom: 4em;
             margin-bottom: -8em;
+            z-index: 1;
         }
 
         // Content image

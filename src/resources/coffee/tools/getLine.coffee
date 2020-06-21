@@ -1,5 +1,5 @@
 # https://stackoverflow.com/questions/2343343/how-can-i-determine-the-current-line-number-in-javascript
-module.exports = ()->
+module.exports = (getParentLine = false)->
     e = new Error()
     if (!e.stack)
         try
@@ -18,5 +18,6 @@ module.exports = ()->
         frame = stack.shift()
         unless !frameRE.exec(frame) and stack.length
             break
-
-    return frameRE.exec(stack.shift())[1];
+    if getParentLine then stack.shift()
+    stack = frameRE.exec(stack.shift())
+    return stack[1]

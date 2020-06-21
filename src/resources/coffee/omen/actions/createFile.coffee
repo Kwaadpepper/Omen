@@ -1,6 +1,5 @@
 ajax = require './../../tools/ajaxCalls.coffee'
 logException = require('./../../tools/logException.coffee')
-ln = require('./../../tools/getLine.coffee')
 alert = require('./../../tools/alert.coffee')
 trans = require('./../../tools/translate.coffee')
 getUrlLocationParameter = require('./../../tools/getUrlLocationParameter.coffee')
@@ -64,7 +63,7 @@ newFileForm.on('submit', (e)->
                 else if jxhr.status is not 200
                     lockUi.unlock()
                     progressbar.end()
-                    logException("Error Occured #{jxhr.status} #{jxhr.statusText} INODE => #{filepath} URL => #{urlCheck}", "9#{ln()}")
+                    logException("Error Occured #{jxhr.status} #{jxhr.statusText} INODE => #{filepath} URL => #{urlCheck}")
                     alert('danger', trans('File check error'), trans("Server could not say if ${inodename} exists", { 'inodename': filename }))
                 
                 # if file already exists
@@ -125,7 +124,7 @@ newFileForm.on('submit', (e)->
                 alert('danger', trans('Action failure'), error.responseJSON.message)
             else
                 alert('danger', trans('Action failure'), trans("Could not create ${inodename}, server said no", { 'inodename': filename }))
-                logException("Error Occured on create  #{error.status} #{error.statusText} INODE => #{filepath} URL => #{actionInfo.url}", "9#{ln()}")
+                logException("Error Occured on create  #{error.status} #{error.statusText} INODE => #{filepath} URL => #{actionInfo.url}")
         ))
     )
 

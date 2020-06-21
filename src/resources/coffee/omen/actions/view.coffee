@@ -4,7 +4,6 @@ omenApi = require('./../../omenApi.coffee')
 browserSupportedImage = require('../../tools/browserSupportedImages.coffee')
 ajaxCalls = require('./../../tools/ajaxCalls.coffee')
 logException = require('./../../tools/logException.coffee')
-ln = require('./../../tools/getLine.coffee')
 makeFullscreen = require('./../../tools/fullscreenRequest.coffee')
 onFullScreenChange = require('./../../tools/fullscreenChangeEvent.coffee')
 pdfInjector = require('./../../tools/pdfInjector.coffee')
@@ -190,7 +189,7 @@ module.exports = (action)->
                                 contentLength = jxhr.getResponseHeader('Content-Length')
                                 if jxhr.status is not 200 or !contentLength
                                     alert('danger', trans('Error'), trans('Could not retrieve image file'))
-                                    logException("Error Occured #{jxhr.status} #{jxhr.statusText} INODE => #{inode.path} URL => #{url}", "9#{ln()}")
+                                    logException("Error Occured #{jxhr.status} #{jxhr.statusText} INODE => #{inode.path} URL => #{url}")
                                 else
                                     # Inject Image Data
                                     lazyLoadImage = new lazyload document.querySelectorAll('#imageViewerModal img'), {
@@ -206,7 +205,7 @@ module.exports = (action)->
                 else
                     # Display Error message
                     imageErrorMessage.removeClass('d-none')
-                    logException("Inode view is not supported by browser INODE => #{inode.path} URL => #{url}", "9#{ln()}")
+                    logException("Inode view is not supported by browser INODE => #{inode.path} URL => #{url}")
 
                 imageModal.modal('show')
 
@@ -225,7 +224,7 @@ module.exports = (action)->
                     ,
                     (error)->
                         alert('danger', trans('Error'), trans('Could not retrieve text file'))
-                        logException("Error Occured #{error.status} #{error.statusText} INODE => #{inode.path} URL => #{url}", "9#{ln()}")
+                        logException("Error Occured #{error.status} #{error.statusText} INODE => #{inode.path} URL => #{url}")
                     ,
                     { dataType : 'html'}
                 )
@@ -264,7 +263,7 @@ module.exports = (action)->
 
             else 
                 # don't know how to display inode
-                logException("dont know how to display INODE => #{inode.path} URL => #{url}", "9#{ln()}")
+                logException("dont know how to display INODE => #{inode.path} URL => #{url}")
 
 
 

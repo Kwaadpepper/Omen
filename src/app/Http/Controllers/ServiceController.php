@@ -20,7 +20,7 @@ class ServiceController
             return OmenHelper::abort(404);
         }
         try {
-            report(new OmenException(\sprintf('FrontEND : %s', $request->post('message')), $request->post('code')));
+            report(new OmenException(\sprintf('FrontEND : %s', $request->post('message'))));
         } catch (Error $e) {
             report(new OmenException(
                 \sprintf(

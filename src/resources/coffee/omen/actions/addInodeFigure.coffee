@@ -1,7 +1,5 @@
 ajax = require('./../../tools/ajaxCalls.coffee')
 logException = require('./../../tools/logException.coffee')
-ln = require('./../../tools/getLine.coffee')
-
 actions = require('./../actionEvents.coffee')
 
 module.exports = (inode, isDirectory = false)->
@@ -15,7 +13,7 @@ module.exports = (inode, isDirectory = false)->
             successCallback(data)
         ),
         ((data)->
-            logException("Error Occured #{data.status} #{data.statusText} INODE => #{inode.path} URL => #{actions.getInodeHtml.url}", "9#{ln()}")
+            logException("Error Occured #{data.status} #{data.statusText} INODE => #{inode.path} URL => #{actions.getInodeHtml.url}")
             failureCallback(data)
         ))
     )

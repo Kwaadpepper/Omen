@@ -1,7 +1,6 @@
 ajaxCalls = require './../../tools/ajaxCalls.coffee'
 omenApi = require('./../../omenApi.coffee')
 logException = require('./../../tools/logException.coffee')
-ln = require('./../../tools/getLine.coffee')
 alert = require('./../../tools/alert.coffee')
 trans = require('./../../tools/translate.coffee')
 Base64 = require('js-base64').Base64
@@ -60,7 +59,7 @@ renameForm.on('submit', (e)->
             alert('danger', trans('Action failure'), error.responseJSON.message)
         else
             alert('danger', trans('Action failure'), trans("Could not rename file ${inodename}, server said no", { 'inodename': currentinode.name }))
-            logException("Error Occured on rename  #{error.status} #{error.statusText} INODE => #{currentinode.path} URL => #{actionInfo.url}", "9#{ln()}")
+            logException("Error Occured on rename  #{error.status} #{error.statusText} INODE => #{currentinode.path} URL => #{actionInfo.url}")
     ))
     e.preventDefault()
     false

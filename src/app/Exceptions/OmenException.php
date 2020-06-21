@@ -35,12 +35,12 @@ class OmenException extends Exception
         foreach ($lvls as $k => $lvl) {
             $lvl = \ltrim($lvl, '.php');
             if (\count($lvls) - 1 == $k) {
-                $lPath .= \sprintf('%s', \substr($lvl, 0, 5 + \strlen($lPath . $this->line) % 3));
+                $lPath .= \sprintf('%s', \substr($lvl, 0, 5));
             } else {
                 $lPath .= \sprintf('%s', \substr($lvl, 0, 3));
             }
         }
-        return \base64_encode($lPath . $this->line);
+        return \base64_encode($lPath . \str_pad($this->line, 4, '0', \STR_PAD_LEFT));
     }
 
     /**

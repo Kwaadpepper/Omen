@@ -23,39 +23,41 @@ try
 	document.addEventListener 'readystatechange', (e)->
 		# When window loaded ( external resources are loaded too- `css`,`src`, etc...) 
 		if e.target.readyState is "complete" then readyEvent.resolve()
+	$(document).ready ()->
+		try
+			omen = require './omenApi.coffee'
+			data = require './tools/laravelDataParser.coffee'
+			config = require './tools/configGetter.coffee'
+		
+			# tooltip toggle
+			$('[data-toggle="tooltip"]').tooltip(
+				'delay': { show: 1100, hide: 300 },
+				'trigger': 'hover'
+			).click(->
+				$(this).tooltip("hide")
+			)
+		
+		
+			# add tools to Api
+			omen.setProp('config', config)
+			omen.setProp('inodes', data.inodes)
+			
+			# add bootstrap input locales
+			omen.setProp('bootstrapInputLocales', localesFiles)
+			
+			require('./tools/imageToken.coffee')
+			require('./tools/innerTextJqueryPlugin.coffee')
+			require('./omen/omenView.coffee')
+			require('./omen/navbar.coffee')
+			require('./omen/breadcrumb.coffee')
+			require('./omen/leftPanel.coffee')
+			require('./omen/actionEvents.coffee')
+			require('./omen/uploadSystem.coffee')
+			require('./omen/dragNDropSystem.coffee')
+			require('./tools/ping.coffee')()
+			require('./omen/contextMenu.coffee')
+			require('./omen/hotKeySystem.coffee')
+		catch e
+			require('./tools/logException.coffee')(e)
 catch e
-	console.error e
-
-$(document).ready ()->
-	omen = require './omenApi.coffee'
-	data = require './tools/laravelDataParser.coffee'
-	config = require './tools/configGetter.coffee'
-
-	# tooltip toggle
-	$('[data-toggle="tooltip"]').tooltip(
-		'delay': { show: 1100, hide: 300 },
-		'trigger': 'hover'
-	).click(->
-		$(this).tooltip("hide")
-	)
-
-
-	# add tools to Api
-	omen.setProp('config', config)
-	omen.setProp('inodes', data.inodes)
-	
-	# add bootstrap input locales
-	omen.setProp('bootstrapInputLocales', localesFiles)
-	
-	require('./tools/imageToken.coffee')
-	require('./tools/innerTextJqueryPlugin.coffee')
-	require('./omen/omenView.coffee')
-	require('./omen/navbar.coffee')
-	require('./omen/breadcrumb.coffee')
-	require('./omen/leftPanel.coffee')
-	require('./omen/actionEvents.coffee')
-	require('./omen/uploadSystem.coffee')
-	require('./omen/dragNDropSystem.coffee')
-	require('./tools/ping.coffee')()
-	require('./omen/contextMenu.coffee')
-	require('./omen/hotKeySystem.coffee')
+	console.error 'Omen Error',e

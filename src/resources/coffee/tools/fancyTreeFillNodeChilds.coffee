@@ -2,7 +2,6 @@ fancyTree = require('jquery.fancytree')
 Base64 = require('js-base64').Base64
 ajaxCalls = require('./../tools/ajaxCalls.coffee')
 logException = require('./../tools/logException.coffee')
-ln = require('./../tools/getLine.coffee')
 getInodesAtPathAction = require('./../omen/actionEvents.coffee').getInodesAtPath
 
 
@@ -28,7 +27,7 @@ fillNodeChilds = (ftreeNode)->
     ),
     ((error)->
         # log error
-        logException("Error Occured on left pannel tree build  #{error.status} #{error.statusText} INODE => #{Base64.decode(fKey)} URL => #{getInodesAtPathAction.url}", "9#{ln()}")
+        logException("Error Occured on left pannel tree build  #{error.status} #{error.statusText} INODE => #{Base64.decode(fKey)} URL => #{getInodesAtPathAction.url}")
     ))
 
 module.exports = fillNodeChilds

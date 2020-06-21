@@ -14,8 +14,7 @@ class OmenDebugException extends OmenException
         if ($this->isConsole) {
             $this->renderForConsole();
         }
-        Log::error('!!! ========  OMEN File Manager DEBUG  ======== !!!');
-        Log::error(sprintf('N%d => %s', $this->code, $this->message));
+        Log::debug(sprintf('OMEN <%s> => %s', $this->code, $this->message));
 
         if ($e = $this->getPrevious())
             Log::debug($e);

@@ -4,7 +4,6 @@ getInodesAtPathActionInfo = require('./../omen/actionEvents.coffee').getInodesAt
 getBreadcrumbAtPathActionInfo = require('./../omen/actionEvents.coffee').getBreadcrumbAtPath
 setLocationParameters = require('./../tools/setLocationParameters.coffee')
 logException = require('./../tools/logException.coffee')
-ln = require('./../tools/getLine.coffee')
 Base64 = require('js-base64').Base64
 fancyTree = require('jquery.fancytree')
 resetFilters = require('./../omen/actionEvents.coffee').resetFilters
@@ -36,7 +35,7 @@ module.exports = (path)->
     ((error)->
         progressbar.end()
         # log error
-        logException("Error Occured on ajax navigation  #{error.status} #{error.statusText} INODE => #{path} URL => #{getInodesAtPathActionInfo.url}", "9#{ln()}").done(->
+        logException("Error Occured on ajax navigation  #{error.status} #{error.statusText} INODE => #{path} URL => #{getInodesAtPathActionInfo.url}").done(->
             # fallback to redirection   
             window.location.replace(setLocationParameters({
                 'path': encodeURIComponent(path)
@@ -54,7 +53,7 @@ module.exports = (path)->
     ((error)->
         progressbar.end()
         # log error
-        logException("Error Occured on ajax navigation  #{error.status} #{error.statusText} INODE => #{path} URL => #{getBreadcrumbAtPathActionInfo.url}", "9#{ln()}").done(->
+        logException("Error Occured on ajax navigation  #{error.status} #{error.statusText} INODE => #{path} URL => #{getBreadcrumbAtPathActionInfo.url}").done(->
             # fallback to redirection   
             window.location.replace(setLocationParameters({
                 'path': encodeURIComponent(path)

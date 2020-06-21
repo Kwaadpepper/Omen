@@ -1,7 +1,6 @@
 omenApi = require('./../../omenApi.coffee')
 ajaxCalls = require('./../../tools/ajaxCalls.coffee')
 logException = require('./../../tools/logException.coffee')
-ln = require('./../../tools/getLine.coffee')
 trans = require('./../../tools/translate.coffee')
 alert = require('./../../tools/alert.coffee')
 progressbar = require('./../../tools/progressbar.coffee')
@@ -29,7 +28,7 @@ module.exports = (action)->
                     progressbar.end()
                     contentLength = jxhr.getResponseHeader('Content-Length')
                     if jxhr.status is not 200 or !contentLength
-                        logException("Error Occured #{jxhr.status} #{jxhr.statusText} INODE => #{inode.path} URL => #{url}", "9#{ln()}")
+                        logException("Error Occured #{jxhr.status} #{jxhr.statusText} INODE => #{inode.path} URL => #{url}")
                         alert('danger', trans('File download error'), trans("Server could not get ${inodename}", { 'inodename': inode.name }))
                     else
                         # #Dynamic Download
