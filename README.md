@@ -182,7 +182,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [x] add error message on text viewer ?
 -   [x] prevent share links if storage is private and url not accessible
 -   [x] polish PDF viewer
--   [ ] rework exception error codes
+-   [x] rework exception error codes
 -   [x] add resize and crop images
 -   [ ] extensive test on mobile
 -   [ ] unit tests ?
