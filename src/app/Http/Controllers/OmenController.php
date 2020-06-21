@@ -56,7 +56,6 @@ class OmenController extends Controller
                 } catch (OmenException $e) {
                     report(new OmenException(
                         sprintf('Upload clearner: could not remove orphan file %s', $inode->getFullPath()),
-                        '58' . __LINE__,
                         $e
                     ));
                 }
@@ -76,7 +75,6 @@ class OmenController extends Controller
                 } catch (OmenException $e) {
                     report(new OmenException(
                         sprintf('Upload clearner: could not remove orphan chunk file %s', $inode->getFullPath()),
-                        '59' . __LINE__,
                         $e
                     ));
                 }

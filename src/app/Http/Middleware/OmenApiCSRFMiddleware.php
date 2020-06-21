@@ -38,7 +38,7 @@ class OmenApiCSRFMiddleware
                 $this->addCSRFTokenToResponse($response);
             }
         } catch (Exception $e) {
-            throw new OmenException('An unknow error happened in Omen', '05' . __LINE__, $e);
+            throw new OmenException('An unknow error happened in Omen', $e);
         }
 
         return $response;

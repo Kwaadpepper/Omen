@@ -31,13 +31,7 @@ class OmenMiddleware
 
         $this->checkExtensionsHandle();
 
-        $response = null;
-
-        try {
-            $response = $next($request);
-        } catch (Exception $e) {
-            throw new OmenException('An unknow error happened in Omen', '00' . __LINE__, $e);
-        }
+        $response = $next($request);
 
         if (get_class($response) == "Illuminate\Http\Response") {
             if (!empty($cspRuleLine)) {
@@ -94,7 +88,7 @@ class OmenMiddleware
             $cspOptionUrls['script-src'][] = \sprintf("'nonce-%s'", $randomString);
             $cspOptionUrls['style-src'][] = \sprintf("'nonce-%s'", $randomString);
         } catch (Exception $e) {
-            throw new OmenException('Error while generating CSP resources rules', '7' . __LINE__, $e);
+            throw new OmenException('Error while generating CSP resources rules', $e);
         }
 
         // security needed
@@ -193,9 +187,9 @@ class OmenMiddleware
             }
         } catch (Exception $e) {
             if (\strpos($e->getMessage(), 'count():') !== false) {
-                throw new OmenException(__('"locales" in your configuration file must be an array'), 1, $e);
+                throw new OmenException(__('"locales" in your configuration file must be an array'), $e);
             }
-            throw new OmenException(__('Something is wrong in your configuration file, please check locales and laravel log'), 1, $e);
+            throw new OmenException(__('Something is wrong in your configuration file, please check locales and laravel log'), $e);
         }
         if ($request->filled('locale')) {
             config(['omen.locale' => $request->get('locale')]);

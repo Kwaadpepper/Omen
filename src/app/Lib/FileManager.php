@@ -154,8 +154,7 @@ class FileManager
 
         if (!$disk->move($sourcePathOrInode, sprintf('%s/%s', $destPathOrInode, $filename))) {
             throw new OmenException(
-                \sprintf('File move failed from %s to %s', $sourcePathOrInode, sprintf('%s/%s', $destPathOrInode, $filename)),
-                '76' . __LINE__
+                \sprintf('File move failed from %s to %s', $sourcePathOrInode, sprintf('%s/%s', $destPathOrInode, $filename))
             );
         }
     }
@@ -189,8 +188,7 @@ class FileManager
 
         if (!$disk->copy($sourcePathOrInode, $destPathOrInode)) {
             throw new OmenException(
-                \sprintf('File copy failed from %s to %s', $sourcePathOrInode, $destPathOrInode),
-                '76' . __LINE__
+                \sprintf('File copy failed from %s to %s', $sourcePathOrInode, $destPathOrInode)
             );
         }
         return $this->inode($destPathOrInode);
@@ -242,7 +240,7 @@ class FileManager
         $disk = $this->getDisk();
         if (!$disk->makeDirectory($path)) {
             \restore_error_handler();
-            throw new OmenException(\sprintf('Folder %s could not be created', config('omen.privatePath')), '21' . $error->getLine(), $error);
+            throw new OmenException(\sprintf('Folder %s could not be created', config('omen.privatePath')), $error);
         }
         \restore_error_handler();
 

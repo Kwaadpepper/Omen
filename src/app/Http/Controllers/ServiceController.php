@@ -28,7 +28,6 @@ class ServiceController
                     $request->post('code'),
                     $request->post('message')
                 ),
-                '9' + __LINE__,
                 $e
             ));
         }
@@ -43,7 +42,7 @@ class ServiceController
             return OmenHelper::abort(404);
         }
         try {
-            report(new OmenException(\sprintf('Omen CSP violation report %s', OmenHelper::formatCspReport($jsonRequest)), '23' . __LINE__));
+            report(new OmenException(\sprintf('Omen CSP violation report %s', OmenHelper::formatCspReport($jsonRequest))));
         } catch (Error $e) {
             report(new OmenException(
                 \sprintf(
@@ -51,7 +50,6 @@ class ServiceController
                     $request->post('code'),
                     $request->post('message')
                 ),
-                '9' + __LINE__,
                 $e
             ));
         }

@@ -3,7 +3,8 @@
 namespace Kwaadpepper\Omen;
 
 use Illuminate\Support\Facades\Config;
-use Kwaadpepper\Omen\Exceptions\OmenException;
+use Kwaadpepper\Omen\Exceptions\OmenDebugException;
+use Kwaadpepper\Omen\Exceptions\OmenHttpException;
 
 class OmenHelper
 {
@@ -201,7 +202,7 @@ class OmenHelper
             return rtrim($string);
         } else {
             $charlist = preg_quote($charlist, '/');
-            return preg_replace("/([$charlist]+$)/us", '', $string);
+            return preg_replace("/($charlist+$)/us", '', $string);
         }
     }
 
@@ -211,7 +212,7 @@ class OmenHelper
             return ltrim($string);
         } else {
             $charlist = preg_quote($charlist, '/');
-            return preg_replace("/(^[$charlist]+)/us", '', $string);
+            return preg_replace("/(^$charlist+)/us", '', $string);
         }
     }
 
@@ -292,7 +293,7 @@ class OmenHelper
      * @param mixed $variable The variable to test
      * @param mixed $value The value it should have
      * @return void 
-     * @throws OmenException if assertion is wrong
+     * @throws OmenDebugException if assertion is wrong
      */
     public static function assert($variable, $value)
     {
@@ -300,7 +301,7 @@ class OmenHelper
             $parentClass = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? '';
             $parentFunction = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function'] ?? '';
             $parentLine = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['line'] ?? '';
-            throw new OmenException("Asserted $variable was equal to $value in $parentClass $parentFunction on line $parentLine");
+            throw new OmenDebugException("Asserted $variable was equal to $value in $parentClass $parentFunction on line $parentLine");
         };
     }
 
@@ -310,7 +311,7 @@ class OmenHelper
      * @param Mixed $variable Any variable to test
      * @param String $type A string with the type of $variable to assert (case insensitive)
      * @return Void
-     * @throws OmenException when $variable does not match $type or is a ressource (unsupported), or the type is unknown
+     * @throws OmenDebugException when $variable does not match $type or is a ressource (unsupported), or the type is unknown
      */
     public static function assertType($variable, string $type)
     {
@@ -341,10 +342,10 @@ class OmenHelper
             case 'resource':
             case 'resource (closed)':
                 list($parentClass, $parentFunction, $parentLine) = $getContext();
-                throw new OmenException("Unupported $variable type $varType assertion in $parentClass $parentFunction on line $parentLine");
+                throw new OmenDebugException("Unupported $variable type $varType assertion in $parentClass $parentFunction on line $parentLine");
             case 'unknown type':
                 list($parentClass, $parentFunction, $parentLine) = $getContext();
-                throw new OmenException("Unupported $variable type $varType assertion in $parentClass $parentFunction on line $parentLine");
+                throw new OmenDebugException("Unupported $variable type $varType assertion in $parentClass $parentFunction on line $parentLine");
             case 'object':
                 if (\strtolower($type) == \get_class($variable)) {
                     $check = true;
@@ -353,7 +354,7 @@ class OmenHelper
 
         if (!$check) {
             list($parentClass, $parentFunction, $parentLine) = $getContext();
-            throw new OmenException("Asserted $variable was type of $type in $parentClass $parentFunction on line $parentLine");
+            throw new OmenDebugException("Asserted $variable was type of $type in $parentClass $parentFunction on line $parentLine");
         };
     }
 
@@ -375,6 +376,6 @@ class OmenHelper
                     break;
             }
         }
-        return (new OmenException($message, $code))->render(\request(), true);
+        return (new OmenHttpException($message, $code))->render(\request(), true);
     }
 }

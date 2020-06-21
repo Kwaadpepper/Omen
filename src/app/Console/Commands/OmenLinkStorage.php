@@ -86,11 +86,11 @@ class OmenLinkStorage extends Command
         try {
             $diretoryCreated = File::makeDirectory($directory);
         } catch (Exception $e) {
-            throw new OmenException(\sprintf('Error during Folder creation %s => %s', $directory, $e->getMessage()), '8' . __LINE__);
+            throw new OmenException(\sprintf('Error during Folder creation %s => %s', $directory, $e->getMessage()), null, true);
         }
 
         if (!$diretoryCreated) {
-            throw new OmenException(\sprintf('Can\'t create folder %s unknown reason', $directory), '8' . __LINE__);
+            throw new OmenException(\sprintf('Can\'t create folder %s unknown reason', $directory), null, true);
         }
 
         $this->info(\sprintf('created folder %s', $directory));
@@ -107,7 +107,7 @@ class OmenLinkStorage extends Command
     protected function getRelativeTarget($link, $target)
     {
         if (!class_exists(SymfonyFilesystem::class)) {
-            throw new OmenException('Please install the symfony/filesystem Composer package to create relative links.', '8' . __LINE__);
+            throw new OmenException('Please install the symfony/filesystem Composer package to create relative links.', null, true);
         }
 
         return (new SymfonyFilesystem)->makePathRelative($target, \dirname($link));

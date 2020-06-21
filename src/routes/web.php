@@ -7,7 +7,7 @@ use \App\Http\Middleware\VerifyCsrfToken as VerifyAndSetCsrfToken;
 $middlewareMinimal = include(__DIR__ . '/middlewareMinimal.php');
 
 Route::group([
-    'middleware' => array_merge(['omenthrottle:60,1'], $middlewareMinimal, [VerifyAndSetCsrfToken::class]),
+    'middleware' => array_merge(['omenerrorhandler', 'omenthrottle:60,1'], $middlewareMinimal, [VerifyAndSetCsrfToken::class]),
     'namespace' => 'Kwaadpepper\Omen\Http\Controllers'
 ], function () {
     $routePrefix = config('omen.urlPrefix');
@@ -22,7 +22,7 @@ Route::group([
  */
 Route::group([
     'as' => 'httpFileSend.',
-    'middleware' => array_merge(['omenthrottle:60,1'], $middlewareMinimal),
+    'middleware' => array_merge(['omenerrorhandler', 'omenthrottle:60,1'], $middlewareMinimal),
     'namespace' => 'Kwaadpepper\Omen\Http\Controllers'
 ], function () {
     $routePrefix = config('omen.urlPrefix');

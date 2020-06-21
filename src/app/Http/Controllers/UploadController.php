@@ -103,7 +103,7 @@ class UploadController extends Controller
             return $this->errorResponse(400, __('Bad request'));
         } catch (FileException $e) {
             $failure = true;
-            $exception = new OmenException('File manipulation error', '87' . __LINE__, $e);
+            $exception = new OmenException('File manipulation error', $e);
             report($exception);
             return $this->errorResponse();
         } finally {
@@ -394,7 +394,7 @@ class UploadController extends Controller
                 $chunkInode->delete();
             }
         } catch (ExceptionFileNotFoundException $e) {
-            $exception = new OmenException('File manipulation error', '87' . __LINE__, $e);
+            $exception = new OmenException('File manipulation error', $e);
             \report($exception);
             return $this->cleanAndGetErrorResponse($outFile, $this->chunkIndex);
         }
@@ -423,7 +423,7 @@ class UploadController extends Controller
                 }
             }
         } catch (Exception $e) {
-            $exception = new OmenException('Could not check file extension', '88' . __LINE__, $e);
+            $exception = new OmenException('Could not check file extension', $e);
             \report($exception);
             return $this->cleanAndGetErrorResponse($outFile, $this->chunkIndex);
         }
@@ -444,7 +444,7 @@ class UploadController extends Controller
             report($e);
             return $this->errorResponse();
         } catch (ExceptionFileNotFoundException $e) {
-            $exception = new OmenException('File manipulation error', '87' . __LINE__, $e);
+            $exception = new OmenException('File manipulation error', $e);
             \report($exception);
             return $this->errorResponse();
         }

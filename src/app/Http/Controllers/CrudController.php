@@ -80,7 +80,6 @@ class CrudController
                     $request->post('code'),
                     $request->post('message')
                 ),
-                '9' + __LINE__,
                 $e
             ));
         }
@@ -111,7 +110,6 @@ class CrudController
                     $request->post('code'),
                     $request->post('message')
                 ),
-                '9' + __LINE__,
                 $e
             ));
             return response()->json([], 500);

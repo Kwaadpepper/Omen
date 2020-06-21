@@ -29,7 +29,7 @@ class LocalFile extends File
         $this->handle = tmpfile();
         \fwrite($this->handle, $inode->get());
         if (!$this->handle) {
-            throw new OmenException('Could not create a temp file', "34" + __LINE__);
+            throw new OmenException('Could not create a temp file');
         }
         $metaDatas = stream_get_meta_data($this->handle);
         parent::__construct($metaDatas['uri'], true);

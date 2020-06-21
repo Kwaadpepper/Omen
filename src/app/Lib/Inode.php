@@ -88,7 +88,7 @@ class Inode implements JsonSerializable
                 }
             }
         } catch (RuntimeException $e) {
-            \report(new OmenException(sprintf('Can\'t get this inode public url %s ', $fullPath), '5' . __LINE__, $e));
+            \report(new OmenException(sprintf('Can\'t get this inode public url %s ', $fullPath), $e));
             $this->url = Application::getInstance()->make('url')->route('httpFileSend.omenDownload', \ltrim($this->path, '/'));
         }
     }
@@ -103,7 +103,7 @@ class Inode implements JsonSerializable
     public function get()
     {
         if ($this->type == InodeType::DIR) {
-            throw new OmenException('Calling method get on a Directory is not supported', '7' . __LINE__);
+            throw new OmenException('Calling method get on a Directory is not supported');
         }
         return $this->disk->get($this->fullPath);
     }
@@ -136,7 +136,7 @@ class Inode implements JsonSerializable
     public function put($content)
     {
         if ($this->type == InodeType::DIR) {
-            throw new OmenException('Calling method get on a Directory is not supported', '7' . __LINE__);
+            throw new OmenException('Calling method get on a Directory is not supported');
         }
 
         $filename = \tempnam(\sys_get_temp_dir(), '');
@@ -171,7 +171,7 @@ class Inode implements JsonSerializable
     public function append($content)
     {
         if ($this->type == InodeType::DIR) {
-            throw new OmenException('Calling method append on a Directory is not supported', '7' . __LINE__);
+            throw new OmenException('Calling method append on a Directory is not supported');
         }
 
         $this->lastModified = \time();
@@ -219,7 +219,7 @@ class Inode implements JsonSerializable
         $fullPath = $this->fullPath;
 
         if ($this->type == InodeType::DIR) {
-            throw new OmenException('Calling method get on a Directory is not supported', '7' . __LINE__);
+            throw new OmenException('Calling method get on a Directory is not supported');
         }
 
         $response = new StreamedResponse();
@@ -269,7 +269,7 @@ class Inode implements JsonSerializable
     public function delete()
     {
         if (!$this->disk->delete($this->fullPath)) {
-            throw new OmenException(sprintf('Could not delete file %s', $this->fullPath), '99' + __LINE__);
+            throw new OmenException(sprintf('Could not delete file %s', $this->fullPath));
         }
     }
 
@@ -419,7 +419,7 @@ class Inode implements JsonSerializable
                 $this->visibility = $visibility;
                 break;
             default:
-                throw new OmenException('$visibility must type of InodeVisibility', '98' + __LINE__);
+                throw new OmenException(sprintf('%s must type of InodeVisibility', $visibility));
         }
     }
 
