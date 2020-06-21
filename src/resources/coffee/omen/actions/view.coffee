@@ -198,8 +198,9 @@ module.exports = (action)->
                                         rootMargin: '0px',
                                         threshold: 0
                                     }
+                                    imageToken = omenApi.getImageToken()
                                     imageModal.find('h5').text(inode.baseName)
-                                    imageModal.find('img').attr('data-src', url)
+                                    imageModal.find('img').attr('data-src', "#{url}?token=#{imageToken}")
                         }
                     )
                 else

@@ -100,6 +100,7 @@ saveImage = (saveAsNew)->
             ((inode)->
                 lockUi.unlock()
                 progressbar.end()
+                omenApi.updateImageToken()
                 if saveAsNew
                     setTimeout (->
                         addInodeFigure({ path: inode.path }).then(->
@@ -136,6 +137,7 @@ saveImage = (saveAsNew)->
             ((inode)->
                 lockUi.unlock()
                 progressbar.end()
+                omenApi.updateImageToken()
                 setTimeout (->
                     addInodeFigure({ path: inode.path }).then(->
                         resetFilters()

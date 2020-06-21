@@ -47,9 +47,7 @@ $(document).ready ()->
 	# add bootstrap input locales
 	omen.setProp('bootstrapInputLocales', localesFiles)
 	
-	# register Api
-	window.OmenFileManager = omen
-	
+	require('./tools/imageToken.coffee')
 	require('./tools/innerTextJqueryPlugin.coffee')
 	require('./omen/omenView.coffee')
 	require('./omen/navbar.coffee')
