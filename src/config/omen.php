@@ -175,6 +175,18 @@ return [
      */
     'minimumFileLength' => 3,
 
+    /**
+     * Allow overwrite on File copy
+     * (not on directory)
+     */
+    'overwriteOnFileCopy' => false,
+
+    /**
+     * Allow overwrite on File move
+     * (not on directory)
+     */
+    'overwriteOnFileMove' => true,
+
     /* === FRONT END === */
 
     /**

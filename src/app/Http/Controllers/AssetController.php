@@ -2,13 +2,14 @@
 
 namespace Kwaadpepper\Omen\Http\Controllers;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Testing\MimeType;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 use Kwaadpepper\Omen\OmenHelper;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
-class AssetController
+class AssetController extends Controller
 {
     /**
      * Serve asset if not published

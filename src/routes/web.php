@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Kwaadpepper\Omen\Http\Middleware\CheckCookieCsrfTokenMiddleware;
-use \App\Http\Middleware\VerifyCsrfToken as VerifyAndSetCsrfToken;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as VerifyAndSetCsrfToken;
 
 $middlewareMinimal = include(__DIR__ . '/middlewareMinimal.php');
 

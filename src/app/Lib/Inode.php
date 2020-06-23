@@ -2,6 +2,7 @@
 
 namespace Kwaadpepper\Omen\Lib;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\File;
@@ -58,11 +59,13 @@ class Inode implements JsonSerializable
 
     private function initWithFullPath($fullPath)
     {
-        $pathPrefix = config('omen.publicPath');
+        $pathPubPrefix = OmenHelper::uploadPath();
+        $pathPrivPrefix = OmenHelper::privatePath();
 
-        // remove path Prefix
-        if (\substr($fullPath, 0, \strlen($pathPrefix)) == $pathPrefix) {
-            $this->path = \substr($fullPath, \strlen($pathPrefix));
+        if (\substr($fullPath, 0, \strlen($pathPubPrefix)) == $pathPubPrefix) {
+            $this->path = \substr($fullPath, \strlen($pathPubPrefix));
+        } else if (\substr($fullPath, 0, \strlen($pathPrivPrefix)) == $pathPrivPrefix) {
+            $this->path = \substr($fullPath, \strlen($pathPrivPrefix));
         } else {
             $this->path = $fullPath;
         }
@@ -273,6 +276,10 @@ class Inode implements JsonSerializable
         }
     }
 
+    /**
+     * Get the last modified Unix Timestamp
+     * @return int Unix Timestamp
+     */
     public function getLastModfied()
     {
         return $this->lastModified;
@@ -280,7 +287,7 @@ class Inode implements JsonSerializable
 
     /**
      * Get the inode url
-     * @return String 
+     * @return string 
      */
     public function getUrl()
     {
@@ -289,7 +296,7 @@ class Inode implements JsonSerializable
 
     /**
      * Gets the directory of this inode
-     * @return String
+     * @return string
      */
     public function getDir()
     {
@@ -307,7 +314,7 @@ class Inode implements JsonSerializable
 
     /**
      * Gets the size of inode
-     * @return Integer
+     * @return string
      */
     public function getSize()
     {
@@ -326,16 +333,6 @@ class Inode implements JsonSerializable
     public function getDateFormated()
     {
         return Date::parse($this->lastModified)->isoFormat('dddL');
-    }
-
-    /**
-     * Gets the Inode Folder
-     * @return String 
-     */
-    public function getFolder()
-    {
-        return $this->type != InodeType::DIR ?
-            \dirname($this->fullPath) : $this->fullPath;
     }
 
     /**
@@ -379,16 +376,17 @@ class Inode implements JsonSerializable
 
     /**
      * Change the inode base name
-     * @param String $name 
+     * @param String $name
+     * @throws OmenException if could not rename the file
      * @return void 
      */
     public function setFullName($name)
     {
-        $newFullPath = sprintf('%s/%s', $this->getFolder(), $name);
+        $newFullPath = sprintf('%s/%s', $this->getDir(), $name);
         $oldFulPath = $this->fullPath;
 
         # move on storage to rename
-        $this->disk->move($oldFulPath, $newFullPath);
+        (new FileManager)->moveTo($oldFulPath, $newFullPath);
 
         # update inode variables
         $this->initWithFullPath($newFullPath);
@@ -499,7 +497,7 @@ class Inode implements JsonSerializable
 
         $parentDirectories = $disk->directories($parent);
 
-        return \in_array($path, $parentDirectories);
+        return \in_array(OmenHelper::mb_ltrim($path, '/'), $parentDirectories);
     }
 
     /**
@@ -511,5 +509,23 @@ class Inode implements JsonSerializable
     protected function fallbackName($name)
     {
         return \str_replace('%', '', Str::ascii($name));
+    }
+
+    /**
+     * Compare to another Inode
+     * @param Inode $obj 
+     * @return bool
+     */
+    public function isEqualTo(Inode $obj)
+    {
+        $eq = true;
+        $eq = $obj->getName() == $this->getName() && $eq;
+        $eq = $obj->getExtension() == $this->getExtension() && $eq;
+        $eq = $obj->getMimeTypeFromFileName() == $this->getMimeTypeFromFileName() && $eq;
+        $eq = $obj->getSize() == $this->getSize() && $eq;
+        $eq = $obj->getType() == $this->getType() && $eq;
+        $eq = $obj->getFileType() == $this->getFileType() && $eq;
+        $eq = $obj->getVisibility() == $this->getVisibility() && $eq;
+        return $eq;
     }
 }

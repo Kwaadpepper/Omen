@@ -2,12 +2,12 @@
 
 namespace Kwaadpepper\Omen\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\Lib\Disk;
 use Kwaadpepper\Omen\Lib\FileManager;
@@ -209,7 +209,7 @@ class UploadController extends Controller
     private function getNewFileName(string $filePath)
     {
         $filePath =  $this->fm->getNewFileName(OmenHelper::uploadPath($filePath));
-        return substr($filePath, \strlen(OmenHelper::uploadPath('')), \strlen($filePath));
+        return substr($filePath, \strlen(OmenHelper::uploadPath()), \strlen($filePath));
     }
 
     /**
@@ -413,14 +413,24 @@ class UploadController extends Controller
         }
 
         //* Check the final assembled file mimeType *//
-        $mimeTypeChecker = new MimeTypes();
-        $mimeType = null;
         try {
-            if ($mimeTypeChecker->isGuesserSupported()) {
-                $mimeType = $mimeTypeChecker->guessMimeType(storage_path(\sprintf('app%s%s', \DIRECTORY_SEPARATOR, $outFile->getFullPath())));
-                if (!\count(\array_intersect($mimeTypeChecker->getExtensions($mimeType), OmenHelper::getAllowedFilesExtensions()))) {
-                    return response()->json(['error' => __('File type not allowed')], 400);
-                }
+            if ($this->fm->checkExtensionWithMimeType(storage_path(\sprintf(
+                'app%s%s',
+                \DIRECTORY_SEPARATOR,
+                $outFile->getFullPath()
+            )))) {
+                return response()->json(['error' => __(
+                    'File extension %s does not match file mime type %s',
+                    $outFile->getExtension(),
+                    $this->fm->getFileMimeType($outFile)
+                )], 400);
+            }
+            if ($this->fm->isAllowedMimeType(storage_path(\sprintf(
+                'app%s%s',
+                \DIRECTORY_SEPARATOR,
+                $outFile->getFullPath()
+            )))) {
+                return response()->json(['error' => __('File type not allowed')], 400);
             }
         } catch (Exception $e) {
             $exception = new OmenException('Could not check file extension', $e);

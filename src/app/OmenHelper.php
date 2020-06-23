@@ -2,6 +2,7 @@
 
 namespace Kwaadpepper\Omen;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Config;
 use Kwaadpepper\Omen\Exceptions\OmenDebugException;
 use Kwaadpepper\Omen\Exceptions\OmenHttpException;
@@ -29,9 +30,9 @@ class OmenHelper
      * @param String $path the subfolder in uplod path to point to
      * @return String the full path to upload
      */
-    public static function uploadPath(string $path)
+    public static function uploadPath(string $path = '')
     {
-        return static::filterPath(config('omen.publicPath'), $path);
+        return static::filterPath(static::mb_ltrim(config('omen.publicPath'), '/'), $path);
     }
 
     /**
@@ -39,9 +40,9 @@ class OmenHelper
      * @param String $path the subfolder in uplod path to point to
      * @return String the full path to upload
      */
-    public static function privatePath(string $path)
+    public static function privatePath(string $path = '')
     {
-        return static::filterPath(config('omen.privatePath'), $path);
+        return static::filterPath(static::mb_ltrim(config('omen.privatePath'), '/'), $path);
     }
 
     private static function filterPath(string $root, string $path)
@@ -57,7 +58,7 @@ class OmenHelper
     public static function sanitizePath(string $path)
     {
         $path = static::preg_replace_all(
-            '/\/\.*\//',
+            '/\/{2,}/',
             '/',
             $path
         );
@@ -73,7 +74,13 @@ class OmenHelper
         // }
         // $pathDirname = \implode('/', $subs);
 
-        return "{$pathDirname}/{$pathBaseName}";
+        return sprintf(
+            '%s%s%s',
+            $pathDirname,
+            (\strlen($pathDirname) && \strlen($pathBaseName)) ||
+                (!\strlen($pathDirname) && \strlen($pathBaseName) && \strpos($path, '/') == 0) ? '/' : '',
+            $pathBaseName
+        );
     }
 
     /**
@@ -149,6 +156,7 @@ class OmenHelper
     /**
      * Multibyte path info
      * is this needed with php 7 ?
+     * mimics pathinfo php function
      * 
      * @param String $filepath 
      * @param Int $options
@@ -160,6 +168,10 @@ class OmenHelper
      */
     public static function mb_pathinfo(string $filepath, int $options = 0)
     {
+        // if PATHINFO_DIRNAME and '/' or '/file' or '/file.jpg'
+        if (preg_match('%^\/[^\/.]*?\.[^\/.]*?$|^\/[^\/.]*?$|^\/$%im', $filepath) == 1 and $options == 1) {
+            return '/';
+        }
         $m = $ret = [];
         preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', $filepath, $m);
 
@@ -174,11 +186,18 @@ class OmenHelper
             return $m[$options & 0b1000] ?? $m[$options & 0b0100] ?? $m[$options & 0b0010] ?? $m[$options & 0b0001] ?? "";
         }
 
+        if ($filepath == '/') {
+            return ['dirname' => '/'];
+        }
+
         if ($m[1]) $ret['dirname'] = &$m[1];
         if ($m[2]) $ret['basename'] = &$m[2];
         if ($m[5]) $ret['extension'] = &$m[5];
         if ($m[3]) $ret['filename'] = &$m[3];
 
+        if (preg_match('%^\/[^\/.]*?\.[^\/.]*?$|^\/[^\/.]*?$|^\/$%im', $filepath) == 1) {
+            $ret['dirname'] = '/';
+        }
 
         return $ret;
     }
@@ -186,7 +205,7 @@ class OmenHelper
     /**
      * https://stackoverflow.com/questions/10066647/multibyte-trim-in-php
      */
-    public static function mb_trim(string $string, $charlist = null)
+    public static function mb_trim($string, $charlist = null)
     {
         if (is_null($charlist)) {
             return trim($string);
@@ -195,27 +214,28 @@ class OmenHelper
             return preg_replace("/(^[$charlist]+)|([$charlist]+$)/us", '', $string);
         }
     }
-
     public static function mb_rtrim($string, $charlist = null)
     {
         if (is_null($charlist)) {
             return rtrim($string);
         } else {
             $charlist = preg_quote($charlist, '/');
-            return preg_replace("/($charlist+$)/us", '', $string);
+            return preg_replace("/([$charlist]+$)/us", '', $string);
         }
     }
-
     public static function mb_ltrim($string, $charlist = null)
     {
         if (is_null($charlist)) {
             return ltrim($string);
         } else {
             $charlist = preg_quote($charlist, '/');
-            return preg_replace("/(^$charlist+)/us", '', $string);
+            return preg_replace("/(^[$charlist]+)/us", '', $string);
         }
     }
 
+    /**
+     * @return array 
+     */
     public static function getAllowedFilesExtensions()
     {
         $out = [];
@@ -242,7 +262,7 @@ class OmenHelper
      * @param Mixed $count 
      * @return String|Array|Null recursive replaced $subject
      */
-    private static function preg_replace_all($pattern, $replacement, string $subject, int $limit = -1, &$count = 0)
+    public static function preg_replace_all($pattern, $replacement, string $subject, int $limit = -1, &$count = 0)
     {
         $privateLimit = 40;
         $count = $subcount = 0;
@@ -336,7 +356,7 @@ class OmenHelper
                 $check = $varType == \strtolower($type);
                 break;
             case 'NULL':
-                $check = \isNull($type) ? true : (
+                $check = \is_null($type) ? true : (
                     (\strtolower($type) == 'null') ? true : false);
                 break;
             case 'resource':
@@ -347,7 +367,7 @@ class OmenHelper
                 list($parentClass, $parentFunction, $parentLine) = $getContext();
                 throw new OmenDebugException("Unupported $variable type $varType assertion in $parentClass $parentFunction on line $parentLine");
             case 'object':
-                if (\strtolower($type) == \get_class($variable)) {
+                if (\strtolower($type) == \strtolower(\get_class($variable))) {
                     $check = true;
                 }
         }

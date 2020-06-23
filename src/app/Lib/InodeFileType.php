@@ -110,7 +110,6 @@ abstract class InodeFileType
                         //     return self::FILE;
                 }
             default:
-                \report(new OmenDebugException(\sprintf('unknown File Type %s', $mimeType)));
                 return self::FILE;
         }
     }

@@ -3,12 +3,18 @@
 namespace Kwaadpepper\Omen\Lib;
 
 use Error;
+use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use InvalidArgumentException;
 use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\OmenHelper;
+use LogicException as GlobalLogicException;
+use Symfony\Component\Mime\Exception\LogicException;
+use Symfony\Component\Mime\MimeTypes;
 
 class FileManager
 {
@@ -88,7 +94,7 @@ class FileManager
      * @param String|null $flags 
      * @return Array[String] 
      */
-    public function globFiles($dirPath, $fileNamePattern, $flags = null)
+    public function globFiles($dirPath, $fileNamePattern = '', $flags = null)
     {
         $outputMatch = [];
         $disk = $this->getDisk();
@@ -130,12 +136,13 @@ class FileManager
         return $disk->exists($pathOrInode);
     }
 
+
     /**
      * Move an inode to another
-     * @param String|Inode $sourcePathOrInode the source
-     * @param String|Inode $destPathOrInode the destination
-     * @return void 
-     * @throws OmenException If move failed
+     * @param string|Inode $sourcePathOrInode 
+     * @param string|Inode $destPathOrInode 
+     * @return Inode|void 
+     * @throws OmenException 
      */
     public function moveTo($sourcePathOrInode, $destPathOrInode)
     {
@@ -150,21 +157,45 @@ class FileManager
             $destPathOrInode = $destPathOrInode->getFullPath();
         }
 
-        $filename = OmenHelper::mb_pathinfo($sourcePathOrInode, \PATHINFO_BASENAME);
 
-        if (!$disk->move($sourcePathOrInode, sprintf('%s/%s', $destPathOrInode, $filename))) {
+        $sourcePathOrInode = OmenHelper::sanitizePath($sourcePathOrInode);
+        $destPathOrInode = OmenHelper::sanitizePath($destPathOrInode);
+
+        $sourceInode = $fm->inode($sourcePathOrInode);
+        $destInode = $fm->inode($destPathOrInode);
+
+        if ($destInode->getType() == InodeType::DIR) {
+            $destInode = $fm->inode(sprintf('%s/%s', $destInode->getDir(), $sourceInode->getFullName()));
+        }
+
+        try {
+            if (
+                $destInode->getType() == InodeType::FILE &&
+                $fm->exists($destInode) &&
+                config('omen.overwriteOnFileMove')
+            ) {
+                $destInode->delete();
+            }
+            if (!$disk->move($sourceInode->getFullPath(), $destInode->getFullPath())) {
+                throw new OmenException(
+                    \sprintf('File move failed from %s to %s', $sourceInode->getFullPath(), $destInode->getFullPath())
+                );
+            }
+            return $destInode;
+        } catch (Exception $e) {
             throw new OmenException(
-                \sprintf('File move failed from %s to %s', $sourcePathOrInode, sprintf('%s/%s', $destPathOrInode, $filename))
+                \sprintf('File move failed from %s to %s', $sourceInode->getFullPath(), $destInode->getFullPath()),
+                $e
             );
         }
     }
 
     /**
      * Copy an inode to another
-     * @param String|Inode $sourcePathOrInode the source
-     * @param String|Inode $destPathOrInode the destination
-     * @return void 
-     * @throws OmenException If move failed
+     * @param string|Inode $sourcePathOrInode 
+     * @param string|Inode $destPathOrInode 
+     * @return Inode|void 
+     * @throws OmenException 
      */
     public function copyTo($sourcePathOrInode, $destPathOrInode)
     {
@@ -179,19 +210,37 @@ class FileManager
             $destPathOrInode = $destPathOrInode->getFullPath();
         }
 
-        $filename = OmenHelper::mb_pathinfo($sourcePathOrInode, \PATHINFO_BASENAME);
-        $destPathOrInode = sprintf('%s/%s', $destPathOrInode, $filename);
 
-        if ($this->exists($destPathOrInode)) {
-            $destPathOrInode = $this->getNewFileName($destPathOrInode);
+        $sourcePathOrInode = OmenHelper::sanitizePath($sourcePathOrInode);
+        $destPathOrInode = OmenHelper::sanitizePath($destPathOrInode);
+
+        $sourceInode = $fm->inode($sourcePathOrInode);
+        $destInode = $fm->inode($destPathOrInode);
+
+        if ($destInode->getType() == InodeType::DIR) {
+            $destInode = $fm->inode(sprintf('%s/%s', $destInode->getDir(), $sourceInode->getFullName()));
         }
 
-        if (!$disk->copy($sourcePathOrInode, $destPathOrInode)) {
+        try {
+            if (
+                $destInode->getType() == InodeType::FILE &&
+                $fm->exists($destInode) &&
+                config('omen.overwriteOnFileCopy')
+            ) {
+                $destInode->delete();
+            }
+            if (!$disk->copy($sourceInode->getFullPath(), $destInode->getFullPath())) {
+                throw new OmenException(
+                    \sprintf('File copy failed from %s to %s', $sourcePathOrInode, $destPathOrInode)
+                );
+            }
+            return $destInode;
+        } catch (Exception $e) {
             throw new OmenException(
-                \sprintf('File copy failed from %s to %s', $sourcePathOrInode, $destPathOrInode)
+                \sprintf('File copy failed from %s to %s', $sourceInode->getFullPath(), $destInode->getFullPath()),
+                $e
             );
         }
-        return $this->inode($destPathOrInode);
     }
 
     public function getNewFileName($path, $counter = 0)
@@ -226,7 +275,7 @@ class FileManager
     {
         // Check if parent Exists
         $dirName = OmenHelper::mb_pathinfo($path, \PATHINFO_DIRNAME);
-        if ($dirName != '.' and !$this->exists($dirName)) {
+        if ($dirName != '' and !$this->exists($dirName)) {
             // if not create the parent
             $this->createDirectory($dirName);
         }
@@ -248,12 +297,68 @@ class FileManager
     }
 
     /**
-     * Check the inode MimeType
-     * @param string $mimeType 
-     * @return void 
+     * Check if the file extension is matching its mimetype
+     * @param string $inodeFullPath 
+     * @return bool 
+     * @throws OmenException 
+     * @throws LogicException 
      */
-    public function isAllowedMimeType($inode)
+    public function checkExtensionWithMimeType(string $inodeFullPath)
     {
+        try {
+            $ext = OmenHelper::mb_pathinfo($inodeFullPath, \PATHINFO_EXTENSION);
+            $exts = $this->getFilePossibleExtensions($inodeFullPath);
+            if (\in_array($ext, $exts)) {
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            throw new OmenException('Could not check file extension', $e);
+        }
+    }
+
+    /**
+     * Check if the file is allowed by Omen config
+     * @param string $inodeFullPath 
+     * @return true 
+     * @throws OmenException If mime type could not be checked
+     */
+    public function isAllowedMimeType(string $inodeFullPath)
+    {
+        try {
+            $exts = $this->getFilePossibleExtensions($inodeFullPath);
+            $ext = OmenHelper::mb_pathinfo($inodeFullPath, \PATHINFO_EXTENSION);
+            if (\count($exts) > 0 && \in_array($ext, OmenHelper::getAllowedFilesExtensions())) {
+                return true;
+            }
+            return false;
+        } catch (GlobalLogicException | GlobalLogicException | LogicException $e) {
+            throw new OmenException('Could not check file mime type', $e);
+        }
+    }
+
+    /**
+     * Get the file possible extensions
+     * @param string $inodeFullPath 
+     * @return string[] — an array of extensions (first one is the preferred one)
+     * @throws GlobalLogicException 
+     * @throws InvalidArgumentException 
+     * @throws LogicException
+     * @throws OmenException
+     */
+    public function getFilePossibleExtensions(string $inodeFullPath)
+    {
+        $ext = OmenHelper::mb_pathinfo($inodeFullPath, \PATHINFO_EXTENSION);
+        $mt = new MimeTypes();
+        $exts = $mt->getExtensions($mt->guessMimeType($inodeFullPath));
+        if (!\in_array($ext, $exts)) {
+            throw new OmenException(\sprintf(
+                'File guessed extensions %s does not match file name extension %s',
+                \implode(',', $exts),
+                $ext
+            ));
+        }
+        return $exts;
     }
 
     /**

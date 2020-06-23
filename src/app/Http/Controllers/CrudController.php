@@ -4,12 +4,13 @@ namespace Kwaadpepper\Omen\Http\Controllers;
 
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\Lib\FileManager;
 use Kwaadpepper\Omen\Lib\InodeType;
 use Kwaadpepper\Omen\OmenHelper;
 
-class CrudController
+class CrudController extends Controller
 {
     public function createDirectory(Request $request)
     {

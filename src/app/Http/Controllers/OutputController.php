@@ -3,11 +3,12 @@
 namespace Kwaadpepper\Omen\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Kwaadpepper\Omen\Lib\FileManager;
 use Kwaadpepper\Omen\OmenHelper;
 
-class OutputController
+class OutputController extends Controller
 {
     public function getInodeHtml(Request $request)
     {

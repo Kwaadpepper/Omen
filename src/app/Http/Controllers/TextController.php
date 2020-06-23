@@ -2,8 +2,8 @@
 
 namespace Kwaadpepper\Omen\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\Lib\FileManager;
 use Kwaadpepper\Omen\OmenHelper;

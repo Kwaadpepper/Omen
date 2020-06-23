@@ -4,10 +4,11 @@ namespace Kwaadpepper\Omen\Http\Controllers;
 
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\OmenHelper;
 
-class ServiceController
+class ServiceController extends Controller
 {
     public function ping()
     {

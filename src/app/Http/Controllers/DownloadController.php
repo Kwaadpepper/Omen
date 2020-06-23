@@ -3,6 +3,7 @@
 namespace Kwaadpepper\Omen\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
@@ -11,7 +12,7 @@ use Kwaadpepper\Omen\Lib\InodeVisibility;
 use Kwaadpepper\Omen\OmenHelper;
 use League\Flysystem\FileNotFoundException;
 
-class DownloadController
+class DownloadController extends Controller
 {
     public function download(Request $request, $filePath)
     {
