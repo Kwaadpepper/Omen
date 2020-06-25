@@ -271,12 +271,17 @@ class FileManager
      * @return void 
      * @throws OmenException 
      */
-    public function createDirectory(string $path)
+    public function createDirectory(string &$path)
     {
         // Check if parent Exists
         $dirName = OmenHelper::mb_pathinfo($path, \PATHINFO_DIRNAME);
         if ($dirName != '' and !$this->exists($dirName)) {
-            // if not create the parent
+            // Sanitize parent name to create
+            $cp = OmenHelper::mb_pathinfo($dirName, \PATHINFO_BASENAME);
+            $cp = \str_replace($cp, OmenHelper::filterFilename($cp), $dirName);
+            $path = \str_replace($dirName, $cp, $path);
+            $dirName = $cp;
+            // Create the parent
             $this->createDirectory($dirName);
         }
 
