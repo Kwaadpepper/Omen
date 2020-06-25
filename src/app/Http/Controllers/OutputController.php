@@ -10,15 +10,13 @@ use Kwaadpepper\Omen\OmenHelper;
 
 class OutputController extends Controller
 {
-    public function getInodeHtml(Request $request)
+    public function getInode(Request $request)
     {
-        if (!$request->filled('filepath') and !$request->filled('directorypath')) {
+        if (!$request->filled('inodepath')) {
             return OmenHelper::abort(400);
         }
 
-        $inodepath = !empty($request->post('filepath')) ? $request->post('filepath') : $request->post('directorypath');
-
-        $inodepath = OmenHelper::uploadPath($inodepath);
+        $inodepath = OmenHelper::uploadPath($request->post('inodepath'));
 
         $fm = new FileManager();
 
@@ -39,7 +37,7 @@ class OutputController extends Controller
         return response()->json(['inode' => $inode, 'inodeHtml' => $view->render()], 200);
     }
 
-    public function getInodesAtPath(Request $request)
+    public function getInodes(Request $request)
     {
         if (!$request->filled('path')) {
             return OmenHelper::abort(400);
@@ -67,7 +65,7 @@ class OutputController extends Controller
         ], 200);
     }
 
-    public function getBreadcrumbAtPath(Request $request)
+    public function getBreadcrumb(Request $request)
     {
         if (!$request->filled('path')) {
             return OmenHelper::abort(400);

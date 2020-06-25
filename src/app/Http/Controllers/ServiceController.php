@@ -20,18 +20,8 @@ class ServiceController extends Controller
         if (!$request->filled('code') || !$request->filled('message')) {
             return OmenHelper::abort(404);
         }
-        try {
-            report(new OmenException(\sprintf('FrontEND : %s', $request->post('message'))));
-        } catch (Error $e) {
-            report(new OmenException(
-                \sprintf(
-                    'Error while adding to log frontend error  code  => "%s"  message => "%s"',
-                    $request->post('code'),
-                    $request->post('message')
-                ),
-                $e
-            ));
-        }
+
+        report(new OmenException(\sprintf('FrontEND : %s', $request->post('message'))));
 
         return response()->json(['status' => 'OK']);
     }

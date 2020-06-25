@@ -19,15 +19,15 @@ class TextController extends Controller
         }
 
         $filename = OmenHelper::filterFilename($request->post('fileName'));
-        $filePath = OmenHelper::uploadPath(sprintf('%s/%s', $request->post('filePath'), $filename));
+        $filePath = OmenHelper::uploadPath(sprintf('%s/%s.txt', $request->post('filePath'), $filename));
         $fileText = $request->post('fileText');
         $fileExt = OmenHelper::mb_pathinfo($filename, \PATHINFO_EXTENSION);
         $fb = \substr($filename, 0, \strlen($filename) - \strlen($fileExt) - (\strlen($fileExt) ? 1 : 0));
         $emptyFileName = ($filename == 'txt' and !\strlen($fileExt));
-        if (\strlen($fb) < config('omen.minimumFileLength', 3) or $emptyFileName) {
+        if (\strlen($fb) < config('omen.minimumInodeLength', 3) or $emptyFileName) {
             return response()->json([
                 'message' => __('File name must be at least :length long', [
-                    'length' => config('omen.minimumFileLength', 3)
+                    'length' => config('omen.minimumInodeLength', 3)
                 ]),
                 'filename' => $emptyFileName ? '' : $fb
             ], 400);

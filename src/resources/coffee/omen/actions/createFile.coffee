@@ -37,7 +37,7 @@ newFileTextInput.parent().delegate('pre', 'keydown', (event)->
 
 newFileForm.on('submit', (e)->
   
-    filename = "#{newFileTitleInput.val()}.txt"
+    filename = "#{newFileTitleInput.val()}"
     filetext = newFileTextInput.innerText()
     filepath = decodeURIComponent(getUrlLocationParameter('path'))
     urlCheck = actions.download.url + "#{filepath}/#{filename}"

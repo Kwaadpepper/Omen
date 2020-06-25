@@ -178,8 +178,10 @@ class OmenMiddleware
          * Check if the user has set only one locale then force
          * the usage of this one only
          */
+        $locales = null;
         try {
-            if (\count(config('omen.locales')) == 1) {
+            $locales = config('omen.locales');
+            if (\count($locales) == 1) {
                 config(['omen.forceLocale' => \reset($locales)]);
                 config(['omen.locale' => config('omen.forceLocale')]);
                 App::setLocale(config('omen.forceLocale'));
@@ -192,13 +194,21 @@ class OmenMiddleware
             throw new OmenException(__('Something is wrong in your configuration file, please check locales and laravel log'), $e);
         }
         if ($request->filled('locale')) {
-            config(['omen.locale' => $request->get('locale')]);
-            App::setLocale($request->get('locale'));
-            $request->session()->put('omen.locale', $request->get('locale'));
+            $rL = $request->get('locale');
+            $rL = \array_search($rL, $locales) !== false ? $rL : 'en';
+            config(['omen.locale' => $rL]);
+            App::setLocale($rL);
+            $request->session()->put('omen.locale', $rL);
             $request->session()->save();
         } elseif ($request->session()->has('omen.locale')) {
             App::setLocale($request->session()->get('omen.locale'));
             config(['omen.locale' => $request->session()->get('omen.locale')]);
+        } else {
+            $pL = $request->getPreferredLanguage() ?? 'en';
+            $pL = \strpos($pL, '_') !== false ? \explode('_', $pL)[0] ?? 'en' : 'en';
+            $pL = \array_search($pL, $locales) !== false ? $pL : 'en';
+            App::setLocale($pL);
+            config(['omen.locale' => $pL]);
         }
     }
 

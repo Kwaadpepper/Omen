@@ -2,28 +2,19 @@
 
 namespace Kwaadpepper\Omen;
 
+use Error;
+use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Config;
 use Kwaadpepper\Omen\Exceptions\OmenDebugException;
 use Kwaadpepper\Omen\Exceptions\OmenHttpException;
+use TypeError;
 
 class OmenHelper
 {
     const BYTE_UNITS = ["omen::B", "omen::KB", "omen::MB", "omen::GB", "omen::TB", "omen::PB", "omen::EB", "omen::ZB", "omen::YB"];
     const BYTE_PRECISION = [0, 0, 1, 2, 2, 3, 3, 4, 4];
     const BYTE_NEXT = 1024;
-
-    private static $error;
-
-    public static function errorStoreMessage($e)
-    {
-        $error = $e;
-    }
-
-    public function errorGetMessage()
-    {
-        return static::$error;
-    }
 
     /**
      * Return the app upload path
@@ -233,6 +224,17 @@ class OmenHelper
         }
     }
 
+    public static function str_lreplace($search, $replace, $subject)
+    {
+        $pos = strrpos($subject, $search);
+
+        if ($pos !== false) {
+            $subject = substr_replace($subject, $replace, $pos, strlen($search));
+        }
+
+        return $subject;
+    }
+
     /**
      * @return array 
      */
@@ -315,14 +317,53 @@ class OmenHelper
      * @return void 
      * @throws OmenDebugException if assertion is wrong
      */
-    public static function assert($variable, $value)
+    public static function assert($a, $b)
     {
-        if ($variable != $value) {
+        $aType = \gettype($a);
+        $bType = \gettype($b);
+        $aString = \gettype($a) == 'array' ? 'array' : (\gettype($a) == 'object' and
+            !\method_exists($a, 'toString') ? 'object' : \strval($a));
+        $bString = \gettype($b) == 'array' ? 'array' : (\gettype($b) == 'object' and
+            !\method_exists($b, 'toString') ? 'object' : \strval($b));
+        $isEqual = false;
+        if ($aType == 'array' and $bType == 'array') {
+            $isEqual = !\count(\array_diff($a, $b));
+        } else if ($aType == 'object' and $bType == 'object') {
+            try {
+                if (\method_exists($a, 'isEqualTo')) {
+                    $isEqual = $a->isEqualTo($b);
+                } else if (\method_exists($b, 'isEqualTo')) {
+                    $isEqual = $b->isEqualTo($a);
+                } else {
+                    $isEqual = $a === $b;
+                }
+            } catch (Error | TypeError $e) {
+                $isEqual = $a == $b;
+            }
+        } else {
+            $isEqual = $a == $b;
+        }
+        if ($aType == 'object') {
+            $aType = get_class($a);
+        }
+        if ($bType == 'object') {
+            $bType = get_class($b);
+        }
+        if (!$isEqual) {
             $parentClass = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? '';
             $parentFunction = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function'] ?? '';
             $parentLine = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['line'] ?? '';
-            throw new OmenDebugException("Asserted $variable was equal to $value in $parentClass $parentFunction on line $parentLine");
-        };
+            throw new OmenDebugException(\sprintf(
+                "Asserted %s:%s was equal to %s:%s in %s %s on line %s",
+                \strval($aType),
+                \strval($aString),
+                \strval($bType),
+                \strval($bString),
+                \strval($parentClass),
+                \strval($parentFunction),
+                \strval($parentLine)
+            ));
+        }
     }
 
     /**
@@ -335,7 +376,7 @@ class OmenHelper
      */
     public static function assertType($variable, string $type)
     {
-        $varType = \gettype($variable);
+        $varType = \strtolower(\gettype($variable));
         $check = false;
         $getContext = function () {
             return [
@@ -353,23 +394,16 @@ class OmenHelper
             case 'boolean':
             case 'string':
             case 'array':
-                $check = $varType == \strtolower($type);
-                break;
-            case 'NULL':
-                $check = \is_null($type) ? true : (
-                    (\strtolower($type) == 'null') ? true : false);
+            case 'null':
+                $check = \strtolower($type) == $varType;
                 break;
             case 'resource':
             case 'resource (closed)':
-                list($parentClass, $parentFunction, $parentLine) = $getContext();
-                throw new OmenDebugException("Unupported $variable type $varType assertion in $parentClass $parentFunction on line $parentLine");
             case 'unknown type':
                 list($parentClass, $parentFunction, $parentLine) = $getContext();
                 throw new OmenDebugException("Unupported $variable type $varType assertion in $parentClass $parentFunction on line $parentLine");
             case 'object':
-                if (\strtolower($type) == \strtolower(\get_class($variable))) {
-                    $check = true;
-                }
+                $check = \strtolower($type) == \strtolower(\get_class($variable));
         }
 
         if (!$check) {

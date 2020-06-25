@@ -24,7 +24,7 @@ module.exports = (action)->
         ajaxCalls(
             action.method,
             action.url,
-            { 'filepath':  inode.path },
+            { 'inodepath':  inode.path },
             null,
             null,
             { 

@@ -27,9 +27,9 @@ module.exports = actions = {
     createFile: { method: 'POST', url: '/' + urlPrefix + '/createtextfile' },
     updateFile: { method: 'POST', url: "/#{urlPrefix}/updatetextfile" },
     createDirectory: { method: 'POST', url: '/' + urlPrefix + '/createdirectory' },
-    getInodeHtml: { method: 'GET', url: '/' + urlPrefix + '/getinodehtml' },
-    getInodesAtPath: { method: 'GET', url: '/' + urlPrefix + '/getinodesatpath' }
-    getBreadcrumbAtPath: { method: 'GET', url: '/' + urlPrefix + '/getbreadcrumbatpath' },
+    getInode: { method: 'GET', url: '/' + urlPrefix + '/getinode' },
+    getInodes: { method: 'GET', url: '/' + urlPrefix + '/getinodes' }
+    getBreadcrumb: { method: 'GET', url: '/' + urlPrefix + '/getbreadcrumb' },
     resizeImage: { method: 'POST', url: "/#{urlPrefix}/resizeimage"},
     cropImage: { method: 'POST', url: "/#{urlPrefix}/cropimage"},
     ping: { method: 'POST', url: "/#{urlPrefix}/ping" }

@@ -27,8 +27,8 @@ renameForm.on('submit', (e)->
     lockUi.lock()
     progressbar.run(0.3)
     ajaxCalls( actionInfo.method, actionInfo.url, {
-        filename: renameInput.val()+'.'+currentinode.extension,
-        filepath: currentinode.path
+        inodename: renameInput.val()+'.'+currentinode.extension,
+        inodepath: currentinode.path
     },
     ((data)->
         lockUi.unlock()
@@ -55,7 +55,7 @@ renameForm.on('submit', (e)->
         lockUi.unlock()
         progressbar.end()
         if error.status is 400
-            renameInput.val(error.responseJSON.filename)
+            renameInput.val(error.responseJSON.inodename)
             alert('danger', trans('Action failure'), error.responseJSON.message)
         else
             alert('danger', trans('Action failure'), trans("Could not rename file ${inodename}, server said no", { 'inodename': currentinode.name }))

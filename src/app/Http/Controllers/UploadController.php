@@ -60,7 +60,7 @@ class UploadController extends Controller
             );
         }
 
-        if ($this->checkFileSize($fileSize)) {
+        if ($this->isFileTooBig($fileSize)) {
             return $this->errorResponse(400, __('File too large'));
         }
 
@@ -69,7 +69,7 @@ class UploadController extends Controller
             $fileName = OmenHelper::mb_pathinfo($filePath, \PATHINFO_BASENAME);
         }
 
-        $sessionChunks = $this->getSessionChunks($filePath);
+        $this->chunkFiles = $this->getSessionChunks($filePath);
 
         try {
             if (!$this->inodeExists(Disk::PUBLIC, $directoryPath)) {
@@ -84,10 +84,7 @@ class UploadController extends Controller
 
             $chunkFileName = \base64_encode(sprintf('%s###%d###', $fileId, time()));
 
-            //* if uploaded file is a chunk *//
-            if ($totalChunks > 1) {
-                $chunkFileName .= '_' . str_pad($this->chunkIndex, 4, '0', STR_PAD_LEFT);
-            }
+            $chunkFileName .= '_' . str_pad($this->chunkIndex, 4, '0', STR_PAD_LEFT);
 
             $chunkFilePath = OmenHelper::privatePath("$omenTempPath/$chunkFileName");
 
@@ -95,8 +92,8 @@ class UploadController extends Controller
             $this->saveTempInode($request, $chunkFilePath);
 
             //* save chunk to session *//
-            $sessionChunks[$this->chunkIndex] = $chunkFilePath;
-            $this->setSessionChunks($sessionChunks);
+            $this->chunkFiles[$this->chunkIndex] = $chunkFilePath;
+            $this->setSessionChunks($this->chunkFiles);
         } catch (OmenException $e) {
             $failure = true;
             report($e);
@@ -108,12 +105,6 @@ class UploadController extends Controller
             return $this->errorResponse();
         } finally {
             try {
-                //* Anyway get all chunk files *//
-                $this->chunkFiles = $this->getAllInodes(
-                    OmenHelper::privatePath($omenTempPath),
-                    sprintf('%s.*', \base64_encode($fileId . $fileName))
-                );
-
                 //* If exception occured then try to clean the chunks *//
                 if ($failure) {
                     foreach ($this->chunkFiles as $chunkFilePath) {
@@ -161,7 +152,7 @@ class UploadController extends Controller
 
     /**
      * Check if the file name has at least enough chars
-     * according to config('omen.minimumFileLength') or 3
+     * according to config('omen.minimumInodeLength') or 3
      * @param mixed $fileName 
      * @return bool 
      */
@@ -169,7 +160,7 @@ class UploadController extends Controller
     {
         $ext = OmenHelper::mb_pathinfo($fileName, \PATHINFO_EXTENSION);
         $bn = \substr($fileName, 0, \strlen($fileName) - \strlen($ext) - (\strlen($ext) ? 1 : 0));
-        if (\strlen($bn) < config('omen.minimumFileLength', 3)) {
+        if (\strlen($bn) < config('omen.minimumInodeLength', 3)) {
             return false;
         }
         return true;
@@ -181,9 +172,18 @@ class UploadController extends Controller
      * @param mixed $fileSize 
      * @return bool
      */
-    private function checkFileSize($fileSize)
+    private function isFileTooBig($fileSize)
     {
-        return config('omen.maxUploadSize') and $fileSize > \intval(\rtrim(config('omen.maxUploadSize'), 'M'));
+        $maxSize = 0;
+        if (!config('omen.maxUploadSize')) {
+            return false;
+        }
+        if (\strpos(config('omen.maxUploadSize'), 'M')) {
+            $maxSize = \intval(\rtrim(config('omen.maxUploadSize'), 'M')) * 1024 * 1024;
+        } else {
+            $maxSize = \intval(\rtrim(config('omen.maxUploadSize'), 'M'));
+        }
+        return $fileSize > $maxSize;
     }
 
     /**
@@ -221,11 +221,8 @@ class UploadController extends Controller
      */
     private function createDirectory(string $disk, string $filePath)
     {
-        if ($disk == Disk::PUBLIC) {
-            return $this->fm->createDirectory(OmenHelper::uploadPath($filePath));
-        } else {
-            return $this->fm->createDirectory(OmenHelper::privatePath($filePath));
-        }
+        $filePath = $disk == Disk::PUBLIC ? OmenHelper::uploadPath($filePath) : OmenHelper::uploadPath($filePath);
+        return $this->fm->createDirectory($filePath);
     }
 
     /**
@@ -385,57 +382,60 @@ class UploadController extends Controller
 
         //* Assemble file frow chunks *//
         try {
-            foreach ($this->chunkFiles as $chunkFilePath) {
+            foreach ($this->chunkFiles as $k => $chunkFilePath) {
                 $chunkInode = $this->fm->inode($chunkFilePath);
                 $d = $chunkInode->get();
                 $outFileSize += \strlen($d);
                 $outFile->append($d);
                 unset($d);
                 $chunkInode->delete();
+                unset($this->chunkFiles[$k]);
             }
         } catch (ExceptionFileNotFoundException $e) {
             $exception = new OmenException('File manipulation error', $e);
             \report($exception);
-            return $this->cleanAndGetErrorResponse($outFile, $this->chunkIndex);
+            return $this->cleanAndGetErrorResponse($outFile);
+        }
+
+        //* Check file size is not too large *//
+        if ($this->isFileTooBig($outFileSize)) {
+            return $this->cleanAndGetErrorResponse($outFile, 400, __('Uploaded file is too large'));
         }
 
         //* Check assembled file real size *//
         if ($outFileSize != $fileSize) {
-            return $this->cleanAndGetErrorResponse($outFile, $this->chunkIndex, 400, __('Uploaded file was truncated, missing data'));
-        }
-
-        //* Check file size is not too large *//
-        if (
-            config('omen.maxUploadSize') and
-            $outFileSize > \intval(\rtrim(config('omen.maxUploadSize'), 'M'))
-        ) {
-            return $this->cleanAndGetErrorResponse($outFile, $this->chunkIndex, 400, __('Uploaded file is too large'));
+            return $this->cleanAndGetErrorResponse($outFile, 400, __('Uploaded file was truncated, missing data'));
         }
 
         //* Check the final assembled file mimeType *//
         try {
-            if ($this->fm->checkExtensionWithMimeType(storage_path(\sprintf(
+            if (!$this->fm->checkExtensionWithMimeType(storage_path(\sprintf(
                 'app%s%s',
                 \DIRECTORY_SEPARATOR,
                 $outFile->getFullPath()
             )))) {
-                return response()->json(['error' => __(
-                    'File extension %s does not match file mime type %s',
-                    $outFile->getExtension(),
-                    $this->fm->getFileMimeType($outFile)
-                )], 400);
+                return $this->cleanAndGetErrorResponse($outFile, 400, __(
+                    'File extension :extension does not match file mime type :mimetype',
+                    [
+                        $outFile->getExtension(),
+                        $outFile->getMimeTypeFromFileName()
+                    ]
+                ));
             }
-            if ($this->fm->isAllowedMimeType(storage_path(\sprintf(
+            if (!$this->fm->isAllowedMimeType(storage_path(\sprintf(
                 'app%s%s',
                 \DIRECTORY_SEPARATOR,
                 $outFile->getFullPath()
             )))) {
-                return response()->json(['error' => __('File type not allowed')], 400);
+                return $this->cleanAndGetErrorResponse($outFile, 400, __('File type not allowed'));
             }
+        } catch (OmenException $e) {
+            \report($e);
+            return $this->cleanAndGetErrorResponse($outFile, 400, $e->getMessage());
         } catch (Exception $e) {
             $exception = new OmenException('Could not check file extension', $e);
             \report($exception);
-            return $this->cleanAndGetErrorResponse($outFile, $this->chunkIndex);
+            return $this->cleanAndGetErrorResponse($outFile);
         }
 
         //* Finally save the uploaded File to the upload disk *//

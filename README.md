@@ -139,6 +139,10 @@ If you are using local storage and dont need to set files to private you can use
     are not case sensible which means windows will threat 'file.pdf' 'File.pdf' as the same file
     whereas on a Unix based it will not.
 
+-   About unit tests
+
+    Include unit tests using Orchestra, just run `phpunit` from project folder after `composer install`
+
 ---
 
 **TODO:**
@@ -218,3 +222,4 @@ If you are using local storage and dont need to set files to private you can use
 -   [ ] change visibility
 -   [ ] more global actions such as mass delete
 -   [ ] use thumbnails for images
+-   [ ] allow delete non empty dir, confirm delete non empty dirs

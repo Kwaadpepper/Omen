@@ -90,8 +90,8 @@ class ImageController extends Controller
         if (
             !\is_numeric($cropX) or
             !\is_numeric($cropY) or
-            !\is_numeric($width) or
-            !\is_numeric($height) or
+            !\is_numeric($width) or $width <= 0 or
+            !\is_numeric($height) or $height <= 0 or
             !\is_numeric($rotate) or
             !\is_numeric($sx) or
             !\is_numeric($sy)

@@ -29,7 +29,7 @@ $assetPath = config('omen.assetPath');
     <meta name="msapplication-TileColor" content="#2b5797">
     <meta name="msapplication-TileImage" content="{{ asset(sprintf('%s/images/favicon/mstile-144x144.png', $assetPath)) }}">
     <meta name="theme-color" content="#ffffff">
-    <link rel="shortcut icon" href="{{ asset(sprintf('%s/images/favicon/favicon.ico', $assetPath)) }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset(sprintf('%s/images/favicon/favicon.ico', $assetPath)) }}" type="application/ico">
 
     {{-- LINK --}}
     <link nonce="{{ config('omen.cspToken') }}" rel="stylesheet" href="{{ asset(sprintf('%s/css/omen.css', $assetPath)) }}">

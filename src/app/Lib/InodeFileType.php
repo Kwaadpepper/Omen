@@ -71,6 +71,7 @@ abstract class InodeFileType
                     case 'x-python':
                     case 'javascript':
                     case 'css':
+                    case 'sql':
                         return self::TEXT;
                     case 'rtf':
                     case 'doc':
@@ -106,6 +107,12 @@ abstract class InodeFileType
                     case 'x-ms-installer':
                     case 'x-elf':
                         return self::EXECUTABLE;
+                    case 'ico':
+                        return self::IMAGE;
+                    case 'ogg':
+                        return self::AUDIO;
+                    case 'mp4':
+                        return self::VIDEO;
                         // default:
                         //     return self::FILE;
                 }

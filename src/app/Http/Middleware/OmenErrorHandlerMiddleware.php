@@ -19,7 +19,9 @@ class OmenErrorHandlerMiddleware
      */
     public function handle($request, Closure $next)
     {
-        set_error_handler($this->OmenErrorHandler($request));
+        if (!\config('app.debug')) {
+            set_error_handler($this->OmenErrorHandler($request));
+        }
         return $next($request);
     }
 

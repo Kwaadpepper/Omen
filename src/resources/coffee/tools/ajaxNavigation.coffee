@@ -1,7 +1,7 @@
 ajax = require('./../tools/ajaxCalls.coffee')
 omenApi = require('./../omenApi.coffee')
-getInodesAtPathActionInfo = require('./../omen/actionEvents.coffee').getInodesAtPath
-getBreadcrumbAtPathActionInfo = require('./../omen/actionEvents.coffee').getBreadcrumbAtPath
+getInodesActionInfo = require('./../omen/actionEvents.coffee').getInodes
+getBreadcrumbActionInfo = require('./../omen/actionEvents.coffee').getBreadcrumb
 setLocationParameters = require('./../tools/setLocationParameters.coffee')
 logException = require('./../tools/logException.coffee')
 Base64 = require('js-base64').Base64
@@ -25,7 +25,7 @@ module.exports = (path)->
 
     progressbar.run(0.3)
 
-    inodesPromise = ajax(getInodesAtPathActionInfo.method, getInodesAtPathActionInfo.url, {
+    inodesPromise = ajax(getInodesActionInfo.method, getInodesActionInfo.url, {
         path: path
     },
     ((data)->
@@ -35,7 +35,7 @@ module.exports = (path)->
     ((error)->
         progressbar.end()
         # log error
-        logException("Error Occured on ajax navigation  #{error.status} #{error.statusText} INODE => #{path} URL => #{getInodesAtPathActionInfo.url}").done(->
+        logException("Error Occured on ajax navigation  #{error.status} #{error.statusText} INODE => #{path} URL => #{getInodesActionInfo.url}").done(->
             # fallback to redirection   
             window.location.replace(setLocationParameters({
                 'path': encodeURIComponent(path)
@@ -44,7 +44,7 @@ module.exports = (path)->
 
     ))
 
-    breadcrumbPromise = ajax(getBreadcrumbAtPathActionInfo.method, getBreadcrumbAtPathActionInfo.url, {
+    breadcrumbPromise = ajax(getBreadcrumbActionInfo.method, getBreadcrumbActionInfo.url, {
         path: path
     },
     ((data)->
@@ -53,7 +53,7 @@ module.exports = (path)->
     ((error)->
         progressbar.end()
         # log error
-        logException("Error Occured on ajax navigation  #{error.status} #{error.statusText} INODE => #{path} URL => #{getBreadcrumbAtPathActionInfo.url}").done(->
+        logException("Error Occured on ajax navigation  #{error.status} #{error.statusText} INODE => #{path} URL => #{getBreadcrumbActionInfo.url}").done(->
             # fallback to redirection   
             window.location.replace(setLocationParameters({
                 'path': encodeURIComponent(path)

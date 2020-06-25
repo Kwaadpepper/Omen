@@ -20,10 +20,10 @@ class CrudController extends Controller
 
         $filename = OmenHelper::filterFilename($request->post('directoryName'));
         $directoryPath = OmenHelper::uploadPath(sprintf('%s/%s', $request->post('directoryPath'), $filename));
-        if (\strlen($filename) < config('omen.minimumFileLength', 3)) {
+        if (\strlen($filename) < config('omen.minimumInodeLength', 3)) {
             return response()->json([
                 'message' => __('Directory name must be at least :length long', [
-                    'length' => config('omen.minimumFileLength', 3)
+                    'length' => config('omen.minimumInodeLength', 3)
                 ]),
                 'filename' => $filename
             ], 400);
@@ -46,34 +46,36 @@ class CrudController extends Controller
 
     public function rename(Request $request)
     {
-        if (!$request->filled('filename') or !$request->filled('filepath')) {
+        if (!$request->filled('inodename') or !$request->filled('inodepath')) {
             return OmenHelper::abort(400);
         }
 
         $fm = new FileManager();
 
-        $filepath = OmenHelper::uploadPath($request->post('filepath'));
-        $filename = OmenHelper::filterFilename($request->post('filename'));
+        $inodepath = OmenHelper::uploadPath($request->post('inodepath'));
+        $inodename = OmenHelper::filterFilename($request->post('inodename'));
 
-        if (!$fm->exists($filepath)) {
+        if (!$fm->exists($inodepath)) {
             return OmenHelper::abort(404);
         }
 
-        $inode = $fm->inode($filepath);
+        $inode = $fm->inode($inodepath);
 
-        $fb = OmenHelper::mb_pathinfo($filename, \PATHINFO_FILENAME);
-        $emptyFilename = ($inode->getExtension() xor OmenHelper::mb_pathinfo($filename, \PATHINFO_EXTENSION));
-        if (\strlen($fb) < config('omen.minimumFileLength', 3) or $emptyFilename) {
+        if (!\strlen($inode->getExtension())) {
+            $inodename = \str_replace('.', '-', $inodename);
+        }
+
+        if (\strlen($inodename) < 3) {
             return response()->json([
-                'message' => __('Filename must be at least :length long', [
-                    'length' => config('omen.minimumFileLength', 3)
+                'message' => __('Name must be at least :length long', [
+                    'length' => config('omen.minimumInodeLength', 3)
                 ]),
-                'filename' => $emptyFilename ? $inode->getName() : $fb
+                'inodename' => $inodename
             ], 400);
         }
 
         try {
-            $inode->setFullName($filename);
+            $inode->setFullName($inodename);
         } catch (Error $e) {
             report(new OmenException(
                 \sprintf(
@@ -90,20 +92,20 @@ class CrudController extends Controller
 
     public function delete(Request $request)
     {
-        if (!$request->filled('filepath')) {
+        if (!$request->filled('inodepath')) {
             return OmenHelper::abort(400);
         }
 
         $fm = new FileManager();
 
-        $filepath = OmenHelper::uploadPath($request->post('filepath'));
+        $inodepath = OmenHelper::uploadPath($request->post('inodepath'));
 
-        if (!$fm->exists($filepath)) {
+        if (!$fm->exists($inodepath)) {
             return OmenHelper::abort(404);
         }
 
         try {
-            $fm->inode($filepath)->delete();
+            $fm->inode($inodepath)->delete();
         } catch (Error $e) {
             report(new OmenException(
                 \sprintf(
@@ -129,16 +131,19 @@ class CrudController extends Controller
         $sourcePath = OmenHelper::uploadPath($request->post('sourcePath'));
         $destPath = OmenHelper::uploadPath($request->post('destPath'));
 
-        if (!$fm->exists($sourcePath) or !$fm->exists($destPath)) {
+        if (!$fm->exists($sourcePath) || !$fm->exists($destPath)) {
             return OmenHelper::abort(404);
         }
 
         $sourceInode = $fm->inode($sourcePath);
         $destInode = $fm->inode($destPath);
 
-        if ($destInode->getType() != InodeType::DIR) {
+        if ($destInode->getType() != InodeType::DIR || $sourceInode->getType() == InodeType::DIR) {
             return OmenHelper::abort(400);
         }
+
+        $destInode = $fm->inode(sprintf('%s/%s', $destPath, $sourceInode->getFullName()));
+
         $inode = null;
         try {
             $inode = $fm->copyTo($sourceInode, $destInode);
@@ -150,9 +155,7 @@ class CrudController extends Controller
                 'message' => __('Cannot copy element already exists')
             ], 409);
         }
-        return response()->json([
-            'inode' => $inode
-        ], 200);
+        return response()->json($inode, 200);
     }
 
     public function moveto(Request $request)
@@ -166,7 +169,7 @@ class CrudController extends Controller
         $sourcePath = OmenHelper::uploadPath($request->post('sourcePath'));
         $destPath = OmenHelper::uploadPath($request->post('destPath'));
 
-        if (!$fm->exists($sourcePath) or !$fm->exists($destPath)) {
+        if (!$fm->exists($sourcePath) || !$fm->exists($destPath)) {
             return OmenHelper::abort(404);
         }
 
@@ -177,8 +180,11 @@ class CrudController extends Controller
             return OmenHelper::abort(400);
         }
 
+        $destInode = $fm->inode(sprintf('%s/%s', $destPath, $sourceInode->getFullName()));
+
+        $inode = null;
         try {
-            $fm->moveTo($sourceInode, $destInode);
+            $inode = $fm->moveTo($sourceInode, $destInode);
         } catch (OmenException $e) {
             report($e);
             return OmenHelper::abort(500);
@@ -187,6 +193,6 @@ class CrudController extends Controller
                 'message' => __('Cannot move element already exists')
             ], 409);
         }
-        return response()->json(true, 200);
+        return response()->json($inode, 200);
     }
 }

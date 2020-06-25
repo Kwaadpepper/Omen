@@ -16,7 +16,7 @@ class OmenController extends Controller
 
     public function index(Request $request)
     {
-        if (!\rand(0, 10)) {
+        if (\session('omen.UnitTestForceClean') or !\rand(0, 10)) {
             $this->cleanPrivateUploadDir();
         }
 

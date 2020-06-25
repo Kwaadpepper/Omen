@@ -81,15 +81,15 @@ class OmenLinkStorage extends Command
             $this->createParentFolder($directory);
         }
 
-        $diretoryCreated = false;
+        $directoryCreated = false;
 
         try {
-            $diretoryCreated = File::makeDirectory($directory);
+            $directoryCreated = File::makeDirectory($directory);
         } catch (Exception $e) {
             throw new OmenException(\sprintf('Error during Folder creation %s => %s', $directory, $e->getMessage()), null, true);
         }
 
-        if (!$diretoryCreated) {
+        if (!$directoryCreated) {
             throw new OmenException(\sprintf('Can\'t create folder %s unknown reason', $directory), null, true);
         }
 

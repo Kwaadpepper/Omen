@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Kwaadpepper\Omen\Http\Middleware\CheckCookieCsrfTokenMiddleware;
+use Kwaadpepper\Omen\Http\Middleware\OmenApiCSRFMiddleware;
 
 $middlewareMinimal = include(__DIR__ . '/middlewareMinimal.php');
 
@@ -9,7 +11,10 @@ Route::group([
     'middleware' => array_merge(
         ['omenerrorhandler', 'omenthrottle:100,1'],
         $middlewareMinimal,
-        [\Kwaadpepper\Omen\Http\Middleware\OmenApiCSRFMiddleware::class]
+        [
+            OmenApiCSRFMiddleware::class,
+            CheckCookieCsrfTokenMiddleware::class
+        ]
     ),
     'namespace' => 'Kwaadpepper\Omen\Http\Controllers'
 ], function () {
@@ -45,14 +50,14 @@ Route::group([
     // Image crop
     Route::match(['post'], sprintf('%s/cropimage', $routePrefix), 'ImageController@crop')->name('omenCropImage');
 
-    // File get Inode Html
-    Route::match(['get'], sprintf('%s/getinodehtml', $routePrefix), 'OutputController@getInodeHtml')->name('omenGetInodeHtml');
+    // get Inode
+    Route::match(['get'], sprintf('%s/getinode', $routePrefix), 'OutputController@getInode')->name('omenGetInode');
 
-    // get All Inodes at path
-    Route::match(['get'], sprintf('%s/getinodesatpath', $routePrefix), 'OutputController@getInodesAtPath')->name('omenGetInodesAtPath');
+    // get Inodes
+    Route::match(['get'], sprintf('%s/getinodes', $routePrefix), 'OutputController@getInodes')->name('omenGetInodes');
 
-    // get breacrumb at path
-    Route::match(['get'], sprintf('%s/getbreadcrumbatpath', $routePrefix), 'OutputController@getBreadcrumbAtPath')->name('omenGetBreadcrumbAtPath');
+    // get breacrumb
+    Route::match(['get'], sprintf('%s/getbreadcrumb', $routePrefix), 'OutputController@getBreadcrumb')->name('omenGetBreadcrumb');
 
     // JS ping, is used to check session validity
     Route::match(['post'], sprintf('%s/ping', $routePrefix), 'ServiceController@ping')->name('omenPing');
@@ -65,7 +70,11 @@ Route::group([
 Route::group([
     'as' => 'OmenReport.',
     'namespace' => 'Kwaadpepper\Omen\Http\Controllers',
-    'middleware' => array_merge(['omenerrorhandler', 'omenthrottle:100,1'], $middlewareMinimal)
+    'middleware' => array_merge(
+        ['omenerrorhandler', 'omenthrottle:100,1'],
+        $middlewareMinimal,
+        [CheckCookieCsrfTokenMiddleware::class]
+    )
 ], function () {
     Route::match(['post'], sprintf('%s/csp/report', config('omen.urlPrefix')), 'ServiceController@cspReport')->name('omenCspReport');
 });

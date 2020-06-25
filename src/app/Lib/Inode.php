@@ -271,8 +271,11 @@ class Inode implements JsonSerializable
      */
     public function delete()
     {
-        if (!$this->disk->delete($this->fullPath)) {
+        if ($this->type == InodeType::FILE and !$this->disk->delete($this->fullPath)) {
             throw new OmenException(sprintf('Could not delete file %s', $this->fullPath));
+        }
+        if ($this->type == InodeType::DIR and !$this->disk->deleteDirectory($this->fullPath)) {
+            throw new OmenException(sprintf('Could not delete directory %s', $this->fullPath));
         }
     }
 

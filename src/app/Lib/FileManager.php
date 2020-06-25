@@ -61,6 +61,16 @@ class FileManager
     }
 
     /**
+     * returns the current selected disk
+     * @return Filesystem the current disk
+     */
+    public function getDisk()
+    {
+        if (self::$currentDisk == Disk::PUBLIC) return self::$publicDisk;
+        else return self::$privateDisk;
+    }
+
+    /**
      * Get all Children inodes info (Dirs and Files)
      * @param String|Inode $pathOrInode the inode/path to test
      * @return Array[Inodes] an array of Inodes
@@ -136,7 +146,6 @@ class FileManager
         return $disk->exists($pathOrInode);
     }
 
-
     /**
      * Move an inode to another
      * @param string|Inode $sourcePathOrInode 
@@ -164,30 +173,43 @@ class FileManager
         $sourceInode = $fm->inode($sourcePathOrInode);
         $destInode = $fm->inode($destPathOrInode);
 
-        if ($destInode->getType() == InodeType::DIR) {
-            $destInode = $fm->inode(sprintf('%s/%s', $destInode->getDir(), $sourceInode->getFullName()));
+        if (!$fm->exists($sourceInode)) {
+            throw new OmenException(
+                \sprintf('Cannot move inode %s since it does not exists', $sourceInode->getFullPath()),
+            );
         }
 
+        if ($fm->exists($destInode)) {
+            switch ($destInode->getType()) {
+                case InodeType::FILE:
+                    if (config('omen.overwriteOnFileMove')) {
+                        $destInode->delete();
+                    }
+                    break;
+                case InodeType::DIR:
+                    throw new OmenException(sprintf(
+                        'Inode %s already exists and it is a directory, move %s to %s is not possible',
+                        $destInode->getPath(),
+                        $sourceInode->getPath(),
+                        $destInode->getPath()
+                    ));
+            }
+        }
+        $moveRes = null;
         try {
-            if (
-                $destInode->getType() == InodeType::FILE &&
-                $fm->exists($destInode) &&
-                config('omen.overwriteOnFileMove')
-            ) {
-                $destInode->delete();
-            }
-            if (!$disk->move($sourceInode->getFullPath(), $destInode->getFullPath())) {
-                throw new OmenException(
-                    \sprintf('File move failed from %s to %s', $sourceInode->getFullPath(), $destInode->getFullPath())
-                );
-            }
-            return $destInode;
+            $moveRes = $disk->move($sourceInode->getFullPath(), $destInode->getFullPath());
         } catch (Exception $e) {
             throw new OmenException(
-                \sprintf('File move failed from %s to %s', $sourceInode->getFullPath(), $destInode->getFullPath()),
+                \sprintf('Inode move failed with exception from %s to %s', $sourceInode->getFullPath(), $destInode->getFullPath()),
                 $e
             );
         }
+        if (!$moveRes) {
+            throw new OmenException(
+                \sprintf('Inode move failed from %s to %s', $sourceInode->getFullPath(), $destInode->getFullPath())
+            );
+        }
+        return $destInode;
     }
 
     /**
@@ -217,40 +239,59 @@ class FileManager
         $sourceInode = $fm->inode($sourcePathOrInode);
         $destInode = $fm->inode($destPathOrInode);
 
-        if ($destInode->getType() == InodeType::DIR) {
-            $destInode = $fm->inode(sprintf('%s/%s', $destInode->getDir(), $sourceInode->getFullName()));
+        if (!$fm->exists($sourceInode)) {
+            throw new OmenException(
+                \sprintf('Cannot copy inode %s since it does not exists', $sourceInode->getFullPath()),
+            );
         }
 
+        if ($sourceInode->getType() == InodeType::DIR) {
+            throw new OmenException(
+                \sprintf('Cannot copy inode %s since it is a directory', $sourceInode->getFullPath()),
+            );
+        }
+
+        if ($fm->exists($destInode)) {
+            switch ($destInode->getType()) {
+                case InodeType::FILE:
+                    if (config('omen.overwriteOnFileCopy')) {
+                        $destInode->delete();
+                    }
+                    break;
+                case InodeType::DIR:
+                    throw new OmenException(sprintf(
+                        'Inode %s already exists and it is a directory, copy %s to %s is not possible',
+                        $destInode->getPath(),
+                        $sourceInode->getPath(),
+                        $destInode->getPath()
+                    ));
+            }
+        }
+        $copyRes = null;
         try {
-            if (
-                $destInode->getType() == InodeType::FILE &&
-                $fm->exists($destInode) &&
-                config('omen.overwriteOnFileCopy')
-            ) {
-                $destInode->delete();
-            }
-            if (!$disk->copy($sourceInode->getFullPath(), $destInode->getFullPath())) {
-                throw new OmenException(
-                    \sprintf('File copy failed from %s to %s', $sourcePathOrInode, $destPathOrInode)
-                );
-            }
-            return $destInode;
+            $copyRes = $disk->copy($sourceInode->getFullPath(), $destInode->getFullPath());
         } catch (Exception $e) {
             throw new OmenException(
-                \sprintf('File copy failed from %s to %s', $sourceInode->getFullPath(), $destInode->getFullPath()),
+                \sprintf('Inode copy failed with exception from %s to %s', $sourceInode->getFullPath(), $destInode->getFullPath()),
                 $e
             );
         }
+        if (!$copyRes) {
+            throw new OmenException(
+                \sprintf('Inode copy failed from %s to %s', $sourceInode->getFullPath(), $destInode->getFullPath())
+            );
+        }
+        return $destInode;
     }
 
     public function getNewFileName($path, $counter = 0)
     {
         $extension = OmenHelper::mb_pathinfo($path, \PATHINFO_EXTENSION);
-        $basePath = OmenHelper::mb_rtrim($path, ".$extension");
+        $basePath = OmenHelper::str_lreplace(\sprintf('.%s', $extension), '', $path);
 
         // Try give another filename if the one wanted already exists on storage
         while (++$counter < 30) {
-            $newPath = sprintf('%s%d.%s', $basePath, $counter, $extension);
+            $newPath = \sprintf('%s%d.%s', $basePath, $counter, $extension);
             if (!$this->exists($newPath)) {
                 return $newPath;
             }
@@ -258,10 +299,9 @@ class FileManager
         // if this failed omg, give a random filename
         try {
             // try this if openSSL is installed
-            return sprintf('%s%d.%s', $path, Str::random(), $extension);
+            return sprintf('%s%s.%s', $basePath, Str::random(), $extension);
         } catch (Error $e) {
-        } finally {
-            return sprintf('%s%d.%s', $path, \base64_encode(time()), $extension);
+            return sprintf('%s%s.%s', $basePath, \base64_encode(time()), $extension);
         }
     }
 
@@ -317,6 +357,8 @@ class FileManager
                 return true;
             }
             return false;
+        } catch (OmenException $e) {
+            throw $e;
         } catch (Exception $e) {
             throw new OmenException('Could not check file extension', $e);
         }
@@ -325,7 +367,7 @@ class FileManager
     /**
      * Check if the file is allowed by Omen config
      * @param string $inodeFullPath 
-     * @return true 
+     * @return bool 
      * @throws OmenException If mime type could not be checked
      */
     public function isAllowedMimeType(string $inodeFullPath)
@@ -364,16 +406,6 @@ class FileManager
             ));
         }
         return $exts;
-    }
-
-    /**
-     * returns the current selected disk
-     * @return Filesystem the current disk
-     */
-    public function getDisk()
-    {
-        if (self::$currentDisk == Disk::PUBLIC) return self::$publicDisk;
-        else return self::$privateDisk;
     }
 
     /**
