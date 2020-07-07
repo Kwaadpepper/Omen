@@ -157,7 +157,6 @@ If you are using local storage and dont need to set files to private you can use
 -   [x] deactivate filters on ajax directory change
 -   [x] handle breadcrumb click directory change
 -   [x] unifiy click or double click on breadcrumb navigation
--   [ ] make button reset filters
 -   [x] make upload to put files in correct path
 -   [x] inject uploaded inode
 -   [x] fix uploaded filerename increment
@@ -188,8 +187,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [x] polish PDF viewer
 -   [x] rework exception error codes
 -   [x] add resize and crop images
--   [ ] extensive test on mobile
--   [ ] unit tests ?
+-   [x] unit tests ?
 -   [x] rework sort logic
 -   [x] file uploaded size return to ajax is null => size sort error
 -   [x] find a way to garbage clean failed and aborted uploads
@@ -211,7 +209,6 @@ If you are using local storage and dont need to set files to private you can use
         https://github.com/jquery/jquery-ui/pull/1925
 -   [x] check if deps are installed before enable resize and crop
 -   [x] check file name length for uploads
--   [ ] test functions with chromium
 
 **Whishlit**
 
@@ -223,3 +220,7 @@ If you are using local storage and dont need to set files to private you can use
 -   [ ] more global actions such as mass delete
 -   [ ] use thumbnails for images
 -   [ ] allow delete non empty dir, confirm delete non empty dirs
+-   [ ] more front end unit test with Dusk
+-   [ ] test functions with chromium
+-   [ ] extensive test on mobile
+-   [ ] make button reset filters
