@@ -32,7 +32,8 @@ class OmenApiTestCase extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        \config(['app.debug' => true]);
+        config(['app.debug' => true]);
+        config(['omen.debug' => true]);
         $response = $this->omenApiRequest('GET', route('omenInterface', [], false));
         static::$CSRFCOOKIE = \urldecode(\explode('=', \explode(';', $response->headers->get('set-cookie'))[0])[1]);
     }

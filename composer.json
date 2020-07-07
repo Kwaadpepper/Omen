@@ -48,6 +48,8 @@
     },
     "require-dev": {
         "orchestra/testbench": "^5.3",
-        "dms/phpunit-arraysubset-asserts": "^0.2.0"
+        "dms/phpunit-arraysubset-asserts": "^0.2.0",
+        "derekmd/laravel-dusk-firefox": "^1.1",
+        "orchestra/testbench-dusk": "^5.2"
     }
 }

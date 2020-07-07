@@ -1,5 +1,8 @@
+window.omenApi = require('../omenApi.coffee')
 timeout = null
 waiting = []
+
+window.omenLoaded = 0
 
 # fadeIn on change page
 window.onbeforeunload =  (e)->
@@ -9,6 +12,9 @@ window.onbeforeunload =  (e)->
 
 # fadeOut when ready to show
 readyToShow = ->
+    if omenApi.config('omen.debug')
+        window.omenLoaded = 1
+        window.dispatchEvent(new Event('omen.loaded'));
     $('#loadingSplash').fadeOut()
 
 module.exports = {
@@ -21,5 +27,4 @@ module.exports = {
                 if waiting[k] == false then return null
             setTimeout readyToShow, 2000
         )
-
 }
