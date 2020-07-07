@@ -42,4 +42,18 @@ class AssetController extends Controller
             return OmenHelper::abort(404);
         }
     }
+
+    public function browserconfig()
+    {
+        return response(view('omen::elements.assets.browserconfig')->render(), 200, [
+            'Content-Type' => 'application/xml'
+        ]);
+    }
+
+    public function webmanifest()
+    {
+        return response(view('omen::elements.assets.webmanifest')->render(), 200, [
+            'Content-Type' => 'application/json'
+        ]);
+    }
 }

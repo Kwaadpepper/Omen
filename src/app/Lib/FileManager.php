@@ -33,19 +33,20 @@ class FileManager
         static::$publicDisk = Storage::disk(config('omen.publicDisk'));
         static::$privateDisk = Storage::disk(config('omen.privateDisk'));
 
+        $pubPath = config('omen.publicPath');
+        $privPath = config('omen.privatePath');
 
         // Check if public and private path Exists on Disks
-        if (!$this->exists(config('omen.publicPath'))) {
-
+        if (!$this->exists($pubPath)) {
             // then create the folder path
-            $this->createDirectory(config('omen.publicPath'));
+            $this->createDirectory($pubPath);
         }
 
         // Check if private path Exists on Disks
-        if (!$this->exists(config('omen.privatePath'))) {
+        if (!$this->exists($privPath)) {
             $this->switchToDisk(Disk::PRIVATE);
             // then create the folder path
-            $this->createDirectory(config('omen.privatePath'));
+            $this->createDirectory($privPath);
             $this->switchToDisk(Disk::PUBLIC);
         }
     }

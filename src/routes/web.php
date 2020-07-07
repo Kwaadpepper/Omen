@@ -7,12 +7,12 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as VerifyAndSetCsrfTok
 $middlewareMinimal = include(__DIR__ . '/middlewareMinimal.php');
 
 Route::group([
-    'middleware' => array_merge(['omenerrorhandler', 'omenthrottle:60,1'], $middlewareMinimal, [VerifyAndSetCsrfToken::class]),
+    'middleware' => \array_merge(['omenerrorhandler', 'omenthrottle:60,1'], $middlewareMinimal, [VerifyAndSetCsrfToken::class]),
     'namespace' => 'Kwaadpepper\Omen\Http\Controllers'
 ], function () {
     $routePrefix = config('omen.urlPrefix');
 
-    Route::match(['get'],  sprintf('%s/', $routePrefix), 'OmenController@index')->name('omenInterface');
+    Route::match(['get'],  \sprintf('%s/', $routePrefix), 'OmenController@index')->name('omenInterface');
 });
 
 /**
@@ -28,8 +28,14 @@ Route::group([
     $routePrefix = config('omen.urlPrefix');
 
     // JS Download
-    Route::match(['get'], sprintf('%s/download/{file}', $routePrefix), 'DownloadController@download')->where('file', '(.*)')->name('omenDownload');
+    Route::match(['get'], \sprintf('%s/download/{file}', $routePrefix), 'DownloadController@download')->where('file', '(.*)')->name('omenDownload');
+
+    // browserconfig.xml
+    Route::get(\sprintf('%s/images/favicon/browserconfig.xml', config('omen.assetPath')), 'AssetController@browserconfig')->name('omenBrowserConfig');
+
+    // site.webmanifest
+    Route::get(\sprintf('%s/images/favicon/site.webmanifest', config('omen.assetPath')), 'AssetController@webmanifest')->name('omenWebmanifest');
 
     // Assets
-    Route::get(sprintf('%s/{fileUri}', config('omen.assetPath')), 'AssetController@asset')->where('fileUri', '.*')->name('omenAsset')->middleware(CheckCookieCsrfTokenMiddleware::class);
+    Route::get(\sprintf('%s/{fileUri}', config('omen.assetPath')), 'AssetController@asset')->where('fileUri', '.*')->name('omenAsset')->middleware(CheckCookieCsrfTokenMiddleware::class);
 });

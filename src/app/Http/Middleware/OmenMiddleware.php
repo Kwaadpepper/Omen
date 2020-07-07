@@ -92,8 +92,15 @@ class OmenMiddleware
         }
 
         // security needed
-        $cspOptionUrls['object-src']['none'] = "'none'";
-        $cspOptionUrls['base-uri']['none'] = "'none'";
+        foreach (['object-src', 'base-uri'] as $directiveName) {
+            if (
+                !\array_key_exists($directiveName, $cspOptionUrls) or
+                !\is_array($cspOptionUrls[$directiveName]) or
+                !\count($cspOptionUrls[$directiveName])
+            ) {
+                $cspOptionUrls[$directiveName] = ['none' => "'none'"];
+            }
+        }
 
         // If documentEmbedViewer Url is not valid
         if (!\filter_var(config('omen.documentEmbedViewer'), \FILTER_VALIDATE_URL)) {
