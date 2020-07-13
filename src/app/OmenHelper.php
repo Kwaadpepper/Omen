@@ -7,7 +7,10 @@ use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Config;
 use Kwaadpepper\Omen\Exceptions\OmenDebugException;
+use Kwaadpepper\Omen\Exceptions\OmenException;
 use Kwaadpepper\Omen\Exceptions\OmenHttpException;
+use Kwaadpepper\Omen\Lib\InodeFileType;
+use Kwaadpepper\Omen\Lib\InodeType;
 use TypeError;
 
 class OmenHelper
@@ -431,5 +434,68 @@ class OmenHelper
             }
         }
         return (new OmenHttpException($message, $code))->render(\request(), true);
+    }
+
+    /**
+     * Get all allowed Inode File types to be shown
+     * @return array (array[InodeFileType])
+     * @throws OmenException 
+     */
+    public static function getAllowedInodeTypes()
+    {
+        $allowed = [
+            'file', 'image', 'video', 'audio', 'archive'
+        ];
+        if (\is_array(config('omen.showFileTypes'))) {
+            foreach (config('omen.showFileTypes') as $inodeFileType) {
+                if (!\defined(sprintf('Kwaadpepper\Omen\Lib\InodeFileType::%s', \strtoupper($inodeFileType))) and $inodeFileType != 'file') {
+                    throw new OmenException("Wrong configuration option:  omen.showFileTypes  $inodeFileType is unkown");
+                }
+            }
+            $allowed = config('omen.showFileTypes');
+        }
+
+        if (session()->has('omen.showFileTypes')) {
+            $allowed = session('omen.showFileTypes');
+        }
+
+        if (!count($allowed)) {
+            throw new OmenException("Wrong configuration omen.showFileTypes is too restrictive, cant display anything");
+        }
+
+        if (\in_array('file', $allowed)) {
+            $allowed = \array_merge($allowed, [
+                InodeFileType::PDF,
+                InodeFileType::TEXT,
+                InodeFileType::FILE,
+                InodeFileType::WRITER,
+                InodeFileType::CALC,
+                InodeFileType::IMPRESS,
+                InodeFileType::DISKIMAGE,
+                InodeFileType::EXECUTABLE
+            ]);
+        }
+
+        return $allowed;
+    }
+
+    /**
+     * Filter inodes that are allowed to be shown
+     * @param array $inodes 
+     * @return void
+     * @throws OmenException 
+     */
+    public static function filterInodeTypes(array &$inodes)
+    {
+        $out =  [];
+        foreach ($inodes as $key => $inode) {
+            if (
+                $inode->getType() == InodeType::DIR ||
+                in_array($inode->getFileType(), static::getAllowedInodeTypes())
+            ) {
+                $out[$key] = $inode;
+            }
+        }
+        $inodes = $out;
     }
 }

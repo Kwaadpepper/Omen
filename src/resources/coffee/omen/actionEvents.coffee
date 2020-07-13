@@ -1,5 +1,8 @@
 # register All Action Events
 # for this router see routes/api.php or routes/web.php
+# 
+isCalledByEditor = require('./../tools/isCalledByEditor.coffee')
+trans = require('./../tools/translate.coffee')
 
 config = require('./../omenApi.coffee').config
 window.lockUi = lockUi = require('./../tools/lockUi.coffee')
@@ -49,10 +52,10 @@ module.exports = actions = {
         if $filterVideo.hasClass('active')
             setFilterStorage('filterVideo', 'video', $filterVideo[0])
             $filterVideo.removeClass('active')
-        if $filterInputText .val().length
+        if $filterInputText.val().length
             localStorage.setItem('filterText', "")
-            $filterInputText .val('')
-            require('./actions/filterInodes.coffee')().apply $filterInputText 
+            $filterInputText.val('')
+            require('./actions/filterInodes.coffee')().apply($filterInputText)
 
     applySort: -> require('./actions/sortNodes.coffee')(localStorage.getItem('sortFiles'))()
 }
@@ -111,7 +114,7 @@ $filterArchives.on('click', -> setFilterStorage('filterArchives', 'archive', thi
 $filterImages.on('click', -> setFilterStorage('filterImages', 'image', this))
 $filterAudio.on('click', -> setFilterStorage('filterAudio', 'audio', this))
 $filterVideo.on('click', -> setFilterStorage('filterVideo', 'video', this))
-$filterInputText .on('input', ->
+$filterInputText.on('input', ->
     localStorage.setItem('filterText', $(this).val())
     require('./actions/filterInodes.coffee')().apply this
 )
@@ -121,8 +124,8 @@ if localStorage.getItem('filterImages') is "true" then require('./actions/filter
 if localStorage.getItem('filterAudio') is "true" then require('./actions/filterInodes.coffee')('audio').apply $filterAudio[0]
 if localStorage.getItem('filterVideo') is "true" then require('./actions/filterInodes.coffee')('video').apply $filterVideo[0]
 if localStorage.getItem('filterText') != null and localStorage.getItem('filterText').length
-    $filterInputText .val(localStorage.getItem('filterText'))
-    require('./actions/filterInodes.coffee')().apply $filterInputText [0]
+    $filterInputText.val(localStorage.getItem('filterText'))
+    require('./actions/filterInodes.coffee')().apply $filterInputText[0]
 
 #breadcrumb toolbar
 setSortStorage = (sortType, element, event)-> require('./actions/sortNodes.coffee')(sortType, if event then true else false).call element, event
@@ -139,10 +142,16 @@ switch localStorage.getItem 'sortFiles'
 
 #operations toolbar
 displayOperationsToolbar = ->
+    calledByEditor = isCalledByEditor()
     setTimeout (->
-        if $('#viewInodes figure input:checked').parents('figure').toArray().length
+        checkedItems = $('#viewInodes figure input:checked').parents('figure').toArray()
+        $('#wysiwygButton').text(trans('Use') + checkedItems.length)
+        if checkedItems.length
             $('#operationsToolbar').addClass('show')
-        else $('#operationsToolbar').removeClass('show')
+            if calledByEditor then $('#wysiwygButton').show()
+        else
+            $('#operationsToolbar').removeClass('show')
+            if calledByEditor then $('#wysiwygButton').hide()
         return
     ), 50
 displayOperationsToolbar() # init onload

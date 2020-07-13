@@ -64,6 +64,8 @@
             , "sorttype": "{{ __('omen::Sort elements by file type (image, audio,..)') }}"
             , "Print": "{{ __('omen::Print') }}"
             , "View in browser": "{{ __('omen::View in browser') }}"
+            , "Use": "{{ __('omen::Use') }}"
+            , "Sorry, your browser doesn\'t support embedded videos.": "{{ __('omen::Sorry, your browser doesn\'t support embedded videos.')}}"
         }
 
     </script>

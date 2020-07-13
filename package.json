@@ -11,6 +11,7 @@
         "clean-webpack-plugin": "^3.0.0",
         "coffee-loader": "^0.9.0",
         "coffeescript": "^2.5.1",
+        "concurrently": "^5.2.0",
         "cross-env": "^7.0.2",
         "laravel-mix": "^5.0.4",
         "less": "^3.11.1",
@@ -22,9 +23,13 @@
         "yarn": "^1.22.4"
     },
     "scripts": {
-        "dev": "yarn clean && NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm -rf ./resources/css/__*",
-        "watch": "yarn clean && NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "production": "yarn clean && NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm -rf ./resources/css/__*",
+        "tinymce": "./node_modules/coffeescript/bin/coffee -o resources/js/plugins/tinymce.omen.plugin.min.js -c ./src/resources/coffee/tinymce/omen.plugin.coffee",
+        "tinymce-watch": "./node_modules/coffeescript/bin/coffee -w -o resources/js/plugins/tinymce.omen.plugin.min.js -c ./src/resources/coffee/tinymce/omen.plugin.coffee",
+        "plugins": "yarn tinymce",
+        "plugins-watch": "yarn tinymce && yarn tinymce-watch",
+        "dev": "yarn clean && yarn plugins && NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm -rf ./resources/css/__*",
+        "watch": "yarn clean && concurrently --kill-others --raw \"yarn plugins-watch\" \"NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js\"",
+        "production": "yarn clean && yarn plugins && NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm -rf ./resources/css/__*",
         "clean": "rm -rf ./resources/css/* && rm -rf ./resources/js/* && rm -rf ./resources/fonts/* && rm -rf ./resources/images/*",
         "dist": "yarn production"
     },
@@ -41,6 +46,7 @@
         "jquery": "^3.5.1",
         "jquery-contextmenu": "^2.9.2",
         "jquery-ui": "https://github.com/Kwaadpepper/jquery-ui",
+        "jquery-whenall": "^0.1.5",
         "jquery.fancytree": "^2.35.0",
         "js-base64": "^2.6.1",
         "lazyload": "^2.0.0-rc.2",

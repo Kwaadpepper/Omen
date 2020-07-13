@@ -231,9 +231,33 @@ class OmenMiddleware
     {
         // PATH
         if ($request->filled('path') and $request->get('path') != Session('omen.path')) {
-            Session::put('omen.path', $request->get('path', '/'));
+            $request->session()->put('omen.path', $request->get('path', '/'));
         } else {
-            Session::put('omen.path', '/');
+            $request->session()->put('omen.path', '/');
         }
+
+        // TYPE
+        if ($request->filled('type') or $request->filled('editor')) {
+            $type = $request->get('type', $request->session()->get('omen.type'));
+            $cfg = \array_flip(config('omen.showFileTypes'));
+            switch ($type) {
+                case 'media':
+                    unset($cfg['file']);
+                    unset($cfg['archive']);
+                    unset($cfg['image']);
+                    break;
+                case 'image':
+                    unset($cfg['file']);
+                    unset($cfg['video']);
+                    unset($cfg['audio']);
+                    unset($cfg['archive']);
+                    break;
+            }
+            $cfg = array_values(\array_flip($cfg));
+            $request->session()->put('omen.type', $type);
+            $request->session()->put('omen.showFileTypes', $cfg);
+            config(['omen.showFileTypes' => $cfg]);
+        }
+        $request->session()->save();
     }
 }

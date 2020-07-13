@@ -143,6 +143,30 @@ If you are using local storage and dont need to set files to private you can use
 
     Include unit tests using Orchestra, just run `phpunit` from project folder after `composer install`
 
+-   About Tinymce
+
+    To use with tinymce you will have to set useXFrameOptions to true, in order to allow the display
+    omen in a iframe
+
+    Here is an example, you must set `external_filemanager_path` with directive `@omenPath()` and
+    register the omen plugin `external_plugins` with `{ "omen": "@tinymcePluginPath()" }`
+
+        tinymce.init({
+            selector: "#tinymce"
+            , plugins: [
+                "advlist autolink link image lists charmap print preview hr anchor pagebreak"
+                , "searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking"
+                , "table directionality emoticons paste omen code"
+            ]
+            , toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect"
+            , toolbar2: "| omen | link unlink anchor | image media | forecolor backcolor  | print preview code "
+            , image_advtab: true
+            , external_filemanager_path: "@omenPath()"
+            , external_plugins: {
+                "omen": "@tinymcePluginPath()"
+            }
+        });
+
 ---
 
 **TODO:**
@@ -212,6 +236,7 @@ If you are using local storage and dont need to set files to private you can use
 
 **Whishlit**
 
+-   [ ] cross domain support for tinymce and ckeditor ?
 -   [ ] Video stream, with optionnal ffmepg => Mpeg-Dash or HLS ?
         https://github.com/pascalbaljetmedia/laravel-ffmpeg
 -   [ ] Resize image keep ratio function

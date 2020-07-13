@@ -6,6 +6,7 @@ use \Illuminate\Support\ServiceProvider;
 use \Illuminate\Routing\Router;
 use Jenssegers\Date\DateServiceProvider;
 use \Blade as _Blade;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 use Kwaadpepper\Omen\Exceptions\OmenException;
@@ -70,18 +71,42 @@ class OmenServiceProvider extends ServiceProvider
         ], 'lang');
 
 
-        /**
-         * Blade print
-         */
-
-        // _Blade::directive(
-        //     'external_filemanager_path',
+        // Blade::directive(
+        //     'ckeditorPlugin',
         //     function () use ($FMPUBPATH) {
         //         return $FMPUBPATH . '/';
         //     }
         // );
 
-        // _Blade::directive(
+        Blade::directive(
+            'omenPath',
+            function ($query) {
+                \parse_str($query, $array);
+                $array = !\count($array) ? ['path' => '/', 'type' => 'all'] : $array;
+                if (!\array_key_exists('type', $array)) {
+                    $array['type'] = 'all';
+                }
+                return route('omenInterface', $array);
+            }
+        );
+
+        Blade::directive(
+            'tinymcePlugin',
+            function () {
+                return \sprintf(
+                    '<script src="%s"></script>',
+                    route('httpFileSend.omenAsset', ['fileUri' => 'js/plugins/tinymce.omen.plugin.min.js'])
+                );
+            }
+        );
+        Blade::directive(
+            'tinymcePluginPath',
+            function () {
+                return route('httpFileSend.omenAsset', ['fileUri' => 'js/plugins/tinymce.omen.plugin.min.js']);
+            }
+        );
+
+        // Blade::directive(
         //     'filemanager_get_key',
         //     function () {
         //         $o = isset(config('rfm.access_keys')[0]) ? config('rfm.access_keys')[0] : ''; //phpcs:ignore
@@ -89,7 +114,7 @@ class OmenServiceProvider extends ServiceProvider
         //     }
         // );
 
-        // _Blade::directive(
+        // Blade::directive(
         //     'filemanager_get_resource',
         //     function ($file) use ($FMVENDOR) {
         //         $r = parse_url(route('FM' . $file), PHP_URL_PATH);
@@ -100,12 +125,12 @@ class OmenServiceProvider extends ServiceProvider
         //             return $FMVENDOR[$file];
         //         }
         //         if (config('app.debug')) {
-        //             throw new \Exception('unkow file ' . $file . ' in Reponsive File Manager'); //phpcs:ignore
+        //             throw new \Exception('unkown file ' . $file . ' in Reponsive File Manager'); //phpcs:ignore
         //         }
         //     }
         // );
 
-        // _Blade::directive(
+        // Blade::directive(
         //     'filemanager_get_config',
         //     function ($expression) {
         //         return config($expression);

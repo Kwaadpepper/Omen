@@ -57,6 +57,7 @@ try
 			require('./tools/ping.coffee')()
 			require('./omen/contextMenu.coffee')
 			require('./omen/hotKeySystem.coffee')
+			require('./omen/tinymceHandler.coffee')
 		catch e
 			require('./tools/logException.coffee')(e)
 catch e

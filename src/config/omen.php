@@ -82,6 +82,19 @@ return [
     'defaultVisibility' => 'private',
 
     /**
+     * Show file types
+     * Set this as an array ommiting the file type you do not want
+     * to display, eg to show only images set an array like
+     * [ 'image' ]
+     * default is [ 'file', 'image', 'video', 'audio', 'archive' ]
+     * anything other than array will be ignored
+     */
+
+    'showFileTypes' => [
+        'file', 'image', 'video', 'audio', 'archive'
+    ],
+
+    /**
      * Allowed Upload Extensions
      * This will be checked against mimeType
      * 
@@ -335,7 +348,7 @@ return [
      * false => deny, true => sameorigin
      ** default is false
      */
-    'useXFrameOptions' => false,
+    'useXFrameOptions' => true,
 
 
     /* === PROTECTED DONT THOUCH THIS === */

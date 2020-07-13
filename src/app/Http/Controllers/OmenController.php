@@ -24,6 +24,8 @@ class OmenController extends Controller
         $fm = new FileManager();
         $inodes = $fm->inodes(OmenHelper::uploadPath($path));
 
+        OmenHelper::filterInodeTypes($inodes);
+
         $query = [
             'path' => Session::get('omen.path'),
             'locale' => Session::get('omen.locale')

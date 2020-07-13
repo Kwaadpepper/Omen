@@ -51,6 +51,9 @@ class OutputController extends Controller
         }
 
         $inodes = $fm->inodes($inodepath);
+
+        OmenHelper::filterInodeTypes($inodes);
+
         $view = view(
             'omen::elements.inodesView.view',
             [

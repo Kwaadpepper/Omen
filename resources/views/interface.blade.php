@@ -57,6 +57,7 @@ $assetPath = config('omen.assetPath');
                         @include('omen::elements.viewListTopBar')
                         @include('omen::elements.inodesView.view', compact('inodes', 'path'))
                     </div>
+                    @include('omen::elements.wysiwygButton')
                 </div>
             </div>
         </div>
@@ -78,9 +79,9 @@ $assetPath = config('omen.assetPath');
     @include('omen::elements.alert.danger')
     @include('omen::elements.operationsBar')
     @include('omen::elements.lostConnectionBanner')
-    @include('omen::elements.translations')
     @include('omen::elements.imageEditor')
     @include('omen::elements.editFileModal')
+    @include('omen::tools.translations')
     @include('omen::tools.config', compact('inodes'))
     @stack('css')
     @stack('scripts')
