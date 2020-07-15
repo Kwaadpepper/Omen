@@ -167,6 +167,26 @@ If you are using local storage and dont need to set files to private you can use
             }
         });
 
+-   About CKEditor
+
+    To use with CKEditor no need for iframe autorization. However you will have to set it as the default filemanager.
+    You will have to set `filebrowserImageBrowseUrl` with this directive `@omenPath(type=image&editor=ckeditor)`
+    and eventually `filebrowserBrowseUrl` with this directive @omenPath(editor=ckeditor)
+
+        CKEDITOR.editorConfig = function(config) {
+            config.language = "en";
+            config.uiColor = "#F7B42C";
+            config.height = 300;
+            config.toolbarCanCollapse = true;
+            config.extraPlugins = "omen";
+            config.filebrowserImageBrowseUrl = "@omenPath(type=image&editor=ckeditor)";
+            config.filebrowserBrowseUrl = "@omenPath(editor=ckeditor)";
+        };
+        CKEDITOR.replace("ckeditor");
+
+Some thing good to know is that it is possible to restrict file types to be used with url directive:
+eg: add url GET parameter `type=image` to use image only or `type=archives`
+
 ---
 
 **TODO:**

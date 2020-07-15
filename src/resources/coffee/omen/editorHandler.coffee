@@ -9,6 +9,8 @@ require('jquery-whenall')
 
 editor = getUrlLocationParameter('editor')
 type = getUrlLocationParameter('type')
+CKEditor = getUrlLocationParameter('CKEditor')
+CKEditorFuncNum = getUrlLocationParameter('CKEditorFuncNum')
 wysiwygButton = $('#wysiwygButton')
 wysiwygButton.hide()
 
@@ -34,10 +36,10 @@ exportDataToParent = (->
             objs.push(value)
         switch editor
             when 'tinymce'
-                console.log 'tinymce', objs
                 parent.postMessage({ sender: 'omen', message: objs }, parent.location)
             when 'ckeditor'
-                    console.log 'ckeditor'
+                window.opener.CKEDITOR.tools.callFunction( CKEditorFuncNum, objs[0].url)
+                window.close()
             else
                 logException("Unkown editor #{editor}")
     )
