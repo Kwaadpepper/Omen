@@ -21,7 +21,7 @@ class OmenXFrameOptionTest extends TestCase
     public function index()
     {
         // false => deny, true => sameorigin
-        config(['omen.useXFrameOptions', false]);
+        config(['omen.useXFrameOptions' => false]);
 
         $response = $this->get(route('omenInterface', [], false));
         $response->assertStatus(200);

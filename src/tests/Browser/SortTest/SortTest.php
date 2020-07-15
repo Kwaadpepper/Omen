@@ -7,7 +7,6 @@ use Laravel\Dusk\Browser;
 
 class SortTest extends BrowserTestCase
 {
-    /** @test */
     public function sort()
     {
         $this->browse(function (Browser $browser) {

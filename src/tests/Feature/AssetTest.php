@@ -100,8 +100,6 @@ class AssetTest extends TestCase
 
         $this->assertEquals(\sprintf('%s', $contentType), $headers['content-type'][0]);
         $this->assertEquals('no-cache, private', $headers['cache-control'][0]);
-        $this->assertEquals('deny', $headers['x-frame-options'][0]);
         $this->assertEquals('nosniff', $headers['x-content-type-options'][0]);
-        $this->assertEquals('deny', $headers['x-frame-options'][0]);
     }
 }
