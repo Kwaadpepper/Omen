@@ -269,3 +269,7 @@ eg: add url GET parameter `type=image` to use image only or `type=archives`
 -   [ ] test functions with chromium
 -   [ ] extensive test on mobile
 -   [ ] make button reset filters
+
+Jérémy Munsch<br>
+[https://jereymdev.ovh/contact](https://jereymdev.ovh/contact)<br>
+[gitub@jeremydev.ovh](github@jeremydev.ovh)
