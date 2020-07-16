@@ -4,6 +4,10 @@
 
 ---
 
+[Project website](https://omen.jeremydev.ovh)<br>
+[Project wiki](https://github.com/Kwaadpepper/Omen/wiki)<br>
+[Contact at jeremydev.ovh](https://jeremydev.ovh/contact)
+
 ### **This is a Work in progress**
 
 ![Capture d’écran - 2020-06-09 à 08 51 18](https://user-images.githubusercontent.com/6019313/85106214-1e8b0380-b20c-11ea-927f-65e542a87b2b.png)
