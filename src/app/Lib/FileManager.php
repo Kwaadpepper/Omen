@@ -92,7 +92,9 @@ class FileManager
 
         foreach ($disk->files($pathOrInode) as $fileFullPath) {
             $i = new Inode($fileFullPath, InodeType::FILE, $disk);
-            $inodes[\base64_encode($i->getPath())] = $i;
+            if (!\in_array($i->getExtension(), config('omen.deniedUploadExtensions', []))) {
+                $inodes[\base64_encode($i->getPath())] = $i;
+            }
         }
 
         return $inodes;
