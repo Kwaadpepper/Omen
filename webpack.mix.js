@@ -2,14 +2,15 @@ let mix = require('laravel-mix');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 if (process.env.NODE_ENV == 'production') {
-    mix.disableNotifications();
+    mix.disableNotifications()
 }
 if (process.env.NODE_ENV != 'production') {
     // mix.browserSync('test.local');
+    mix.version()
+    mix.sourceMaps()
 }
 
 mix.webpackConfig({
-    devtool: 'source-map',
     plugins: [
         new CleanWebpackPlugin({
             // dry: true,
@@ -99,6 +100,3 @@ mix.scripts('node_modules/pdfjs-dist/build/pdf.js', 'resources/js/vendor/pdf.min
 mix.scripts('node_modules/pdfjs-dist/build/pdf.worker.js', 'resources/js/vendor/pdf.worker.min.js');
 mix.scripts('node_modules/pdfjs-dist/web/pdf_viewer.js', 'resources/js/vendor/pdf.viewer.min.js');
 mix.styles('node_modules/pdfjs-dist/web/pdf_viewer.css', 'resources/js/vendor/pdf.viewer.min.css');
-
-mix.sourceMaps()
-mix.version()
