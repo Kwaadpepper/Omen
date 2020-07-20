@@ -50,7 +50,7 @@
         "jquery.fancytree": "^2.35.0",
         "js-base64": "^2.6.1",
         "lazyload": "^2.0.0-rc.2",
-        "lodash": "^4.17.15",
+        "lodash": "^4.17.19",
         "mediaelement": "^4.2.16",
         "pdfjs-dist": "^2.3.200",
         "popper.js": "^1.16.1",
