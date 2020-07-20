@@ -40,6 +40,8 @@ exportDataToParent = (->
             when 'ckeditor'
                 window.opener.CKEDITOR.tools.callFunction( CKEditorFuncNum, objs[0].url)
                 window.close()
+            when 'popup'
+                window.opener.postMessage({ sender: 'omenButton', message: objs }, window.opener.location)
             else
                 logException("Unkown editor #{editor}")
     )

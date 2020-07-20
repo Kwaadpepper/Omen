@@ -23,10 +23,12 @@
         "yarn": "^1.22.4"
     },
     "scripts": {
+        "button": "./node_modules/coffeescript/bin/coffee -o resources/js/plugins/omenButton.jquery.plugin.min.js -c ./src/resources/coffee/omenButtonJquery.coffee",
+        "button-watch": "./node_modules/coffeescript/bin/coffee -w -o resources/js/plugins/omenButton.jquery.plugin.min.js -c ./src/resources/coffee/omenButtonJquery.coffee",
         "tinymce": "./node_modules/coffeescript/bin/coffee -o resources/js/plugins/tinymce.omen.plugin.min.js -c ./src/resources/coffee/tinymce/omen.plugin.coffee",
         "tinymce-watch": "./node_modules/coffeescript/bin/coffee -w -o resources/js/plugins/tinymce.omen.plugin.min.js -c ./src/resources/coffee/tinymce/omen.plugin.coffee",
-        "plugins": "yarn tinymce",
-        "plugins-watch": "yarn tinymce && yarn tinymce-watch",
+        "plugins": "yarn tinymce && yarn button",
+        "plugins-watch": "concurrently --kill-others --raw \"yarn tinymce-watch\" \"yarn button-watch\"",
         "dev": "yarn clean && yarn plugins && NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm -rf ./resources/css/__*",
         "watch": "yarn clean && concurrently --kill-others --raw \"yarn plugins-watch\" \"NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js\"",
         "production": "yarn clean && yarn plugins && NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js && rm -rf ./resources/css/__*",
