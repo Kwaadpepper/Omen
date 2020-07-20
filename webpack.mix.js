@@ -18,7 +18,8 @@ mix.webpackConfig({
             cleanOnceBeforeBuildPatterns: [
                 '**/*',
                 '!views','!views/**/*',
-                '!lang','!lang/**/*',
+                '!lang', '!lang/**/*',
+                '!js','!js/plugins', '!js/plugins/tinymce.omen.plugin.min.js',
             ],
             // hack to remove unwanted assets emmited from plugins
             cleanAfterEveryBuildPatterns: [

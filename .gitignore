@@ -1,9 +1,9 @@
 node_modules
-resources/js
-resources/css
-resources/images
-resources/fonts
+#resources/js
+#resources/css
+#resources/images
+#resources/fonts
 mix-manifest.json
 .vscode/laravel-omen.code-workspace
 .vscode/launch.json
-vendor
+/vendor

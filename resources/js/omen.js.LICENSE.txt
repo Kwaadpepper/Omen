@@ -1,0 +1,17 @@
+//! CONFIG
+
+//! Disable fullscreen feature if browser does not allow it
+
+//! Dom Elements
+
+//! Dont use jquery 3.5.0, it is broken with bootstrap 4
+
+//! EVENTS
+
+//! Events
+
+//! INIT
+
+//! Init
+
+//! Methods
