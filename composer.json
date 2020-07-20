@@ -7,10 +7,18 @@
             "name": "Jérémy Munsch",
             "email": "contact@jeremydev.ovh",
             "role": "Developper",
-            "homepage": "http://TODO"
+            "homepage": "https://jeremydev.ovh"
         }
     ],
-    "version": "0.0.1",
+    "homepage": "https://omen.jeremydev.ovh/",
+    "readme": "README.md",
+    "support": {
+        "email": "github@jeremydev.ovh",
+        "issues": "https://github.com/Kwaadpepper/Omen/issues",
+        "wiki": "https://github.com/Kwaadpepper/Omen/wiki",
+        "source": "https://github.com/Kwaadpepper/Omen"
+    },
+    "version": "0.0.2",
     "keywords": [
         "laravel",
         "responsive",
