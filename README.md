@@ -191,6 +191,42 @@ If you are using local storage and dont need to set files to private you can use
 Some thing good to know is that it is possible to restrict file types to be used with url directive:
 eg: add url GET parameter `type=image` to use image only or `type=archives`
 
+-   About standalone button
+
+    You can use a standalone button to call the file manager if you want to.
+
+    First insert the plugin (requires `jquery`) in you html file
+
+        <html>
+            ...
+            <head>
+                ...
+                @omenButton()
+            </head>
+            ...
+        </html>
+    
+    Create an input on your page
+
+        <div class="input-group">
+            <span class="input-group-btn">
+                <a id="omenButton" data-input="textInput" class="btn btn-primary">
+                <i class="fa fa-picture-o"></i> Open file </a>
+            </span>
+            <input id="textInput" class="form-control" type="text" name="filepath">
+        </div>
+
+    Call the plugin on your button
+
+        $(document).ready(function() {
+            $('#omenButton').omenButton('image');
+        });
+    
+    `omenButton` function accepts file, image, audio, video, archive in case you want to restrict file types
+
+    You may want to look at `resources/js/plugins/omen.Button.jquery.plugin.min.js` if you want to call with js the file manager via popup
+
+
 ---
 
 **TODO:**

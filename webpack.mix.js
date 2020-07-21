@@ -1,16 +1,7 @@
 let mix = require('laravel-mix');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-if (process.env.NODE_ENV == 'production') {
-    mix.disableNotifications()
-}
-if (process.env.NODE_ENV != 'production') {
-    // mix.browserSync('test.local');
-    mix.version()
-    mix.sourceMaps()
-}
-
-mix.webpackConfig({
+let config = {
     plugins: [
         new CleanWebpackPlugin({
             // dry: true,
@@ -18,8 +9,10 @@ mix.webpackConfig({
             cleanOnceBeforeBuildPatterns: [
                 '**/*',
                 '!views','!views/**/*',
-                '!lang', '!lang/**/*',
-                '!js','!js/plugins', '!js/plugins/tinymce.omen.plugin.min.js',
+                '!lang','!lang/**/*',
+                '!js', '!js/plugins',
+                '!js/plugins/omenButton.jquery.plugin.min.js',
+                '!js/plugins/tinymce.omen.plugin.min.js'
             ],
             // hack to remove unwanted assets emmited from plugins
             cleanAfterEveryBuildPatterns: [
@@ -27,7 +20,20 @@ mix.webpackConfig({
             ],
         }),
     ]
-});
+};
+
+if (process.env.NODE_ENV == 'production') {
+    mix.disableNotifications();
+    config.devtool = 'nosources-source-ma';
+}
+if (process.env.NODE_ENV != 'production') {
+    // mix.browserSync('test.local');
+    mix.version();
+    mix.sourceMaps();
+    config.devtool = 'inline-source-map';
+}
+
+mix.webpackConfig(config);
 
 mix.setPublicPath('resources');
 

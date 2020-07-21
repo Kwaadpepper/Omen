@@ -92,10 +92,11 @@ class OmenServiceProvider extends ServiceProvider
 
         Blade::directive(
             'tinymcePlugin',
-            function () {
+            function ($nonce = null) {
                 return \sprintf(
-                    '<script src="%s"></script>',
-                    route('httpFileSend.omenAsset', ['fileUri' => 'js/plugins/tinymce.omen.plugin.min.js'])
+                    '<script src="%s" %s></script>',
+                    route('httpFileSend.omenAsset', ['fileUri' => 'js/plugins/tinymce.omen.plugin.min.js']),
+                    ($nonce ? sprintf('nonce="%s"', $nonce) : '')
                 );
             }
         );
@@ -103,6 +104,19 @@ class OmenServiceProvider extends ServiceProvider
             'tinymcePluginPath',
             function () {
                 return route('httpFileSend.omenAsset', ['fileUri' => 'js/plugins/tinymce.omen.plugin.min.js']);
+            }
+        );
+
+        Blade::directive(
+            'omenButton',
+            function ($nonce = null) {
+                return \sprintf(
+                    '<script src="%s" %s></script>
+                    <script>window._omenButtonParam = "%s";</script>',
+                    route('httpFileSend.omenAsset', ['fileUri' => 'js/plugins/omenButton.jquery.plugin.min.js']),
+                    ($nonce ? sprintf('nonce="%s"', $nonce) : ''),
+                    config('omen.urlPrefix')
+                );
             }
         );
 
