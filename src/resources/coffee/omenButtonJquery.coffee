@@ -42,7 +42,7 @@ $.fn.omenButton = ((type = null)->
         if width > 600
             width_reduce = (width - 20) % 138
             width = width - width_reduce + 10
-        popup = window.open(fileUrl, title, "width=#{width}, height=#{height}, scrollbars=yes")
+        popup = window.open(fileUrl, title, "width=#{width}, height=#{height}, scrollbars=yes, status=no, location=no, toolbar=no, menubar=no")
         attachHandler()
         console.log popup
 
