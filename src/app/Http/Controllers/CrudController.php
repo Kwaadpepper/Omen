@@ -14,7 +14,7 @@ class CrudController extends Controller
 {
     public function createDirectory(Request $request)
     {
-        if (!$request->filled('directoryPath') or !$request->filled('directoryName')) {
+        if (!$request->exists('directoryPath') or !$request->filled('directoryName')) {
             return OmenHelper::abort(400);
         }
 
