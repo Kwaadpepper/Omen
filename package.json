@@ -1,6 +1,6 @@
 {
     "name": "laravel-omen",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "author": {
         "name": "Jérémy Munsch",
         "email": "contact@jeremydev.ovh"
@@ -56,7 +56,7 @@
         "mediaelement": "^4.2.16",
         "pdfjs-dist": "^2.3.200",
         "popper.js": "^1.16.1",
-        "progressbar.js": "^1.1.0",
+        "progressbar.js": "https://github.com/kimmobrunfeldt/progressbar.js",
         "script-loader": "^0.7.2",
         "simplebar": "^5.1.0",
         "split.js": "^1.5.11",

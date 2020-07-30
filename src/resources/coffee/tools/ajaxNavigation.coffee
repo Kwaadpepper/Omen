@@ -73,12 +73,14 @@ module.exports = (path)->
         breadcrumbRefresh()
 
         try
-            ftree = fancyTree.getTree('#leftPanelTreeView')
-            key = Base64.encode(path.replace(/\/?$/, ''))
-            ftree.activateKey(key, { activeVisible: true})
-            fNode = ftree.getNodeByKey(Base64.encode(path))
-            fNode.makeVisible()
-            if fNode.data.refType is 'directory' then fillNodeChilds(fNode)
+            path = path.replace(/\/?$/, '')
+            if path.length and path != '/'
+                ftree = fancyTree.getTree('#leftPanelTreeView')
+                key = Base64.encode(path)
+                ftree.activateKey(key, { activeVisible: true})
+                fNode = ftree.getNodeByKey(Base64.encode(path))
+                fNode.makeVisible()
+                if fNode.data.refType is 'directory' then fillNodeChilds(fNode)
         catch e
             console.error 'fTree navigation error',e
             

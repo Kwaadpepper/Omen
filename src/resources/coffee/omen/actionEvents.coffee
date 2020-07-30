@@ -129,10 +129,10 @@ if localStorage.getItem('filterText') != null and localStorage.getItem('filterTe
 
 #breadcrumb toolbar
 setSortStorage = (sortType, element, event)-> require('./actions/sortNodes.coffee')(sortType, if event then true else false).call element, event
-$('#sortAlpha').on('click', (e)-> setSortStorage('alpha', this, e))
-$('#sortDate').on('click', (e)-> setSortStorage('date', this, e))
-$('#sortSize').on('click', (e)-> setSortStorage('size', this, e))
-$('#sortType').on('click', (e)-> setSortStorage('type', this, e))
+$('#viewInodes').on('click', '#sortAlpha', (e)-> setSortStorage('alpha', this, e))
+$('#viewInodes').on('click', '#sortDate', (e)-> setSortStorage('date', this, e))
+$('#viewInodes').on('click', '#sortSize', (e)-> setSortStorage('size', this, e))
+$('#viewInodes').on('click', '#sortType', (e)-> setSortStorage('type', this, e))
 
 switch localStorage.getItem 'sortFiles'
     when 'alpha' then setSortStorage('alpha', $('#sortAlpha'))

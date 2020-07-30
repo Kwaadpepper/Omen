@@ -3,9 +3,9 @@
         <div class="modal-content">
             <form id="editFileForm">
                 <div class="modal-header">
-                    <h5 class="ml-4">File name</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span class="sr-only">({{ __('omen::close create file modal') }})</span>
+                    <h5 class="ml-4">{{ __('omen::File name') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-toggle="tooltip" title="{{ __('omen::Close') }}">
+                        <span class="sr-only">({{ __('omen::Close') }})</span>
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>

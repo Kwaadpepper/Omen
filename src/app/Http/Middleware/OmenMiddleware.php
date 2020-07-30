@@ -6,6 +6,8 @@ use Closure;
 use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
@@ -216,6 +218,25 @@ class OmenMiddleware
             $pL = \array_search($pL, $locales) !== false ? $pL : 'en';
             App::setLocale($pL);
             config(['omen.locale' => $pL]);
+        }
+
+        if (Cache::pull('translocale') != App::getLocale()) {
+            $translations = [];
+            try {
+                $tr = \json_decode(File::get(\sprintf('%s/../../../../resources/lang/%s.json', __DIR__, App::getLocale())), true);
+                foreach ($tr as $string => $transString) {
+                    $translations[\stripslashes($string)] = \stripslashes($transString);
+                }
+            } catch (Exception $e) {
+            }
+            Cache::forget('translocale');
+            Cache::forget('translations');
+            Cache::rememberForever('translocale', function () {
+                return App::getLocale();
+            });
+            Cache::rememberForever('translations', function () use ($translations) {
+                return $translations;
+            });
         }
     }
 

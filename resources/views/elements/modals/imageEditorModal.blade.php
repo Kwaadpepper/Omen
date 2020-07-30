@@ -2,14 +2,14 @@
     <div class="modal-dialog modal-90" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="ml-4">Image Name</h5>
+                <h5 class="ml-4">{{ __('omen::Image name') }}</h5>
                 <button id="imageEditorCrop" type="button" class="btn btn-dark mdi mdi-crop" aria-label="{{ __('omen::Crop') }}">{{ __('omen::Crop') }}</button>
                 <button id="imageEditorResize" type="button" class="btn btn-dark mdi mdi-resize" aria-label="{{ __('omen::Resize') }}">{{ __('omen::Resize') }}</button>
                 <button id="imageEditorReset" type="button" class="btn btn-dark mdi mdi-reset" aria-label="{{ __('omen::Reset') }}">{{ __('omen::Reset') }}</button>
-                <button id="imageEditorSave" type="button" class="btn btn-dark mdi mdi-content-save" aria-label="{{ __('omen::Save') }}">{{_('omen::Save') }}</button>
-                <button id="imageEditorSaveNew" type="button" class="btn btn-dark mdi mdi-content-save" aria-label="{{ __('omen::Save as copy') }}">{{_('omen::Save as copy') }}</button>
-                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('omen::Close')}}">
-                    <span class="sr-only">{{ __('omen::close image editor') }}</span>
+                <button id="imageEditorSave" type="button" class="btn btn-dark mdi mdi-content-save" aria-label="{{ __('omen::Save') }}">{{__('omen::Save') }}</button>
+                <button id="imageEditorSaveNew" type="button" class="btn btn-dark mdi mdi-content-save" aria-label="{{ __('omen::Save as copy') }}">{{__('omen::Save as copy') }}</button>
+                <button type="button" class="close" data-dismiss="modal" aria-toggle="tooltip" title="{{ __('omen::Close') }}">
+                    <span class="sr-only">{{ __('omen::Close') }}</span>
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -80,17 +80,17 @@
                         </div>
                         <div class="col-4">
                             <div class="row">
-                                <span>{{ __('Height') }}</span>
+                                <span>{{ __('omen::Height') }}</span>
                                 <span id="imageResizerHeightOriginal"></span>
                             </div>
                             <div class="row">
-                                <span>{{ __('Width') }}</span>
+                                <span>{{ __('omen::Width') }}</span>
                                 <span id="imageResizerWidthOriginal"></span>
                             </div>
                             <div class="row">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <label>{{ __('Resized height') }}</label>
+                                        <label>{{ __('omen::Resized height') }}</label>
                                     </div>
                                     <input id="imageResizerHeightInput" type="number" class="form-control col-2" placeholder="100" step="1">
                                 </div>
@@ -98,7 +98,7 @@
                             <div class="row">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <label>{{ __('Resized width') }}</label>
+                                        <label>{{ __('omen::Resized width') }}</label>
                                     </div>
                                     <input id="imageResizerWidthInput" type="number" class="form-control col-2" placeholder="80" step="1">
                                 </div>

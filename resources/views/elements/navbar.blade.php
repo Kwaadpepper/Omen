@@ -1,10 +1,10 @@
 <nav class="navbar navbar-expand-md" id="topNavBar">
-    <button class="btn btn-outline-dark mdi mdi-dots-vertical" id="leftPanelToggler" aria-label="{{ __('omen::Left panel') }}">
+    <button class="btn btn-outline-dark mdi mdi-dots-vertical" id="leftPanelToggler" data-toggle="tooltip" title="{{ __('omen::Toggle left panel') }}">
     </button>
     <div class="w-100" id="topNavBarContent">
         <div class="btn-toolbar mr-auto col-12 pr-0 pl-0" role="toolbar" aria-label="{{ __('omen::File toolbar') }}">
             {{-- Nav Bar Toggler --}}
-            <button class="collapsed btn btn-outline-dark mdi mdi-menu" id="navBarToggler" type="button" data-toggle="collapse" data-target="#filterButtonGroup" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="collapsed btn btn-outline-dark mdi mdi-menu" id="navBarToggler" type="button" data-toggle="collapse" data-toggle-2="tooltip" data-target="#filterButtonGroup" aria-controls="navbarSupportedContent" aria-expanded="false" title="{{__('omen::Search toolbar')}}">
             </button>
             <div class="btn-group" role="group" id="actionButtonGroup" aria-label="{{ __('omen::File operations') }}">
                 <button class="btn btn-outline-dark mdi mdi-upload" id="actionUpload" type="button" aria-label="{{ __('omen::Upload Files') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::Upload Files') }}">

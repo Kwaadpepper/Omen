@@ -1,4 +1,5 @@
-config = require('./../omenApi.coffee').config
+omenApi = require('./../omenApi.coffee')
+config = omenApi.config
 
 resizeTimeout = null
 
@@ -40,5 +41,18 @@ if(config('omen.breadcrumbEllipsis', true))
 		resizeTimeout = setTimeout(breadcrumbEllipsis, 500)
 	)
 
+window.updateCounters = ->
+	inodes = omenApi.getProp('inodes')
+	dirs = 0
+	files = 0
+	for key,inode of inodes
+		if inode.type == 'directory' then dirs += 1
+		if inode.type == 'file' then files += 1
+	$('#folderCounter').text(dirs)
+	$('#fileCounter').text(files)
+
+updateCounters()
 module.exports = ->
+	updateCounters()
 	if(config('omen.breadcrumbEllipsis', true)) then breadcrumbEllipsis()
+	

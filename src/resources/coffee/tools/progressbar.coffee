@@ -22,8 +22,10 @@ module.exports = (->
     }
     this.run = ((progress = 0)->
         self = this
-        self.line = new ProgressBar.Line(self.container, self.options)
+        if !self.line then self.line = new ProgressBar.Line(self.container, self.options)
+        self.line.set(0)
         self.line.animate(progress)
+        $(self.line.svg).show()
         self.progress = progress
         timeoutFunc = ->
             self.progress += 0.06
@@ -36,9 +38,10 @@ module.exports = (->
     this.end = (->
         self = this
         clearTimeout self.timeout
-        self.line.animate(1.0)
+        $(self.line.svg).hide()
+        self.line.set(1.0)
+        self.line.stop()
         self.progress = 1
-        setTimeout((-> self.line.destroy()), 1000)
     ).bind(store)
     return this
 )()

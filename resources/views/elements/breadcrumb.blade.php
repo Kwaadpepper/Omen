@@ -13,34 +13,34 @@ $pathSub = '';
                 <span class="sr-only">{{ __('omen::sort files button') }}</span>
             </button>
             <div class="dropdown-menu min-width-inherit" aria-labelledby="fileSortButton">
-                <a class="dropdown-item" id="sortAlpha" href="">
+                <a class="dropdown-item" id="sortAlpha" href="" data-toggle="tooltip" title="{{ __('omen::sort files alphabeticaly') }}">
                     <span class="mdi mdi-menu-up"></span>
                     <span class="mdi mdi-menu-down d-none"></span>
                     <span class="mdi mdi-sort-alphabetical-variant"></span>
                     <span class="sr-only">{{ __('omen::sort files alphabeticaly') }}</span>
                 </a>
-                <a class="dropdown-item" id="sortDate" href="">
+                <a class="dropdown-item" id="sortDate" href="" data-toggle="tooltip" title="{{ __('omen::sort files by calendar') }}">
                     <span class="mdi mdi-menu-up d-none"></span>
                     <span class="mdi mdi-menu-down"></span>
                     <span class="mdi mdi-calendar"></span>
                     <span class="sr-only">{{ __('omen::sort files by calendar') }}</span>
                 </a>
-                <a class="dropdown-item" id="sortSize" href="">
+                <a class="dropdown-item" id="sortSize" href="" data-toggle="tooltip" title="{{ __('omen::sort files by size') }}">
                     <span class="mdi mdi-menu-up d-none"></span>
                     <span class="mdi mdi-menu-down"></span>
                     <span class="mdi mdi-weight"></span>
                     <span class="sr-only">{{ __('omen::sort files by size') }}</span>
                 </a>
-                <a class="dropdown-item" id="sortType" href="">
+                <a class="dropdown-item" id="sortType" href="" data-toggle="tooltip" title="{{ __('omen::sort files by size') }}">
                     <span class="mdi mdi-menu-up d-none"></span>
                     <span class="mdi mdi-menu-down"></span>
                     <span class="mdi mdi-file-question-outline"></span>
-                    <span class="sr-only">{{ __('omen::sort files by type') }}</span>
+                    <span class="sr-only">{{ __('omen::sort files by size') }}</span>
                 </a>
             </div>
         </div>
-        <span class="mdi mdi-folder" id="folderCounter">3<span class="sr-only">({{ __('omen::number of folders') }})</span></span>
-        <span class="mdi mdi-file" id="fileCounter">8<span class="sr-only">({{ __('omen::number of files') }})</span></span>
+        <span class="mdi mdi-folder" id="folderCounter" data-toggle="tooltip" title="{{ __('omen::number of folders') }}">3<span class="sr-only">({{ __('omen::number of folders') }})</span></span>
+        <span class="mdi mdi-file" id="fileCounter" data-toggle="tooltip" title="{{ __('omen::number of files') }}">8<span class="sr-only">({{ __('omen::number of files') }})</span></span>
     </div>
     <ol class="breadcrumb flex-nowrap" id="pathBreadcrumbList">
         <li class="breadcrumb-item"><a href="{{ route('omenInterface', $query) }}" class="mdi mdi-home"><span class="sr-only">({{ __('omen::root directory') }})</span></a></li>
