@@ -419,6 +419,17 @@
  */
 
 /*!
+ * FileInput Serbian Latin Translations
+ *
+ * This file must be loaded after 'fileinput.js'. Patterns in braces '{}', or
+ * any HTML markup tags in the messages must not be converted or translated.
+ *
+ * @see http://github.com/kartik-v/bootstrap-fileinput
+ *
+ * NOTE: this file must be saved in UTF-8 encoding.
+ */
+
+/*!
  * FileInput Slovakian Translations
  *
  * This file must be loaded after 'fileinput.js'. Patterns in braces '{}', or
@@ -548,7 +559,7 @@
  */
 
 /*!
- * bootstrap-fileinput v5.1.1
+ * bootstrap-fileinput v5.1.2
  * http://plugins.krajee.com/file-input
  *
  * Author: Kartik Visweswaran
@@ -559,7 +570,7 @@
  */
 
 /*!
- * bootstrap-fileinput v5.1.1
+ * bootstrap-fileinput v5.1.2
  * http://plugins.krajee.com/file-input
  *
  * Krajee Explorer theme configuration for bootstrap-fileinput. Load this theme file after loading `fileinput.js`.
@@ -652,8 +663,8 @@
  * Released under the MIT license
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
- * @version 2.35.0
- * @date 2020-03-27T22:41:58Z
+ * @version 2.36.1
+ * @date 2020-07-25T09:03:47Z
  */
 
 /*!
@@ -667,8 +678,8 @@
  * Released under the MIT license
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
- * @version 2.35.0
- * @date 2020-03-27T22:41:58Z
+ * @version 2.36.1
+ * @date 2020-07-25T09:03:47Z
  */
 
 /*!
@@ -682,8 +693,8 @@
  * Released under the MIT license
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
- * @version 2.35.0
- * @date 2020-03-27T22:41:58Z
+ * @version 2.36.1
+ * @date 2020-07-25T09:03:47Z
  */
 
 /*!
@@ -695,11 +706,11 @@
  * Released under the MIT license
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
- * @version 2.35.0
- * @date 2020-03-27T22:41:58Z
+ * @version 2.36.1
+ * @date 2020-07-25T09:03:47Z
  */
 
-/*! Shifty 2.9.0 - https://github.com/jeremyckahn/shifty */
+/*! Shifty 2.9.1 - https://github.com/jeremyckahn/shifty */
 
 /*! jQuery UI - v1.12.1 - 2018-05-20
 * http://jqueryui.com
