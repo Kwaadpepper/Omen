@@ -205,7 +205,7 @@ eg: add url GET parameter `type=image` to use image only or `type=archives`
             </head>
             ...
         </html>
-    
+
     Create an input on your page
 
         <div class="input-group">
@@ -221,78 +221,12 @@ eg: add url GET parameter `type=image` to use image only or `type=archives`
         $(document).ready(function() {
             $('#omenButton').omenButton('image');
         });
-    
+
     `omenButton` function accepts file, image, audio, video, archive in case you want to restrict file types
 
     You may want to look at `resources/js/plugins/omen.Button.jquery.plugin.min.js` if you want to call with js the file manager via popup
 
-
 ---
-
-**TODO:**
-
--   [x] multiple row figure display
--   [x] upload files
--   [x] loading screen
--   [x] remember view disposition and redo on page reload
--   [x] make directory change ajax
--   [x] fix directory create in coffee
--   [x] check sanitize path in omencontroller
--   [x] deactivate filters on ajax directory change
--   [x] handle breadcrumb click directory change
--   [x] unifiy click or double click on breadcrumb navigation
--   [x] make upload to put files in correct path
--   [x] inject uploaded inode
--   [x] fix uploaded filerename increment
--   [x] ~create a Loading Toast, and display on ajax queries~ progressbar created
--   [x] create lock ui function to, freeze ui while navigating
--   [x] copy, move and paste function
--   [x] drag and drop
--   [x] add button selectAll
--   [x] make ping detect offline
--   [x] create csrf system for api
--   [x] handle 419 error session timeout => CSRF token mismatch
--   [x] 401 response on ping => session timeout do something
--   [x] ~find a way to use omen csrf with upload (concurrent)~ upload uses laravel csrf token
--   [x] setUpload Max size
--   [x] select appears on figure hover for icon view and stay showed if one is selected
--   [x] edit text files
--   [x] edit images files
--   [x] Inspect Display possibilities on images formats (legacy-image-formats)
--   [x] ~can midi files be played ?~ not easily, won't do
--   [x] rework copy and paste
--   [x] right click menu
--   [x] work on left panel fancy tree, Navigation ok
--   [x] implement configurable shortcuts
--   [x] focus and search on type
--   [x] support zoom in image viewer
--   [x] add error message on text viewer ?
--   [x] prevent share links if storage is private and url not accessible
--   [x] polish PDF viewer
--   [x] rework exception error codes
--   [x] add resize and crop images
--   [x] unit tests ?
--   [x] rework sort logic
--   [x] file uploaded size return to ajax is null => size sort error
--   [x] find a way to garbage clean failed and aborted uploads
--   [x] edited image won't reload => nuke browser cache
--   [x] correct file delete error not handled properly need ajax response and error handle
--   [x] fix delete inode
--   [x] ~correct bu file and folder create upper case~ lowercase for windows/unix interoperability
-        http://support.microsoft.com/kb/100625
--   [x] fix maxupload => convert '3M' to bytes in upload controller
--   [x] fix applySort() after addInodeFigure
--   [x] fix upload message error not showing
-        https://github.com/kartik-v/bootstrap-fileinput/pull/1587
--   [x] fix crop image save will clone the figure instead of updating it
--   [x] fix sort error when only 1 inode to display
--   [x] fix rename bug on forbidden char ?
--   [x] fix keayboard regression, can't type in new folder name or new file name
--   [x] fix dont apply actions to checked figure but hidden
--   [x] find a solution for resize image CSP violation (jquery-ui resisable code)
-        https://github.com/jquery/jquery-ui/pull/1925
--   [x] check if deps are installed before enable resize and crop
--   [x] check file name length for uploads
 
 **Whishlit**
 
