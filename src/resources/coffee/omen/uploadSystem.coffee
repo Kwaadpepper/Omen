@@ -35,6 +35,7 @@ $clearButton.prop('disabled', true).hide()
 
 # File uploader config
 uploadConfig = {
+    language: uploadLocale,
 
     # upload
     uploadAsync: true, # changed
@@ -171,7 +172,6 @@ uploadConfig = {
 
 # workaround local bug in bootstrap fileinput
 if uploadLocale is 'en' then uploadConfig['language'] = '_LANG_'
-
 $('#uploadInput').fileinput(uploadConfig)
 
 # events

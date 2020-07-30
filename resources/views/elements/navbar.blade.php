@@ -7,8 +7,8 @@
             <button class="collapsed btn btn-outline-dark mdi mdi-menu" id="navBarToggler" type="button" data-toggle="collapse" data-toggle-2="tooltip" data-target="#filterButtonGroup" aria-controls="navbarSupportedContent" aria-expanded="false" title="{{__('omen::Search toolbar')}}">
             </button>
             <div class="btn-group" role="group" id="actionButtonGroup" aria-label="{{ __('omen::File operations') }}">
-                <button class="btn btn-outline-dark mdi mdi-upload" id="actionUpload" type="button" aria-label="{{ __('omen::Upload Files') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::Upload Files') }}">
-                    <span class="sr-only">({{ __('omen::upload') }})</span>
+                <button class="btn btn-outline-dark mdi mdi-upload" id="actionUpload" type="button" aria-label="{{ __('omen::Upload files') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::Upload files') }}">
+                    <span class="sr-only">({{ __('omen::Upload files') }})</span>
                 </button>
                 <button class="btn btn-outline-dark mdi mdi-file-plus-outline" id="actionNewFile" type="button" aria-label="{{ __('omen::New file') }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('omen::New file') }}"> <span class="fa fa-lg fa-plus"></span>
                     <span class="sr-only">({{ __('omen::New file') }})</span>
