@@ -30,7 +30,7 @@ try
 			config = require './tools/configGetter.coffee'
 		
 			# tooltip toggle
-			$('[data-toggle="tooltip"]').tooltip(
+			$('[data-toggle="tooltip"],[data-toggle-2="tooltip"]').tooltip(
 				'delay': { show: 1100, hide: 300 },
 				'trigger': 'hover'
 			).click(->

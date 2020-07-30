@@ -5,11 +5,8 @@ namespace Kwaadpepper\Omen\Providers;
 use \Illuminate\Support\ServiceProvider;
 use \Illuminate\Routing\Router;
 use Jenssegers\Date\DateServiceProvider;
-use \Blade as _Blade;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Route;
-use Kwaadpepper\Omen\Exceptions\OmenException;
+use Illuminate\Support\Facades\Cache;
 use Kwaadpepper\Omen\Http\Middleware\OmenErrorHandlerMiddleware;
 use Kwaadpepper\Omen\Http\Middleware\OmenThrottleMiddleware;
 
@@ -175,11 +172,16 @@ class OmenServiceProvider extends ServiceProvider
         }
 
         // Load package info
-        $json = \json_decode(\file_get_contents(__DIR__ . '/../../../composer.json'));
-        config(['omen.package.name' => $json->name]);
-        config(['omen.package.description' => $json->description]);
-        config(['omen.package.version' => $json->version]);
-        config(['omen.package.license' => $json->license]);
-        config(['omen.package.authors' => $json->authors]);
+        if (Cache::missing('package')) {
+            Cache::rememberForever('package', function () {
+                return \json_decode(\file_get_contents(\sprintf('%s/../../../composer.json', __DIR__)));
+            });
+        }
+        $package = Cache::pull('package');
+        config(['omen.package.name' => $package->name]);
+        config(['omen.package.description' => $package->description]);
+        config(['omen.package.version' => $package->version]);
+        config(['omen.package.license' => $package->license]);
+        config(['omen.package.authors' => $package->authors]);
     }
 }

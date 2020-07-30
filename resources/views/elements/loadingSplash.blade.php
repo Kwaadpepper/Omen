@@ -1,6 +1,6 @@
 <div id="loadingSplash" class="container-fluid position-absolute vh-100 w-100 top-0 left-0 bg-light z-index-top">
     <div class="col-12 vh-100 w-100 text-center d-flex align-items-center">
-        <h2 class="col-12 text-center">{{ __('Loading') }}&nbsp;<span id="loadingSplashDots" class="position-absolute">...</span></h2>
+        <h2 class="col-12 text-center">{{ __('omen::Loading') }}&nbsp;<span id="loadingSplashDots" class="position-absolute">...</span></h2>
     </div>
 </div>
 <style nonce="{{ config('omen.cspToken') }}">

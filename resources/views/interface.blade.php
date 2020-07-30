@@ -15,6 +15,15 @@ $assetPath = config('omen.assetPath');
     <meta name="robots" content="noindex,nofollow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="{{ $apiCSRFToken['name'] }}" content="{{ $apiCSRFToken['key'] }}">
+    <link rel="dns-prefetch" href="//content.googleapis.com">
+    <link rel="dns-prefetch" href="//apis.google.com">
+    <link rel="dns-prefetch" href="//clients6.google.com">
+    <link rel="dns-prefetch" href="//www.gstatic.com">
+    <link rel="preload" href="{{ asset(sprintf('%s/js/manifest.js', $assetPath)) }}" as="script">
+    <link rel="preload" href="{{ asset(sprintf('%s/js/vendor.js', $assetPath)) }}" as="script">
+    <link rel="preload" href="{{ asset(sprintf('%s/js/omen.js', $assetPath)) }}" as="script">
+    <link rel="preload" href="{{ asset(sprintf('%s/js/vendor/mediaelement.min.js', $assetPath)) }}" as="script">
+    <link rel="preload" href="{{ asset(sprintf('%s/css/omen.css', $assetPath)) }}" as="style">
 
     {{-- FAVICON : https://realfavicongenerator.net/ --}}
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset(sprintf('%s/images/favicon/apple-touch-icon.png', $assetPath)) }}">
@@ -62,25 +71,25 @@ $assetPath = config('omen.assetPath');
             </div>
         </div>
     </div>
-    @include('omen::elements.viewer.image')
-    @include('omen::elements.viewer.text')
-    @include('omen::elements.viewer.pdf')
-    @include('omen::elements.viewer.document')
-    @include('omen::elements.viewer.video')
-    @include('omen::elements.viewer.audio')
-    @include('omen::elements.about')
-    @include('omen::elements.rename')
-    @include('omen::elements.uploadFile')
-    @include('omen::elements.createFile')
-    @include('omen::elements.createDirectory')
     @include('omen::elements.alert.success')
     @include('omen::elements.alert.info')
     @include('omen::elements.alert.warning')
     @include('omen::elements.alert.danger')
+    @include('omen::elements.modals.uploadFileModal')
+    @include('omen::elements.modals.aboutModal')
+    @include('omen::elements.modals.renameModal')
+    @include('omen::elements.modals.createFileModal')
+    @include('omen::elements.modals.createDirectoryModal')
+    @include('omen::elements.modals.imageEditorModal')
+    @include('omen::elements.modals.editFileModal')
+    @include('omen::elements.modals.viewer.imageModal')
+    @include('omen::elements.modals.viewer.textModal')
+    @include('omen::elements.modals.viewer.pdfModal')
+    @include('omen::elements.modals.viewer.documentModal')
+    @include('omen::elements.modals.viewer.videoModal')
+    @include('omen::elements.modals.viewer.audioModal')
     @include('omen::elements.operationsBar')
     @include('omen::elements.lostConnectionBanner')
-    @include('omen::elements.imageEditor')
-    @include('omen::elements.editFileModal')
     @include('omen::tools.translations')
     @include('omen::tools.config', compact('inodes'))
     @stack('css')

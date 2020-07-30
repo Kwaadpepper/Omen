@@ -1,72 +1,15 @@
 @push('scripts')
 <div id="frontTransations" class="d-none">
     <script nonce="{{ config('omen.cspToken') }}">
-        __omenTransalations = {
-            "Name changed": "{{ __('omen::Name changed') }}"
-            , "File was renamed in ${filename}": "{{ __('omen::File was renamed in ${filename}') }}"
-            , "Action failure": "{{ __('omen::Action failure') }}"
-            , "Could not rename file ${filename}, server said no": "{{ __('omen::Could not rename file ${filename}, server said no') }}"
-            , "File download error": "{{ __('omen::File download error') }}"
-            , "Server could not get ${filename}": "{{ __('omen::Server could not get ${filename}') }}"
-            , "File delete error": "{{ __('omen::File delete error') }}"
-            , "Server error on delete ${filename}": "{{ __('omen::Server error on delete ${filename}') }}"
-            , "File deletion": "{{ __('omen::File deletion') }}"
-            , "File is removed": "{{ __('omen::File is removed') }}"
-            , "Error": "{{ __('omen::Error') }}"
-            , "Could not retrieve text file": "{{ __('omen::Could not retrieve text file') }}"
-            , "Could not retrieve image file": "{{ __('omen::Could not retrieve image file') }}"
-            , "Wrong input": "{{ __('omen::Wrong input') }}"
-            , "the file name shall be at least 3 characters": "{{ __('omen::the file name shall be at least 3 characters') }}"
-            , "File check error": "{{ __('omen::File check error') }}"
-            , "Directory check error": "{{ __('omen::Directory check error') }}"
-            , "Server could not say if ${inodename} exists": "{{ __('omen::Server could not say if ${inodename} exists') }}"
-            , "This file name already exists !": "{{ __('omen::This file name already exists !') }}"
-            , "This file directory already exists !": "{{ __('omen::This directory name already exists !') }}"
-            , "Please choose another name than ${inodename}": "{{ __('omen::Please choose another name than ${inodename}') }}"
-            , "File created": "{{ __('omen::File created') }}"
-            , "Directory created": "{{ __('omen::Directory created') }}"
-            , "${inodename} has been created": "{{ __('omen::${inodename} has been created') }}"
-            , "Could not create ${inodename}, server said no": "{{ __('omen::Could not create ${inodename}, server said no') }}"
-            , "B": "{{ __('omen::B') }}"
-            , "KB": "{{ __('omen::KB') }}"
-            , "MB": "{{ __('omen::MB') }}"
-            , "GB": "{{ __('omen::GB') }}"
-            , "TB": "{{ __('omen::TB') }}"
-            , "PB": "{{ __('omen::PB') }}"
-            , "EB": "{{ __('omen::EB') }}"
-            , "ZB": "{{ __('omen::ZB') }}"
-            , "YB": "{{ __('omen::YB') }}"
-            , "Moved": "{{ __('omen::Moved') }}"
-            , "Element was move successfully": "{{ __('omen::Element was move successfully') }}"
-            , "Move failed": "{{ __('omen::Move failed') }}"
-            , "Element could not be moved, server said no": "{{ __('omen::Element could not be moved, server said no') }}"
-            , "Copied": "{{ __('omen::Copied') }}"
-            , "Element was copied successfully": "{{ __('omen::Element was copied successfully') }}"
-            , "Session expired, do you want to extend it?": "{{ __('omen::Session expired, do you want to extend it?') }}"
-            , "Session expired": "{{ __('omen::Session expired') }}"
-            , "Shortcuts": "{{ __('omen::Shortcuts') }}"
-            , "upload": "{{ __('omen::Toggle the upload window') }}"
-            , "newfile": "{{ __('omen::Toggle the new file window') }}"
-            , "newdirectory": "{{ __('omen::Toggle the new directory window') }}"
-            , "about": "{{ __('omen::Toggle the about window') }}"
-            , "leftpannel": "{{ __('omen::Toggle the left pannel') }}"
-            , "iconview": "{{ __('omen::Display elements as icons') }}"
-            , "listview": "{{ __('omen::Display elements as a list') }}"
-            , "filterfiles": "{{ __('omen::Filter elements to display files') }}"
-            , "filterarchives": "{{ __('omen::Filter elements to display archives') }}"
-            , "filterimages": "{{ __('omen::Filter elements to display images') }}"
-            , "filtervideo": "{{ __('omen::Filter elements to display video files') }}"
-            , "filteraudio": "{{ __('omen::Filter elements to display audio files') }}"
-            , "reload": "{{ __('omen::Reload the file manager') }}"
-            , "sortalpha": "{{ __('omen::Sort elements by name') }}"
-            , "sortdate": "{{ __('omen::Sort elements by the last modification date') }}"
-            , "sortsize": "{{ __('omen::Sort elements by file size') }}"
-            , "sorttype": "{{ __('omen::Sort elements by file type (image, audio,..)') }}"
-            , "Print": "{{ __('omen::Print') }}"
-            , "View in browser": "{{ __('omen::View in browser') }}"
-            , "Use": "{{ __('omen::Use') }}"
-            , "Sorry, your browser doesn\'t support embedded videos.": "{{ __('omen::Sorry, your browser doesn\'t support embedded videos.')}}"
-        }
+        __omenTranslations = {
+            @php
+            $i = 0;
+            $translations = cache('translations');
+            foreach($translations as $string => $trans) {
+                echo sprintf('"%s": "%s"%s', str_replace('omen::', '', $string), $trans, ',');
+            }
+            @endphp
+        };
 
     </script>
 </div>

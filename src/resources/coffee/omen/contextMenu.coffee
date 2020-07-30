@@ -91,7 +91,7 @@ contextMenus = [
                 else contextMenu.find('.paste').addClass('d-none')
 
                 # info
-                contextMenu.find('.visibility').text(inodeFigure.find('.figVisibility').data('visibility'))
+                contextMenu.find('.visibility').text(trans(inodeFigure.find('.figVisibility').data('visibility')))
                 contextMenu.find('.date').text(inodeFigure.find('.figDate').text())
             )
         }
@@ -109,7 +109,7 @@ contextMenus = [
             rename: { name: trans('Rename'), className: 'rename mdi mdi-context-item mdi-pencil', callback: (key, opt)-> rename(renameAction).apply($(this).children().first()) },
             delete: { name: trans('Delete'), className: 'delete mdi mdi-context-item mdi-delete', callback: (key, opt)-> deleteInode(deleteAction).apply($(this).children().first()) },
             separator: '-----',
-            title: { name: trans('File info'), className:'font-weight-bold text-body', disabled: true },
+            title: { name: trans('Informations'), className:'font-weight-bold text-body', disabled: true },
             weight: { name: '', className: 'weight text-body mdi mdi-context-item mdi-weight', disabled: true  },
             visibility: { name: '', className: 'visibility text-body mdi mdi-context-item mdi-file-eye-outline', disabled: true  },
             extension: { name: '', className: 'extension text-body mdi mdi-context-item mdi-tag-text-outline', disabled: true }
@@ -130,7 +130,7 @@ contextMenus = [
 
                 # info
                 contextMenu.find('.weight').text(inodeFigure.find('.figSize').text())
-                contextMenu.find('.visibility').text(inodeFigure.find('.figVisibility').data('visibility'))
+                contextMenu.find('.visibility').text(trans(inodeFigure.find('.figVisibility').data('visibility')))
                 contextMenu.find('.date').text(inodeFigure.find('.figDate').text())
                 contextMenu.find('.extension').text(inodeFigure.find('.figExt').text())
             )

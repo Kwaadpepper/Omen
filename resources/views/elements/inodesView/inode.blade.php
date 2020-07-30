@@ -3,17 +3,17 @@
     <div class="figHoverZone @yield('figureType' . $id)"></div>
     <div class="figAction bg-dark @yield('figureType' . $id)">
         @if($inodeType != 'directory')
-        <button class="actionDownload download btn btn-dark mdi mdi-arrow-down-bold-circle-outline" data-toggle="tooltip" data-placement="top" title="{{ __('omen::download File') }}">
-            <span class="sr-only">({{ __('omen::download File') }})</span></button>
+        <button class="actionDownload download btn btn-dark mdi mdi-arrow-down-bold-circle-outline" data-toggle="tooltip" data-placement="top" title="{{ __('omen::Download') }}">
+            <span class="sr-only">({{ __('omen::Download') }})</span></button>
         @if($view)
-        <button class="actionView preview btn btn-dark mdi mdi-eye-circle-outline" data-toggle="tooltip" data-placement="top" title="{{ __('omen::view File') }}">
-            <span class="sr-only">({{ __('omen::view File') }})</span></button>
+        <button class="actionView preview btn btn-dark mdi mdi-eye-circle-outline" data-toggle="tooltip" data-placement="top" title="{{ __('omen::View') }}">
+            <span class="sr-only">({{ __('omen::View') }})</span></button>
         @endif
         @endif
-        <button class="actionRename rename btn btn-dark mdi mdi-pencil-circle" data-toggle="tooltip" data-placement="top" title="{{ __('omen::rename File') }}">
-            <span class="sr-only">({{ __('omen::rename File') }})</span></button>
-        <button class="actionDelete delete btn btn-dark mdi mdi-delete-circle" data-toggle="tooltip" data-placement="top" title="{{ __('omen::delete File') }}">
-            <span class="sr-only">({{ __('omen::delete File') }})</span></button>
+        <button class="actionRename rename btn btn-dark mdi mdi-pencil-circle" data-toggle="tooltip" data-placement="top" title="{{ __('omen::Rename') }}">
+            <span class="sr-only">({{ __('omen::Rename') }})</span></button>
+        <button class="actionDelete delete btn btn-dark mdi mdi-delete-circle" data-toggle="tooltip" data-placement="top" title="{{ __('omen::Delete') }}">
+            <span class="sr-only">({{ __('omen::Delete') }})</span></button>
     </div>
     <div class="figExt @yield('extensionClass' . $id)">
         <span>@yield('extension'. $id)</span>
@@ -21,7 +21,7 @@
     @endif
     <div class="figBackground bg-dark @yield('figureType' . $id)"></div>
     @if($id != 'root')
-    <label class="figCheck customCheckbox">
+    <label class="figCheck customCheckbox" data-toggle="tooltip" title="{{ __('omen::Select element')}}">
         <input type="checkbox" name="@yield('filepath'. $id)" id="@yield('id'. $id)">
         <span class="checkmark"></span>
     </label>

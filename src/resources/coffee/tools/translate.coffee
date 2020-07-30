@@ -1,4 +1,4 @@
-translations = window.__omenTransalations
+translations = window.__omenTranslations
 
 module.exports = (string, vars)->
     if typeof string is not 'string' then string = string.toString()
